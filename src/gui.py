@@ -12,12 +12,12 @@ import wx
 import wx.glcanvas as wxcanvas
 from OpenGL import GL, GLUT
 
-from names import Names
-from devices import Devices
-from network import Network
-from monitors import Monitors
-from scanner import Scanner
-from parse import Parser
+# from names import Names
+# from devices import Devices
+# from network import Network
+# from monitors import Monitors
+# from scanner import Scanner
+# from parse import Parser
 
 
 class MyGLCanvas(wxcanvas.GLCanvas):
@@ -50,10 +50,17 @@ class MyGLCanvas(wxcanvas.GLCanvas):
 
     def __init__(self, parent, devices, monitors):
         """Initialise canvas properties and useful variables."""
-        super().__init__(parent, -1,
-                         attribList=[wxcanvas.WX_GL_RGBA,
-                                     wxcanvas.WX_GL_DOUBLEBUFFER,
-                                     wxcanvas.WX_GL_DEPTH_SIZE, 16, 0])
+        super().__init__(
+            parent,
+            -1,
+            attribList=[
+                wxcanvas.WX_GL_RGBA,
+                wxcanvas.WX_GL_DOUBLEBUFFER,
+                wxcanvas.WX_GL_DEPTH_SIZE,
+                16,
+                0,
+            ],
+        )
         GLUT.glutInit()
         self.init = False
         self.context = wxcanvas.GLContext(self)
@@ -129,8 +136,14 @@ class MyGLCanvas(wxcanvas.GLCanvas):
             self.init = True
 
         size = self.GetClientSize()
-        text = "".join(["Canvas redrawn on paint event, size is ",
-                        str(size.width), ", ", str(size.height)])
+        text = "".join(
+            [
+                "Canvas redrawn on paint event, size is ",
+                str(size.width),
+                ", ",
+                str(size.height),
+            ]
+        )
         self.render(text)
 
     def on_size(self, event):
@@ -150,41 +163,63 @@ class MyGLCanvas(wxcanvas.GLCanvas):
         if event.ButtonDown():
             self.last_mouse_x = event.GetX()
             self.last_mouse_y = event.GetY()
-            text = "".join(["Mouse button pressed at: ", str(event.GetX()),
-                            ", ", str(event.GetY())])
+            text = "".join(
+                [
+                    "Mouse button pressed at: ",
+                    str(event.GetX()),
+                    ", ",
+                    str(event.GetY()),
+                ]
+            )
         if event.ButtonUp():
-            text = "".join(["Mouse button released at: ", str(event.GetX()),
-                            ", ", str(event.GetY())])
+            text = "".join(
+                [
+                    "Mouse button released at: ",
+                    str(event.GetX()),
+                    ", ",
+                    str(event.GetY()),
+                ]
+            )
         if event.Leaving():
-            text = "".join(["Mouse left canvas at: ", str(event.GetX()),
-                            ", ", str(event.GetY())])
+            text = "".join(
+                ["Mouse left canvas at: ", str(event.GetX()), ", ", str(event.GetY())]
+            )
         if event.Dragging():
             self.pan_x += event.GetX() - self.last_mouse_x
             self.pan_y -= event.GetY() - self.last_mouse_y
             self.last_mouse_x = event.GetX()
             self.last_mouse_y = event.GetY()
             self.init = False
-            text = "".join(["Mouse dragged to: ", str(event.GetX()),
-                            ", ", str(event.GetY()), ". Pan is now: ",
-                            str(self.pan_x), ", ", str(self.pan_y)])
+            text = "".join(
+                [
+                    "Mouse dragged to: ",
+                    str(event.GetX()),
+                    ", ",
+                    str(event.GetY()),
+                    ". Pan is now: ",
+                    str(self.pan_x),
+                    ", ",
+                    str(self.pan_y),
+                ]
+            )
         if event.GetWheelRotation() < 0:
-            self.zoom *= (1.0 + (
-                event.GetWheelRotation() / (20 * event.GetWheelDelta())))
+            self.zoom *= 1.0 + (event.GetWheelRotation() / (20 * event.GetWheelDelta()))
             # Adjust pan so as to zoom around the mouse position
             self.pan_x -= (self.zoom - old_zoom) * ox
             self.pan_y -= (self.zoom - old_zoom) * oy
             self.init = False
-            text = "".join(["Negative mouse wheel rotation. Zoom is now: ",
-                            str(self.zoom)])
+            text = "".join(
+                ["Negative mouse wheel rotation. Zoom is now: ", str(self.zoom)]
+            )
         if event.GetWheelRotation() > 0:
-            self.zoom /= (1.0 - (
-                event.GetWheelRotation() / (20 * event.GetWheelDelta())))
+            self.zoom /= 1.0 - (event.GetWheelRotation() / (20 * event.GetWheelDelta()))
             # Adjust pan so as to zoom around the mouse position
             self.pan_x -= (self.zoom - old_zoom) * ox
             self.pan_y -= (self.zoom - old_zoom) * oy
             self.init = False
-            text = "".join(["Positive mouse wheel rotation. Zoom is now: ",
-                            str(self.zoom)])
+            text = "".join(
+                ["Positive mouse wheel rotation. Zoom is now: ", str(self.zoom)]
+            )
         if text:
             self.render(text)
         else:
@@ -197,7 +232,7 @@ class MyGLCanvas(wxcanvas.GLCanvas):
         font = GLUT.GLUT_BITMAP_HELVETICA_12
 
         for character in text:
-            if character == '\n':
+            if character == "\n":
                 y_pos = y_pos - 20
                 GL.glRasterPos2f(x_pos, y_pos)
             else:
@@ -246,8 +281,7 @@ class Gui(wx.Frame):
         self.text = wx.StaticText(self, wx.ID_ANY, "Cycles")
         self.spin = wx.SpinCtrl(self, wx.ID_ANY, "10")
         self.run_button = wx.Button(self, wx.ID_ANY, "Run")
-        self.text_box = wx.TextCtrl(self, wx.ID_ANY, "",
-                                    style=wx.TE_PROCESS_ENTER)
+        self.text_box = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
 
         # Bind events to widgets
         self.Bind(wx.EVT_MENU, self.on_menu)
@@ -276,8 +310,11 @@ class Gui(wx.Frame):
         if Id == wx.ID_EXIT:
             self.Close(True)
         if Id == wx.ID_ABOUT:
-            wx.MessageBox("Logic Simulator\nCreated by Mojisola Agboola\n2017",
-                          "About Logsim", wx.ICON_INFORMATION | wx.OK)
+            wx.MessageBox(
+                "Logic Simulator\nCreated by Mojisola Agboola\n2017",
+                "About Logsim",
+                wx.ICON_INFORMATION | wx.OK,
+            )
 
     def on_spin(self, event):
         """Handle the event when the user changes the spin control value."""

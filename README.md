@@ -16,7 +16,7 @@ make test
 
 #### macOS
 
-Create and activate a virtual environment, then use 
+Create and activate a virtual environment, then use
 ```shell
 pip install -r requirements.txt
 ```

@@ -15,10 +15,10 @@ import sys
 
 import wx
 
-from names import Names
-from devices import Devices
-from network import Network
-from monitors import Monitors
+# from names import Names
+# from devices import Devices
+# from network import Network
+# from monitors import Monitors
 from scanner import Scanner
 from parse import Parser
 from userint import UserInterface
@@ -31,10 +31,12 @@ def main(arg_list):
     Run either the command line user interface, the graphical user interface,
     or display the usage message.
     """
-    usage_message = ("Usage:\n"
-                     "Show help: logsim.py -h\n"
-                     "Command line user interface: logsim.py -c <file path>\n"
-                     "Graphical user interface: logsim.py <file path>")
+    usage_message = (
+        "Usage:\n"
+        "Show help: logsim.py -h\n"
+        "Command line user interface: logsim.py -c <file path>\n"
+        "Graphical user interface: logsim.py <file path>"
+    )
     try:
         options, arguments = getopt.getopt(arg_list, "hc:")
     except getopt.GetoptError:
@@ -77,8 +79,7 @@ def main(arg_list):
         if parser.parse_network():
             # Initialise an instance of the gui.Gui() class
             app = wx.App()
-            gui = Gui("Logic Simulator", path, names, devices, network,
-                      monitors)
+            gui = Gui("Logic Simulator", path, names, devices, network, monitors)
             gui.Show(True)
             app.MainLoop()
 

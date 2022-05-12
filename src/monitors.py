@@ -12,7 +12,6 @@ import collections
 
 
 class Monitors:
-
     """Record and display output signals.
 
     This class contains functions for recording and displaying the signal state
@@ -57,8 +56,11 @@ class Monitors:
         # {(device_id, output_id): [signal_list]}
         self.monitors_dictionary = collections.OrderedDict()
 
-        [self.NO_ERROR, self.NOT_OUTPUT,
-         self.MONITOR_PRESENT] = self.names.unique_error_codes(3)
+        [
+            self.NO_ERROR,
+            self.NOT_OUTPUT,
+            self.MONITOR_PRESENT,
+        ] = self.names.unique_error_codes(3)
 
     def make_monitor(self, device_id, output_id, cycles_completed=0):
         """Add the specified signal to the monitors dictionary.
@@ -78,7 +80,8 @@ class Monitors:
             # of BLANK signals. Otherwise, initialise the trace with an empty
             # list.
             self.monitors_dictionary[(device_id, output_id)] = [
-                self.devices.BLANK] * cycles_completed
+                self.devices.BLANK
+            ] * cycles_completed
             return self.NO_ERROR
 
     def remove_monitor(self, device_id, output_id):
@@ -109,8 +112,7 @@ class Monitors:
         """
         for device_id, output_id in self.monitors_dictionary:
             signal_level = self.get_monitor_signal(device_id, output_id)
-            self.monitors_dictionary[(device_id,
-                                      output_id)].append(signal_level)
+            self.monitors_dictionary[(device_id, output_id)].append(signal_level)
 
     def get_signal_names(self):
         """Return two signal name lists: monitored and not monitored."""
@@ -124,8 +126,7 @@ class Monitors:
             device = self.devices.get_device(device_id)
             for output_id in device.outputs:
                 if (device_id, output_id) not in self.monitors_dictionary:
-                    signal_name = self.devices.get_signal_name(device_id,
-                                                               output_id)
+                    signal_name = self.devices.get_signal_name(device_id, output_id)
                     non_monitored_signal_list.append(signal_name)
 
         return [monitored_signal_list, non_monitored_signal_list]

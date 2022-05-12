@@ -12,7 +12,6 @@ import random
 
 
 class Device:
-
     """Store device properties.
 
     Parameters
@@ -26,7 +25,6 @@ class Device:
 
     def __init__(self, device_id):
         """Initialise device properties."""
-
         self.device_id = device_id
 
         # inputs dictionary stores
@@ -44,7 +42,6 @@ class Device:
 
 
 class Devices:
-
     """Make and store devices.
 
     This class contains many functions for making devices and ports.
@@ -99,7 +96,6 @@ class Devices:
 
     def __init__(self, names):
         """Initialise devices list and constants."""
-
         self.names = names
 
         self.devices_list = []
@@ -109,20 +105,41 @@ class Devices:
         dtype_inputs = ["CLK", "SET", "CLEAR", "DATA"]
         dtype_outputs = ["Q", "QBAR"]
 
-        [self.NO_ERROR, self.INVALID_QUALIFIER, self.NO_QUALIFIER,
-         self.BAD_DEVICE, self.QUALIFIER_PRESENT,
-         self.DEVICE_PRESENT] = self.names.unique_error_codes(6)
+        [
+            self.NO_ERROR,
+            self.INVALID_QUALIFIER,
+            self.NO_QUALIFIER,
+            self.BAD_DEVICE,
+            self.QUALIFIER_PRESENT,
+            self.DEVICE_PRESENT,
+        ] = self.names.unique_error_codes(6)
 
-        self.signal_types = [self.LOW, self.HIGH, self.RISING,
-                             self.FALLING, self.BLANK] = range(5)
-        self.gate_types = [self.AND, self.OR, self.NAND, self.NOR,
-                           self.XOR] = self.names.lookup(gate_strings)
-        self.device_types = [self.CLOCK, self.SWITCH,
-                             self.D_TYPE] = self.names.lookup(device_strings)
-        self.dtype_input_ids = [self.CLK_ID, self.SET_ID, self.CLEAR_ID,
-                                self.DATA_ID] = self.names.lookup(dtype_inputs)
-        self.dtype_output_ids = [
-            self.Q_ID, self.QBAR_ID] = self.names.lookup(dtype_outputs)
+        self.signal_types = [
+            self.LOW,
+            self.HIGH,
+            self.RISING,
+            self.FALLING,
+            self.BLANK,
+        ] = range(5)
+        self.gate_types = [
+            self.AND,
+            self.OR,
+            self.NAND,
+            self.NOR,
+            self.XOR,
+        ] = self.names.lookup(gate_strings)
+        self.device_types = [self.CLOCK, self.SWITCH, self.D_TYPE] = self.names.lookup(
+            device_strings
+        )
+        self.dtype_input_ids = [
+            self.CLK_ID,
+            self.SET_ID,
+            self.CLEAR_ID,
+            self.DATA_ID,
+        ] = self.names.lookup(dtype_inputs)
+        self.dtype_output_ids = [self.Q_ID, self.QBAR_ID] = self.names.lookup(
+            dtype_outputs
+        )
 
         self.max_gate_inputs = 16
 
@@ -272,11 +289,9 @@ class Devices:
 
             elif device.device_kind == self.CLOCK:
                 clock_signal = random.choice([self.LOW, self.HIGH])
-                self.add_output(device.device_id, output_id=None,
-                                signal=clock_signal)
+                self.add_output(device.device_id, output_id=None, signal=clock_signal)
                 # Initialise it to a random point in its cycle.
-                device.clock_counter = \
-                    random.randrange(device.clock_half_period)
+                device.clock_counter = random.randrange(device.clock_half_period)
 
     def make_device(self, device_id, device_kind, device_property=None):
         """Create the specified device.
