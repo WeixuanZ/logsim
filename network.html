@@ -93,73 +93,88 @@ in the network, getting information about connections, and executing all
 the devices in the network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>class.</strong> (<em>devices - instance of the devices.Devices</em><em>(</em><em>)</em>) – </p></li>
-<li><p><strong>methods</strong> (<em>Public</em>) – </p></li>
-<li><p><strong>--------------</strong> – </p></li>
-<li><p><strong>get_connected_output</strong><strong>(</strong><strong>self</strong> (<em>Returns the device and</em>) – port id of the connected output.</p></li>
-<li><p><strong>device_id</strong> (<em>Returns the signal level at</em>) – port id of the connected output.</p></li>
-<li><p><strong>output_id</strong><strong>)</strong> (<em>Returns the signal level at</em>) – port id of the connected output.</p></li>
-<li><p><strong>get_input_signal</strong><strong>(</strong><strong>self</strong> (<em>Returns the signal level at</em>) – the output connected to the given input.</p></li>
-<li><p><strong>device_id</strong> – the output connected to the given input.</p></li>
-<li><p><strong>input_id</strong><strong>)</strong> (<em>Returns the signal level at</em>) – the output connected to the given input.</p></li>
-<li><p><strong>get_output_signal</strong><strong>(</strong><strong>self</strong> (<em>Returns the signal level at</em>) – the given output.</p></li>
-<li><p><strong>device_id</strong> – the given output.</p></li>
-<li><p><strong>output_id</strong><strong>)</strong> – the given output.</p></li>
-<li><p><strong>make_connection</strong><strong>(</strong><strong>self</strong> – <dl class="simple">
-<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
+<dd class="field-odd"><p><strong>devices</strong> – instance of the devices.Devices() class.</p>
 </dd>
 </dl>
-</p></li>
-<li><p><strong>first_device_id</strong> – <dl class="simple">
-<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>first_port_id</strong> – <dl class="simple">
-<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>second_device_id</strong> – <dl class="simple">
-<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
-</dd>
-</dl>
-</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="simple">
-<dt>:param :</dt><dd><dl class="simple">
-<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>check_network</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Checks if all inputs in the network are connected.</em>) – </p></li>
-<li><p><strong>update_signal</strong><strong>(</strong><strong>self</strong> (<em>Updates the signal in the direction of</em>) – the target.</p></li>
-<li><p><strong>signal</strong> (<em>Updates the signal in the direction of</em>) – the target.</p></li>
-<li><p><strong>target</strong><strong>)</strong> (<em>Updates the signal in the direction of</em>) – the target.</p></li>
-<li><p><strong>invert_signal</strong><strong>(</strong><strong>self</strong> (<em>Returns the inverse of the signal if the</em>) – signal is HIGH or LOW.</p></li>
-<li><p><strong>signal</strong><strong>)</strong> (<em>Returns the inverse of the signal if the</em>) – signal is HIGH or LOW.</p></li>
-<li><p><strong>execute_switch</strong><strong>(</strong><strong>self</strong> (<em>Simulates a switch press.</em>) – </p></li>
-<li><p><strong>device_id</strong><strong>)</strong> (<em>Simulates a clock and updates its output</em>) – </p></li>
-<li><p><strong>execute_gate</strong><strong>(</strong><strong>self</strong> (<em>Simulates a logic gate and</em>) – updates its output signal value.</p></li>
-<li><p><strong>device_id</strong> (<em>Simulates a logic gate and</em>) – updates its output signal value.</p></li>
-<li><p><strong>x=None</strong> (<em>Simulates a logic gate and</em>) – updates its output signal value.</p></li>
-<li><p><strong>y=None</strong><strong>)</strong> (<em>Simulates a logic gate and</em>) – updates its output signal value.</p></li>
-<li><p><strong>execute_d_type</strong><strong>(</strong><strong>self</strong> (<em>Simulates a D-type device and updates its</em>) – output signal value.</p></li>
-<li><p><strong>device_id</strong><strong>)</strong> – output signal value.</p></li>
-<li><p><strong>execute_clock</strong><strong>(</strong><strong>self</strong> (<em>Simulates a clock and updates its output</em>) – signal value.</p></li>
-<li><p><strong>device_id</strong><strong>)</strong> – signal value.</p></li>
-<li><p><strong>update_clocks</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>If it is time to do so</em><em>, </em><em>sets clock signals to RISING</em>) – or FALLING.</p></li>
-<li><p><strong>execute_network</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Executes all the devices in the network for one</em>) – simulation cycle.</p></li>
-</ul>
-</dd>
-</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_connected_output(self,</span> <span class="pre">device_id,</span> <span class="pre">output_id):</span></span></dt>
+<dd><p>Returns the device and port id of the connected output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_input_signal(self,</span> <span class="pre">device_id,</span> <span class="pre">input_id):</span></span></dt>
+<dd><p>Returns the signal level at the output connected to the given input.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_output_signal(self,</span> <span class="pre">device_id,</span> <span class="pre">output_id):</span></span></dt>
+<dd><p>Returns the signal level at the given output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">make_connection(self,</span> <span class="pre">first_device_id,</span> <span class="pre">first_port_id,</span> <span class="pre">second_device_id,</span></span></dt>
+<dd><p>second_port_id):
+Connects the first device to the second device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">check_network(self):</span></span></dt>
+<dd><p>Checks if all inputs in the network are connected.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">update_signal(self,</span> <span class="pre">signal,</span> <span class="pre">target):</span></span></dt>
+<dd><p>Updates the signal in the direction of the target.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">invert_signal(self,</span> <span class="pre">signal):</span></span></dt>
+<dd><p>Returns the inverse of the signal if the signal is HIGH or LOW.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute_switch(self,</span> <span class="pre">device_id):</span></span></dt>
+<dd><p>Simulates a switch press.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute_gate(self,</span> <span class="pre">device_id,</span> <span class="pre">x=None,</span> <span class="pre">y=None):</span></span></dt>
+<dd><p>Simulates a logic gate and updates its output signal value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute_d_type(self,</span> <span class="pre">device_id):</span></span></dt>
+<dd><p>Simulates a D-type device and updates its output signal value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute_clock(self,</span> <span class="pre">device_id):</span></span></dt>
+<dd><p>Simulates a clock and updates its output signal value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">update_clocks(self):</span></span></dt>
+<dd><p>If it is time to do so, sets clock signals to RISING or FALLING.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute_network(self):</span></span></dt>
+<dd><p>Executes all the devices in the network for one simulation cycle.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="network.Network.check_network">
 <span class="sig-name descname"><span class="pre">check_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.check_network" title="Permalink to this definition"></a></dt>

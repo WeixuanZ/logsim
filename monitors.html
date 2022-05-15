@@ -86,7 +86,7 @@ signals.</p>
 <p>Monitors - records and displays specified output signals.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="monitors.Monitors">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">monitors.</span></span><span class="sig-name descname"><span class="pre">Monitors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#monitors.Monitors" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">monitors.</span></span><span class="sig-name descname"><span class="pre">Monitors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="devices.html#devices.Devices" title="devices.Devices"><span class="pre">devices.Devices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="network.html#network.Network" title="network.Network"><span class="pre">network.Network</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#monitors.Monitors" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Record and display output signals.</p>
 <p>This class contains functions for recording and displaying the signal state
@@ -94,28 +94,60 @@ of outputs specified by their device and port IDs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>names</strong> (<em>instance of the names.Names</em><em>(</em><em>) </em><em>class.</em>) – </p></li>
-<li><p><strong>devices</strong> (<em>instance of the devices.Devices</em><em>(</em><em>) </em><em>class.</em>) – </p></li>
-<li><p><strong>network</strong> (<em>instance of the network.Network</em><em>(</em><em>) </em><em>class.</em>) – </p></li>
-<li><p><strong>methods</strong> (<em>Public</em>) – </p></li>
-<li><p><strong>--------------</strong> – </p></li>
-<li><p><strong>make_monitor</strong><strong>(</strong><strong>self</strong> (<em>Sets a specified monitor on the</em>) – specified output.</p></li>
-<li><p><strong>device_id</strong> (<em>Returns the signal level of</em>) – specified output.</p></li>
-<li><p><strong>output_id</strong><strong>)</strong> (<em>Returns the signal level of</em>) – specified output.</p></li>
-<li><p><strong>remove_monitor</strong><strong>(</strong><strong>self</strong> (<em>Removes a monitor from the</em>) – specified output.</p></li>
-<li><p><strong>device_id</strong> – specified output.</p></li>
-<li><p><strong>output_id</strong><strong>)</strong> – specified output.</p></li>
-<li><p><strong>get_monitor_signal</strong><strong>(</strong><strong>self</strong> (<em>Returns the signal level of</em>) – the specified monitor.</p></li>
-<li><p><strong>device_id</strong> – the specified monitor.</p></li>
-<li><p><strong>output_id</strong><strong>)</strong> – the specified monitor.</p></li>
-<li><p><strong>record_signals</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Records the current signal level of all monitors.</em>) – </p></li>
-<li><p><strong>get_signal_names</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Returns two lists of signal names: monitored and</em>) – not monitored.</p></li>
-<li><p><strong>reset_monitors</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Clears the memory of all monitors.</em>) – </p></li>
-<li><p><strong>get_margin</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Returns the length of the longest monitor's name.</em>) – </p></li>
-<li><p><strong>display_signals</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Displays signal trace</em><em>(</em><em>s</em><em>) </em><em>in the text console.</em>) – </p></li>
+<li><p><strong>names</strong> – instance of the names.Names() class.</p></li>
+<li><p><strong>devices</strong> – instance of the devices.Devices() class.</p></li>
+<li><p><strong>network</strong> – instance of the network.Network() class.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">make_monitor(self,</span> <span class="pre">device_id,</span> <span class="pre">output_id):</span></span></dt>
+<dd><p>Sets a specified monitor on the specified output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">remove_monitor(self,</span> <span class="pre">device_id,</span> <span class="pre">output_id):</span></span></dt>
+<dd><p>Removes a monitor from the specified output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_monitor_signal(self,</span> <span class="pre">device_id,</span> <span class="pre">output_id):</span></span></dt>
+<dd><p>Returns the signal level of the specified monitor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">record_signals(self):</span></span></dt>
+<dd><p>Records the current signal level of all monitors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_signal_names(self):</span></span></dt>
+<dd><p>Returns two lists of signal names: monitored and not monitored.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">reset_monitors(self):</span></span></dt>
+<dd><p>Clears the memory of all monitors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_margin(self):</span></span></dt>
+<dd><p>Returns the length of the longest monitor’s name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">display_signals(self):</span></span></dt>
+<dd><p>Displays signal trace(s) in the text console.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="monitors.Monitors.display_signals">
 <span class="sig-name descname"><span class="pre">display_signals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#monitors.Monitors.display_signals" title="Permalink to this definition"></a></dt>
@@ -146,7 +178,7 @@ starting to draw the signal trace.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="monitors.Monitors.make_monitor">
-<span class="sig-name descname"><span class="pre">make_monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycles_completed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#monitors.Monitors.make_monitor" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycles_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#monitors.Monitors.make_monitor" title="Permalink to this definition"></a></dt>
 <dd><p>Add the specified signal to the monitors dictionary.</p>
 <p>Return NO_ERROR if successful, or the corresponding error if not.</p>
 </dd></dl>

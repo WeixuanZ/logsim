@@ -41,7 +41,10 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="names.html">names module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scanner.html">scanner module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">parser module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">parser module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="monitors.html">monitors module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="devices.html">devices module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">network module</a></li>
@@ -73,75 +76,51 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-parser">
-<span id="parser-module"></span><h1>parser module<a class="headerlink" href="#module-parser" title="Permalink to this headline"></a></h1>
-<p>This is an interface to Python’s internal parser.</p>
-<dl class="py exception">
-<dt class="sig sig-object py" id="parser.ParserError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">ParserError</span></span><a class="headerlink" href="#parser.ParserError" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+  <section id="module-parse">
+<span id="parser-module"></span><h1>parser module<a class="headerlink" href="#module-parse" title="Permalink to this headline"></a></h1>
+<p>Parse the definition file and build the logic network.</p>
+<p>Used in the Logic Simulator project to analyse the syntactic and semantic
+correctness of the symbols received from the scanner and then builds the
+logic network.</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
+<p>Parser - parses the definition file and builds the logic network.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="parse.Parser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parse.</span></span><span class="sig-name descname"><span class="pre">Parser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monitors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#parse.Parser" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parse the definition file and build the logic network.</p>
+<p>The parser deals with error handling. It analyses the syntactic and
+semantic correctness of the symbols it receives from the scanner, and
+then builds the logic network. If there are errors in the definition file,
+the parser detects this and tries to recover from it, giving helpful
+error messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> – instance of the names.Names() class.</p></li>
+<li><p><strong>devices</strong> – instance of the devices.Devices() class.</p></li>
+<li><p><strong>network</strong> – instance of the network.Network() class.</p></li>
+<li><p><strong>monitors</strong> – instance of the monitors.Monitors() class.</p></li>
+<li><p><strong>scanner</strong> – instance of the scanner.Scanner() class.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">parse_network(self):</span></span></dt>
+<dd><p>Parses the circuit definition file.</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="parser.STType">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">STType</span></span><a class="headerlink" href="#parser.STType" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">parser.st</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="parse.Parser.parse_network">
+<span class="sig-name descname"><span class="pre">parse_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parse.Parser.parse_network" title="Permalink to this definition"></a></dt>
+<dd><p>Parse the circuit definition file.</p>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.compilest">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">compilest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.compilest" title="Permalink to this definition"></a></dt>
-<dd><p>Compiles an ST object into a code object.</p>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.expr">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">expr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.expr" title="Permalink to this definition"></a></dt>
-<dd><p>Creates an ST object from an expression.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.isexpr">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">isexpr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.isexpr" title="Permalink to this definition"></a></dt>
-<dd><p>Determines if an ST object was created from an expression.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.issuite">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">issuite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.issuite" title="Permalink to this definition"></a></dt>
-<dd><p>Determines if an ST object was created from a suite.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.sequence2st">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">sequence2st</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.sequence2st" title="Permalink to this definition"></a></dt>
-<dd><p>Creates an ST object from a tree representation.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.st2list">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">st2list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.st2list" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a list-tree representation of an ST.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.st2tuple">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">st2tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.st2tuple" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a tuple-tree representation of an ST.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.suite">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">suite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.suite" title="Permalink to this definition"></a></dt>
-<dd><p>Creates an ST object from a suite.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="parser.tuple2st">
-<span class="sig-prename descclassname"><span class="pre">parser.</span></span><span class="sig-name descname"><span class="pre">tuple2st</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parser.tuple2st" title="Permalink to this definition"></a></dt>
-<dd><p>Creates an ST object from a tree representation.</p>
-</dd></dl>
-
+</section>
 </section>
 
 
