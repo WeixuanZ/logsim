@@ -19,50 +19,49 @@ class UserInterface:
 
     Parameters
     -----------
-    names: instance of the names.Names() class.
-    devices: instance of the devices.Devices() class.
-    network: instance of the network.Network() class.
-    monitors: instance of the monitors.Monitors() class.
+    names:
+        instance of the names.Names() class.
+    devices:
+        instance of the devices.Devices() class.
+    network:
+        instance of the network.Network() class.
+    monitors:
+        instance of the monitors.Monitors() class.
 
-    Public methods:
-    ---------------
-    command_interface(self): Reads in the commands and calls the corresponding
-                             functions.
-
-    get_line(self): Prints a prompt for the user and updates the user entry.
-
-    read_command(self): Returns the first non-whitespace character.
-
-    get_character(self): Moves the cursor forward by one character in the user
-                         entry.
-
-    skip_spaces(self): Skips whitespace characters until a non-whitespace
-                       character is reached.
-
-    read_string(self): Returns the next alphanumeric string.
-
-    read_name(self): Returns the name ID of the current string.
-
-    read_signal_name(self): Returns the device and port IDs of the current
-                            signal name.
-
-    read_number(self, lower_bound, upper_bound): Returns the current number.
-
-    help_command(self): Prints a list of valid commands.
-
-    switch_command(self): Sets the specified switch to the specified signal
-                          level.
-
-    monitor_command(self): Sets the specified monitor.
-
-    zap_command(self): Removes the specified monitor.
-
-    run_network(self, cycles): Runs the network for the specified number of
-                               simulation cycles.
-
-    run_command(self): Runs the simulation from scratch.
-
-    continue_command(self): Continues a previously run simulation.
+    Methods
+    -------
+    command_interface(self):
+        Reads in the commands and calls the corresponding functions.
+    get_line(self):
+        Prints a prompt for the user and updates the user entry.
+    read_command(self):
+        Returns the first non-whitespace character.
+    get_character(self):
+        Moves the cursor forward by one character in the user entry.
+    skip_spaces(self):
+        Skips whitespace characters until a non-whitespace character is reached.
+    read_string(self):
+        Returns the next alphanumeric string.
+    read_name(self):
+        Returns the name ID of the current string.
+    read_signal_name(self):
+        Returns the device and port IDs of the current signal name.
+    read_number(self, lower_bound, upper_bound):
+        Returns the current number.
+    help_command(self):
+        Prints a list of valid commands.
+    switch_command(self):
+        Sets the specified switch to the specified signal level.
+    monitor_command(self):
+        Sets the specified monitor.
+    zap_command(self):
+        Removes the specified monitor.
+    run_network(self, cycles):
+        Runs the network for the specified number of simulation cycles.
+    run_command(self):
+        Runs the simulation from scratch.
+    continue_command(self):
+        Continues a previously run simulation.
     """
 
     def __init__(self, names, devices, network, monitors):

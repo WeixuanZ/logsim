@@ -17,8 +17,8 @@ class Symbol:
     ----------
     No parameters.
 
-    Public methods
-    --------------
+    Methods
+    -------
     No public methods.
     """
 
@@ -38,13 +38,15 @@ class Scanner:
 
     Parameters
     ----------
-    path: path to the circuit definition file.
-    names: instance of the names.Names() class.
+    path:
+        path to the circuit definition file.
+    names:
+        instance of the names.Names() class.
 
-    Public methods
-    -------------
-    get_symbol(self): Translates the next sequence of characters into a symbol
-                      and returns the symbol.
+    Methods
+    -------
+    get_symbol(self):
+        Translates the next sequence of characters into a symbol and returns the symbol.
     """
 
     def __init__(self, path, names):

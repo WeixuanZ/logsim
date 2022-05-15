@@ -6,6 +6,7 @@ Install `pre-commit` using `pip` and install the hooks using
 ```shell
 pre-commit install
 ```
+This will enable auto-formatting and linting before committing.
 
 Run tests using
 ```shell
@@ -33,3 +34,16 @@ apt update && apt install --no-install-recommends -y make gcc libgtk-3-dev freeg
 pip install -r requirements.txt
 ```
 Conda can also be used.
+
+
+### Building Documentation
+
+This project uses [Numpy style docstrings](https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard),
+the documentation is built with Sphinx.
+Each push to `master` will trigger a build and deploy Action to https://weixuanz.github.io/logsim/.
+
+To build locally, use
+
+```shell
+make docs
+```

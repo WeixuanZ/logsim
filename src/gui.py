@@ -28,24 +28,27 @@ class MyGLCanvas(wxcanvas.GLCanvas):
 
     Parameters
     ----------
-    parent: parent window.
-    devices: instance of the devices.Devices() class.
-    monitors: instance of the monitors.Monitors() class.
+    parent:
+        parent window.
+    devices:
+        instance of the devices.Devices() class.
+    monitors:
+        instance of the monitors.Monitors() class.
 
-    Public methods
-    --------------
-    init_gl(self): Configures the OpenGL context.
-
-    render(self, text): Handles all drawing operations.
-
-    on_paint(self, event): Handles the paint event.
-
-    on_size(self, event): Handles the canvas resize event.
-
-    on_mouse(self, event): Handles mouse events.
-
-    render_text(self, text, x_pos, y_pos): Handles text drawing
-                                           operations.
+    Methods
+    -------
+    init_gl(self):
+        Configures the OpenGL context.
+    render(self, text):
+        Handles all drawing operations.
+    on_paint(self, event):
+        Handles the paint event.
+    on_size(self, event):
+        Handles the canvas resize event.
+    on_mouse(self, event):
+        Handles mouse events.
+    render_text(self, text, x_pos, y_pos):
+        Handles text drawing operations.
     """
 
     def __init__(self, parent, devices, monitors):
@@ -247,19 +250,19 @@ class Gui(wx.Frame):
 
     Parameters
     ----------
-    title: title of the window.
+    title:
+        title of the window.
 
-    Public methods
-    --------------
-    on_menu(self, event): Event handler for the file menu.
-
-    on_spin(self, event): Event handler for when the user changes the spin
-                           control value.
-
-    on_run_button(self, event): Event handler for when the user clicks the run
-                                button.
-
-    on_text_box(self, event): Event handler for when the user enters text.
+    Methods
+    -------
+    on_menu(self, event):
+        Event handler for the file menu.
+    on_spin(self, event):
+        Event handler for when the user changes the spin control value.
+    on_run_button(self, event):
+        Event handler for when the user clicks the run button.
+    on_text_box(self, event):
+        Event handler for when the user enters text.
     """
 
     def __init__(self, title, path, names, devices, network, monitors):

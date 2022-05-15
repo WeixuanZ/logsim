@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update && sudo apt-get install --no-install-recommends -y python3-opengl python3-wxgtk4.0 freeglut3-dev
-        mv .github/doc-requirements.txt docs/requirements.txt
+        mv requirements_docs.txt docs/requirements.txt
 
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master

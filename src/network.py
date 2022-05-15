@@ -17,47 +17,38 @@ class Network:
 
     Parameters
     ----------
-    devices - instance of the devices.Devices() class.
+    devices:
+        instance of the devices.Devices() class.
 
-    Public methods
-    --------------
-    get_connected_output(self, device_id, output_id): Returns the device and
-                                              port id of the connected output.
-
-    get_input_signal(self, device_id, input_id): Returns the signal level at
-                                     the output connected to the given input.
-
-    get_output_signal(self, device_id, output_id): Returns the signal level at
-                                                   the given output.
-
+    Methods
+    -------
+    get_connected_output(self, device_id, output_id):
+        Returns the device and port id of the connected output.
+    get_input_signal(self, device_id, input_id):
+        Returns the signal level at the output connected to the given input.
+    get_output_signal(self, device_id, output_id):
+        Returns the signal level at the given output.
     make_connection(self, first_device_id, first_port_id, second_device_id,
-                    second_port_id): Connects the first device to the second
-                                     device.
-
-    check_network(self): Checks if all inputs in the network are connected.
-
-    update_signal(self, signal, target): Updates the signal in the direction of
-                                         the target.
-
-    invert_signal(self, signal): Returns the inverse of the signal if the
-                                 signal is HIGH or LOW.
-
-    execute_switch(self, device_id): Simulates a switch press.
-
-    execute_gate(self, device_id, x=None, y=None): Simulates a logic gate and
-                                              updates its output signal value.
-
-    execute_d_type(self, device_id): Simulates a D-type device and updates its
-                                     output signal value.
-
-    execute_clock(self, device_id): Simulates a clock and updates its output
-                                    signal value.
-
-    update_clocks(self): If it is time to do so, sets clock signals to RISING
-                         or FALLING.
-
-    execute_network(self): Executes all the devices in the network for one
-                           simulation cycle.
+        second_port_id):
+        Connects the first device to the second device.
+    check_network(self):
+        Checks if all inputs in the network are connected.
+    update_signal(self, signal, target):
+        Updates the signal in the direction of the target.
+    invert_signal(self, signal):
+        Returns the inverse of the signal if the signal is HIGH or LOW.
+    execute_switch(self, device_id):
+        Simulates a switch press.
+    execute_gate(self, device_id, x=None, y=None):
+        Simulates a logic gate and updates its output signal value.
+    execute_d_type(self, device_id):
+        Simulates a D-type device and updates its output signal value.
+    execute_clock(self, device_id):
+        Simulates a clock and updates its output signal value.
+    update_clocks(self):
+        If it is time to do so, sets clock signals to RISING or FALLING.
+    execute_network(self):
+        Executes all the devices in the network for one simulation cycle.
     """
 
     def __init__(self, names, devices):

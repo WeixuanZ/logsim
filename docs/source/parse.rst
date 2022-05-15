@@ -1,7 +1,7 @@
 parser module
 =============
 
-.. automodule:: parser
+.. automodule:: parse
    :members:
    :undoc-members:
    :show-inheritance:

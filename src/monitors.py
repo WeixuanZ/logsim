@@ -10,6 +10,10 @@ Monitors - records and displays specified output signals.
 """
 import collections
 
+from names import Names
+from devices import Devices
+from network import Network
+
 
 class Monitors:
     """Record and display output signals.
@@ -19,34 +23,34 @@ class Monitors:
 
     Parameters
     ----------
-    names: instance of the names.Names() class.
-    devices: instance of the devices.Devices() class.
-    network: instance of the network.Network() class.
+    names:
+        instance of the names.Names() class.
+    devices:
+        instance of the devices.Devices() class.
+    network:
+        instance of the network.Network() class.
 
-    Public methods
-    --------------
-    make_monitor(self, device_id, output_id): Sets a specified monitor on the
-                                              specified output.
-
-    remove_monitor(self, device_id, output_id): Removes a monitor from the
-                                                specified output.
-
-    get_monitor_signal(self, device_id, output_id): Returns the signal level of
-                                                    the specified monitor.
-
-    record_signals(self): Records the current signal level of all monitors.
-
-    get_signal_names(self): Returns two lists of signal names: monitored and
-                            not monitored.
-
-    reset_monitors(self): Clears the memory of all monitors.
-
-    get_margin(self): Returns the length of the longest monitor's name.
-
-    display_signals(self): Displays signal trace(s) in the text console.
+    Methods
+    -------
+    make_monitor(self, device_id, output_id):
+        Sets a specified monitor on the specified output.
+    remove_monitor(self, device_id, output_id):
+        Removes a monitor from the specified output.
+    get_monitor_signal(self, device_id, output_id):
+        Returns the signal level of the specified monitor.
+    record_signals(self):
+        Records the current signal level of all monitors.
+    get_signal_names(self):
+        Returns two lists of signal names: monitored and not monitored.
+    reset_monitors(self):
+        Clears the memory of all monitors.
+    get_margin(self):
+        Returns the length of the longest monitor's name.
+    display_signals(self):
+        Displays signal trace(s) in the text console.
     """
 
-    def __init__(self, names, devices, network):
+    def __init__(self, names: Names, devices: Devices, network: Network):
         """Initialise the monitors dictionary and monitor errors."""
         self.names = names
         self.network = network
@@ -62,7 +66,7 @@ class Monitors:
             self.MONITOR_PRESENT,
         ] = self.names.unique_error_codes(3)
 
-    def make_monitor(self, device_id, output_id, cycles_completed=0):
+    def make_monitor(self, device_id: int, output_id: int, cycles_completed: int = 0):
         """Add the specified signal to the monitors dictionary.
 
         Return NO_ERROR if successful, or the corresponding error if not.

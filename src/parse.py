@@ -21,15 +21,21 @@ class Parser:
 
     Parameters
     ----------
-    names: instance of the names.Names() class.
-    devices: instance of the devices.Devices() class.
-    network: instance of the network.Network() class.
-    monitors: instance of the monitors.Monitors() class.
-    scanner: instance of the scanner.Scanner() class.
+    names:
+        instance of the names.Names() class.
+    devices:
+        instance of the devices.Devices() class.
+    network:
+        instance of the network.Network() class.
+    monitors:
+        instance of the monitors.Monitors() class.
+    scanner:
+        instance of the scanner.Scanner() class.
 
-    Public methods
-    --------------
-    parse_network(self): Parses the circuit definition file.
+    Methods
+    -------
+    parse_network(self):
+        Parses the circuit definition file.
     """
 
     def __init__(self, names, devices, network, monitors, scanner):

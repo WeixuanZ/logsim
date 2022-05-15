@@ -10,20 +10,23 @@ Devices - makes and stores all the devices in the logic network.
 """
 import random
 
+from names import Names
+
 
 class Device:
     """Store device properties.
 
     Parameters
     ----------
-    device_id: device ID.
+    device_id:
+        device ID.
 
-    Public methods
-    --------------
+    Methods
+    -------
     No public methods.
     """
 
-    def __init__(self, device_id):
+    def __init__(self, device_id: int):
         """Initialise device properties."""
         self.device_id = device_id
 
@@ -49,52 +52,42 @@ class Devices:
 
     Parameters
     ----------
-    names: instance of the names.Names() class.
+    names:
+        instance of the names.Names() class.
 
-    Public methods
-    --------------
-    get_device(self, device_id): Returns the Device object corresponding
-                                 to the device ID.
-
-    find_devices(self, device_kind=None): Returns a list of device_ids of
-                                          the specified device_kind.
-
-    add_device(self, device_id, device_kind): Adds the specified device to the
-                                              network.
-
-    add_input(self, device_id, input_id): Adds the specified input to the
-                                          specified device.
-
-    add_output(self, device_id, output_id, signal=0): Adds the specified output
-                                                      to the specified device.
-
-    get_signal_name(self, device_id, output_id): Returns the name string of the
-                                                 specified signal.
-
-    get_signal_ids(self, signal_name): Returns the device and output IDs of
-                                       the specified signal.
-
-    set_switch(self, device_id, signal): Sets switch_state of specified device
-                                         to signal.
-
-    make_switch(self, device_id, initial_state): Makes a switch device and sets
-                                                 its initial state.
-
-    make_clock(self, device_id, clock_half_period): Makes a clock device with
-                                                    the specified half period.
-
-    make_gate(self, device_id, device_kind, no_of_inputs): Makes logic gates
-                                        with the specified number of inputs.
-
-    make_d_type(self, device_id): Makes a D-type device.
-
-    cold_startup(self): Simulates cold start-up of D-types and clocks.
-
-    make_device(self, device_id, device_kind, device_property=None): Creates
-                       the specified device and returns errors if unsuccessful.
+    Methods
+    -------
+    get_device(self, device_id):
+        Returns the Device object corresponding to the device ID.
+    find_devices(self, device_kind=None):
+        Returns a list of device_ids of the specified device_kind.
+    add_device(self, device_id, device_kind):
+        Adds the specified device to the network.
+    add_input(self, device_id, input_id):
+        Adds the specified input to the specified device.
+    add_output(self, device_id, output_id, signal=0):
+        Adds the specified output to the specified device.
+    get_signal_name(self, device_id, output_id):
+        Returns the name string of the specified signal.
+    get_signal_ids(self, signal_name):
+        Returns the device and output IDs of the specified signal.
+    set_switch(self, device_id, signal):
+        Sets switch_state of specified device to signal.
+    make_switch(self, device_id, initial_state):
+        Makes a switch device and sets its initial state.
+    make_clock(self, device_id, clock_half_period):
+        Makes a clock device with the specified half period.
+    make_gate(self, device_id, device_kind, no_of_inputs):
+        Makes logic gates with the specified number of inputs.
+    make_d_type(self, device_id):
+        Makes a D-type device.
+    cold_startup(self):
+        Simulates cold start-up of D-types and clocks.
+    make_device(self, device_id, device_kind, device_property=None):
+        Creates the specified device and returns errors if unsuccessful.
     """
 
-    def __init__(self, names):
+    def __init__(self, names: Names):
         """Initialise devices list and constants."""
         self.names = names
 
@@ -143,7 +136,7 @@ class Devices:
 
         self.max_gate_inputs = 16
 
-    def get_device(self, device_id):
+    def get_device(self, device_id: int):
         """Return the Device object corresponding to device_id."""
         for device in self.devices_list:
             if device.device_id == device_id:
