@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>devices module &mdash; logsim  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="network module" href="network.html" />
+    <link rel="prev" title="monitors module" href="monitors.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> logsim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="names.html">names module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scanner.html">scanner module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parse.html">parser module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitors.html">monitors module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">devices module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">network module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">gui module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">logsim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">&lt;no title&gt;</a> &raquo;</li>
+      <li>devices module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/devices.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-devices">
+<span id="devices-module"></span><h1>devices module<a class="headerlink" href="#module-devices" title="Permalink to this headline"></a></h1>
+<p>Make devices and set device properties.</p>
+<p>Used in the Logic Simulator project to make devices and ports and store their
+properties.</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
+<p>Device - stores device properties.
+Devices - makes and stores all the devices in the logic network.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="devices.Device">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">devices.</span></span><span class="sig-name descname"><span class="pre">Device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Device" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Store device properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_id</strong> (<em>device ID.</em>) – </p></li>
+<li><p><strong>methods</strong> (<em>Public</em>) – </p></li>
+<li><p><strong>--------------</strong> – </p></li>
+<li><p><strong>methods.</strong> (<em>No public</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="devices.Devices">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">devices.</span></span><span class="sig-name descname"><span class="pre">Devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Make and store devices.</p>
+<p>This class contains many functions for making devices and ports.
+It stores all the devices in a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> (<em>instance of the names.Names</em><em>(</em><em>) </em><em>class.</em>) – </p></li>
+<li><p><strong>methods</strong> (<em>Public</em>) – </p></li>
+<li><p><strong>--------------</strong> – </p></li>
+<li><p><strong>get_device</strong><strong>(</strong><strong>self</strong> (<em>Returns the Device object corresponding</em>) – to the device ID.</p></li>
+<li><p><strong>device_id</strong><strong>)</strong> (<em>Makes a D-type device.</em>) – to the device ID.</p></li>
+<li><p><strong>find_devices</strong><strong>(</strong><strong>self</strong> (<em>Returns a list of device_ids of</em>) – the specified device_kind.</p></li>
+<li><p><strong>device_kind=None</strong><strong>)</strong> (<em>Returns a list of device_ids of</em>) – the specified device_kind.</p></li>
+<li><p><strong>add_device</strong><strong>(</strong><strong>self</strong> (<em>Adds the specified device to the</em>) – network.</p></li>
+<li><p><strong>device_id</strong> (<em>Creates</em>) – network.</p></li>
+<li><p><strong>device_kind</strong><strong>)</strong> (<em>Adds the specified device to the</em>) – network.</p></li>
+<li><p><strong>add_input</strong><strong>(</strong><strong>self</strong> (<em>Adds the specified input to the</em>) – specified device.</p></li>
+<li><p><strong>device_id</strong> – specified device.</p></li>
+<li><p><strong>input_id</strong><strong>)</strong> (<em>Adds the specified input to the</em>) – specified device.</p></li>
+<li><p><strong>add_output</strong><strong>(</strong><strong>self</strong> (<em>Adds the specified output</em>) – to the specified device.</p></li>
+<li><p><strong>device_id</strong> – to the specified device.</p></li>
+<li><p><strong>output_id</strong> (<em>Adds the specified output</em>) – to the specified device.</p></li>
+<li><p><strong>signal=0</strong><strong>)</strong> (<em>Adds the specified output</em>) – to the specified device.</p></li>
+<li><p><strong>get_signal_name</strong><strong>(</strong><strong>self</strong> (<em>Returns the name string of the</em>) – specified signal.</p></li>
+<li><p><strong>device_id</strong> – specified signal.</p></li>
+<li><p><strong>output_id</strong><strong>)</strong> (<em>Returns the name string of the</em>) – specified signal.</p></li>
+<li><p><strong>get_signal_ids</strong><strong>(</strong><strong>self</strong> (<em>Returns the device and output IDs of</em>) – the specified signal.</p></li>
+<li><p><strong>signal_name</strong><strong>)</strong> (<em>Returns the device and output IDs of</em>) – the specified signal.</p></li>
+<li><p><strong>set_switch</strong><strong>(</strong><strong>self</strong> (<em>Sets switch_state of specified device</em>) – to signal.</p></li>
+<li><p><strong>device_id</strong> – to signal.</p></li>
+<li><p><strong>signal</strong><strong>)</strong> (<em>Sets switch_state of specified device</em>) – to signal.</p></li>
+<li><p><strong>make_switch</strong><strong>(</strong><strong>self</strong> (<em>Makes a switch device and sets</em>) – its initial state.</p></li>
+<li><p><strong>device_id</strong> – its initial state.</p></li>
+<li><p><strong>initial_state</strong><strong>)</strong> (<em>Makes a switch device and sets</em>) – its initial state.</p></li>
+<li><p><strong>make_clock</strong><strong>(</strong><strong>self</strong> (<em>Makes a clock device with</em>) – the specified half period.</p></li>
+<li><p><strong>device_id</strong> – the specified half period.</p></li>
+<li><p><strong>clock_half_period</strong><strong>)</strong> (<em>Makes a clock device with</em>) – the specified half period.</p></li>
+<li><p><strong>make_gate</strong><strong>(</strong><strong>self</strong> (<em>Makes logic gates</em>) – with the specified number of inputs.</p></li>
+<li><p><strong>device_id</strong> – with the specified number of inputs.</p></li>
+<li><p><strong>device_kind</strong> (<em>Creates</em>) – with the specified number of inputs.</p></li>
+<li><p><strong>no_of_inputs</strong><strong>)</strong> (<em>Makes logic gates</em>) – with the specified number of inputs.</p></li>
+<li><p><strong>make_d_type</strong><strong>(</strong><strong>self</strong> (<em>Makes a D-type device.</em>) – </p></li>
+<li><p><strong>device_id</strong><strong>)</strong> – </p></li>
+<li><p><strong>cold_startup</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Simulates cold start-up of D-types and clocks.</em>) – </p></li>
+<li><p><strong>make_device</strong><strong>(</strong><strong>self</strong> (<em>Creates</em>) – the specified device and returns errors if unsuccessful.</p></li>
+<li><p><strong>device_id</strong> – the specified device and returns errors if unsuccessful.</p></li>
+<li><p><strong>device_kind</strong> – the specified device and returns errors if unsuccessful.</p></li>
+<li><p><strong>device_property=None</strong><strong>)</strong> (<em>Creates</em>) – the specified device and returns errors if unsuccessful.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.add_device">
+<span class="sig-name descname"><span class="pre">add_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_kind</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.add_device" title="Permalink to this definition"></a></dt>
+<dd><p>Add the specified device to the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.add_input">
+<span class="sig-name descname"><span class="pre">add_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.add_input" title="Permalink to this definition"></a></dt>
+<dd><p>Add the specified input to the specified device.</p>
+<p>Return True if successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.add_output">
+<span class="sig-name descname"><span class="pre">add_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.add_output" title="Permalink to this definition"></a></dt>
+<dd><p>Add the specified output to the specified device.</p>
+<p>Return True if successful. The default output signal is LOW (0).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.cold_startup">
+<span class="sig-name descname"><span class="pre">cold_startup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.cold_startup" title="Permalink to this definition"></a></dt>
+<dd><p>Simulate cold start-up of D-types and clocks.</p>
+<p>Set the memory of the D-types to a random state and make the clocks
+begin from a random point in their cycles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.find_devices">
+<span class="sig-name descname"><span class="pre">find_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.find_devices" title="Permalink to this definition"></a></dt>
+<dd><p>Return a list of device IDs of the specified device_kind.</p>
+<p>Return a list of all device IDs in the network if no device_kind is
+specified.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.get_device">
+<span class="sig-name descname"><span class="pre">get_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.get_device" title="Permalink to this definition"></a></dt>
+<dd><p>Return the Device object corresponding to device_id.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.get_signal_ids">
+<span class="sig-name descname"><span class="pre">get_signal_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.get_signal_ids" title="Permalink to this definition"></a></dt>
+<dd><p>Return the device and output IDs of the specified signal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.get_signal_name">
+<span class="sig-name descname"><span class="pre">get_signal_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.get_signal_name" title="Permalink to this definition"></a></dt>
+<dd><p>Return the name string of the specified signal.</p>
+<p>The signal is specified by its device_id and port_id. Return None if
+either ID is invalid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.make_clock">
+<span class="sig-name descname"><span class="pre">make_clock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_half_period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.make_clock" title="Permalink to this definition"></a></dt>
+<dd><p>Make a clock device with the specified half period.</p>
+<p>clock_half_period is an integer &gt; 0. It is the number of simulation
+cycles before the clock switches state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.make_d_type">
+<span class="sig-name descname"><span class="pre">make_d_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.make_d_type" title="Permalink to this definition"></a></dt>
+<dd><p>Make a D-type device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.make_device">
+<span class="sig-name descname"><span class="pre">make_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_property</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.make_device" title="Permalink to this definition"></a></dt>
+<dd><p>Create the specified device.</p>
+<p>Return self.NO_ERROR if successful. Return corresponding error if not.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.make_gate">
+<span class="sig-name descname"><span class="pre">make_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_of_inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.make_gate" title="Permalink to this definition"></a></dt>
+<dd><p>Make logic gates with the specified number of inputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.make_switch">
+<span class="sig-name descname"><span class="pre">make_switch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.make_switch" title="Permalink to this definition"></a></dt>
+<dd><p>Make a switch device and set its initial state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="devices.Devices.set_switch">
+<span class="sig-name descname"><span class="pre">set_switch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#devices.Devices.set_switch" title="Permalink to this definition"></a></dt>
+<dd><p>Set the switch state of the specified device to signal.</p>
+<p>Return True if successful.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="monitors.html" class="btn btn-neutral float-left" title="monitors module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="network.html" class="btn btn-neutral float-right" title="network module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, JS Bhoot, V Njaradi, W Zhang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

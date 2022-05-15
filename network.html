@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>network module &mdash; logsim  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="gui module" href="gui.html" />
+    <link rel="prev" title="devices module" href="devices.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> logsim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="names.html">names module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scanner.html">scanner module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parse.html">parser module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitors.html">monitors module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devices.html">devices module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">network module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">gui module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">logsim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">&lt;no title&gt;</a> &raquo;</li>
+      <li>network module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/network.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-network">
+<span id="network-module"></span><h1>network module<a class="headerlink" href="#module-network" title="Permalink to this headline"></a></h1>
+<p>Build and execute the network.</p>
+<p>Used in the Logic Simulator project to add and connect devices together.</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
+<p>Network - builds and executes the network.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="network.Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Build and execute the network.</p>
+<p>This class contains many functions required for connecting devices together
+in the network, getting information about connections, and executing all
+the devices in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>class.</strong> (<em>devices - instance of the devices.Devices</em><em>(</em><em>)</em>) – </p></li>
+<li><p><strong>methods</strong> (<em>Public</em>) – </p></li>
+<li><p><strong>--------------</strong> – </p></li>
+<li><p><strong>get_connected_output</strong><strong>(</strong><strong>self</strong> (<em>Returns the device and</em>) – port id of the connected output.</p></li>
+<li><p><strong>device_id</strong> (<em>Returns the signal level at</em>) – port id of the connected output.</p></li>
+<li><p><strong>output_id</strong><strong>)</strong> (<em>Returns the signal level at</em>) – port id of the connected output.</p></li>
+<li><p><strong>get_input_signal</strong><strong>(</strong><strong>self</strong> (<em>Returns the signal level at</em>) – the output connected to the given input.</p></li>
+<li><p><strong>device_id</strong> – the output connected to the given input.</p></li>
+<li><p><strong>input_id</strong><strong>)</strong> (<em>Returns the signal level at</em>) – the output connected to the given input.</p></li>
+<li><p><strong>get_output_signal</strong><strong>(</strong><strong>self</strong> (<em>Returns the signal level at</em>) – the given output.</p></li>
+<li><p><strong>device_id</strong> – the given output.</p></li>
+<li><p><strong>output_id</strong><strong>)</strong> – the given output.</p></li>
+<li><p><strong>make_connection</strong><strong>(</strong><strong>self</strong> – <dl class="simple">
+<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>first_device_id</strong> – <dl class="simple">
+<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>first_port_id</strong> – <dl class="simple">
+<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>second_device_id</strong> – <dl class="simple">
+<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>:param :</dt><dd><dl class="simple">
+<dt>second_port_id): Connects the first device to the second</dt><dd><p>device.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>check_network</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Checks if all inputs in the network are connected.</em>) – </p></li>
+<li><p><strong>update_signal</strong><strong>(</strong><strong>self</strong> (<em>Updates the signal in the direction of</em>) – the target.</p></li>
+<li><p><strong>signal</strong> (<em>Updates the signal in the direction of</em>) – the target.</p></li>
+<li><p><strong>target</strong><strong>)</strong> (<em>Updates the signal in the direction of</em>) – the target.</p></li>
+<li><p><strong>invert_signal</strong><strong>(</strong><strong>self</strong> (<em>Returns the inverse of the signal if the</em>) – signal is HIGH or LOW.</p></li>
+<li><p><strong>signal</strong><strong>)</strong> (<em>Returns the inverse of the signal if the</em>) – signal is HIGH or LOW.</p></li>
+<li><p><strong>execute_switch</strong><strong>(</strong><strong>self</strong> (<em>Simulates a switch press.</em>) – </p></li>
+<li><p><strong>device_id</strong><strong>)</strong> (<em>Simulates a clock and updates its output</em>) – </p></li>
+<li><p><strong>execute_gate</strong><strong>(</strong><strong>self</strong> (<em>Simulates a logic gate and</em>) – updates its output signal value.</p></li>
+<li><p><strong>device_id</strong> (<em>Simulates a logic gate and</em>) – updates its output signal value.</p></li>
+<li><p><strong>x=None</strong> (<em>Simulates a logic gate and</em>) – updates its output signal value.</p></li>
+<li><p><strong>y=None</strong><strong>)</strong> (<em>Simulates a logic gate and</em>) – updates its output signal value.</p></li>
+<li><p><strong>execute_d_type</strong><strong>(</strong><strong>self</strong> (<em>Simulates a D-type device and updates its</em>) – output signal value.</p></li>
+<li><p><strong>device_id</strong><strong>)</strong> – output signal value.</p></li>
+<li><p><strong>execute_clock</strong><strong>(</strong><strong>self</strong> (<em>Simulates a clock and updates its output</em>) – signal value.</p></li>
+<li><p><strong>device_id</strong><strong>)</strong> – signal value.</p></li>
+<li><p><strong>update_clocks</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>If it is time to do so</em><em>, </em><em>sets clock signals to RISING</em>) – or FALLING.</p></li>
+<li><p><strong>execute_network</strong><strong>(</strong><strong>self</strong><strong>)</strong> (<em>Executes all the devices in the network for one</em>) – simulation cycle.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.check_network">
+<span class="sig-name descname"><span class="pre">check_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.check_network" title="Permalink to this definition"></a></dt>
+<dd><p>Return True if all inputs in the network are connected.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.execute_clock">
+<span class="sig-name descname"><span class="pre">execute_clock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.execute_clock" title="Permalink to this definition"></a></dt>
+<dd><p>Simulate a clock and update its output signal value.</p>
+<p>Return True if successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.execute_d_type">
+<span class="sig-name descname"><span class="pre">execute_d_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.execute_d_type" title="Permalink to this definition"></a></dt>
+<dd><p>Simulate a D-type device and update its output signal value.</p>
+<p>Return True if successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.execute_gate">
+<span class="sig-name descname"><span class="pre">execute_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.execute_gate" title="Permalink to this definition"></a></dt>
+<dd><p>Simulate a logic gate and update its output signal value.</p>
+<p>The rule is: if all its inputs are x, then its output is y, else its
+output is the inverse of y.
+Note: (x,y) pairs for AND, OR, NOR, NAND, XOR are: (HIGH, HIGH), (LOW,
+LOW), (LOW, HIGH), (HIGH, LOW), (None, None).
+Return True if successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.execute_network">
+<span class="sig-name descname"><span class="pre">execute_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.execute_network" title="Permalink to this definition"></a></dt>
+<dd><p>Execute all the devices in the network for one simulation cycle.</p>
+<p>Return True if successful and the network does not oscillate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.execute_switch">
+<span class="sig-name descname"><span class="pre">execute_switch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.execute_switch" title="Permalink to this definition"></a></dt>
+<dd><p>Simulate a switch.</p>
+<p>The output signal is updated to the switch_state target. Return True
+if successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.get_connected_output">
+<span class="sig-name descname"><span class="pre">get_connected_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.get_connected_output" title="Permalink to this definition"></a></dt>
+<dd><p>Return the output connected to the given input.</p>
+<p>Return None if either of the specified IDs is invalid or the input is
+unconnected. The output is of the form (device ID, port ID).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.get_input_signal">
+<span class="sig-name descname"><span class="pre">get_input_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.get_input_signal" title="Permalink to this definition"></a></dt>
+<dd><p>Return the signal level at the output connected to the given input.</p>
+<p>Return None if the input is unconnected or the specified IDs are
+invalid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.get_output_signal">
+<span class="sig-name descname"><span class="pre">get_output_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.get_output_signal" title="Permalink to this definition"></a></dt>
+<dd><p>Return the signal level at the given output.</p>
+<p>Return None if either of the specified IDs is invalid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.invert_signal">
+<span class="sig-name descname"><span class="pre">invert_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.invert_signal" title="Permalink to this definition"></a></dt>
+<dd><p>Return the inverse of the signal if the signal is HIGH or LOW.</p>
+<p>Return None if the signal is not HIGH or LOW.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.make_connection">
+<span class="sig-name descname"><span class="pre">make_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_port_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_port_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.make_connection" title="Permalink to this definition"></a></dt>
+<dd><p>Connect the first device to the second device.</p>
+<p>Return self.NO_ERROR if successful, or the corresponding error if not.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.update_clocks">
+<span class="sig-name descname"><span class="pre">update_clocks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.update_clocks" title="Permalink to this definition"></a></dt>
+<dd><p>If it is time to do so, set clock signals to RISING or FALLING.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="network.Network.update_signal">
+<span class="sig-name descname"><span class="pre">update_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#network.Network.update_signal" title="Permalink to this definition"></a></dt>
+<dd><p>Update the signal in the direction of the target.</p>
+<p>Return updated signal, and set steady_state to false if the new signal
+is different from the old signal.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="devices.html" class="btn btn-neutral float-left" title="devices module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gui.html" class="btn btn-neutral float-right" title="gui module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, JS Bhoot, V Njaradi, W Zhang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
