@@ -1,10 +1,29 @@
 name: CI
-on: push
+
+on:
+  pull_request:
+  push:
+    branches: [master]
 
 jobs:
-  ci:
+  Lint:
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
+    - uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
+        cache: 'pip'
+
+    - uses: pre-commit/action@v2.0.3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+  Test:
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
