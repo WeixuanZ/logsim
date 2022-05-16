@@ -10,7 +10,13 @@ Logic Simulator Documnetation
    :maxdepth: 1
    :caption: Contents:
 
-   modules
+   names
+   scanner
+   parse
+   monitors
+   devices
+   network
+   gui
 
 
 Indices and tables

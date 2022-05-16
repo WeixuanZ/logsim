@@ -1,5 +1,44 @@
 # logsim
 
+## Logic Description Language
+
+In Extended Backus Naur Form (EBNF)
+```
+circuit = devices , connections , [ monitor ] ;
+devices = "DEVICES" , ":" , device_definition , { device_definition } ;
+connections = "CONNECTIONS" , ":" , connection , { connection } ;
+monitor = "MONITORS" , ":" , monitor_statement ;
+
+device_definition = device_name , { "," , device_name } , "=" , device_type , ";" ;
+
+letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
+       | "H" | "I" | "J" | "K" | "L" | "M" | "N"
+       | "O" | "P" | "Q" | "R" | "S" | "T" | "U"
+       | "V" | "W" | "X" | "Y" | "Z" | "a" | "b"
+       | "c" | "d" | "e" | "f" | "g" | "h" | "i"
+       | "j" | "k" | "l" | "m" | "n" | "o" | "p"
+       | "q" | "r" | "s" | "t" | "u" | "v" | "w"
+       | "x" | "y" | "z" ;
+digit_excluding_zero = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+digit = "0" | digit excluding zero ;
+
+device_name = ( letter | digit | "_" ) , { letter | digit | "_" } ;
+
+device_type = ( "CLOCK", parameter )
+            | ( "SWITCH", ( "0" | "1" ) )
+            | ( ( "AND" | "NAND" | "OR" | "NOR" ), parameter )
+            | "XOR"
+            | "D_TYPE" ;
+parameter = "<" , digit , { digit } , ">" ;
+
+connection = out_pin , "-" , in_pin , ";" ;
+out_pin = device_name | ( device_name , "." , ( "Q" | "QBAR" ) ;
+in_pin = ( device_name , "." , "I" , digit_excluding_zero , { digit } )
+       | ( device_name , "." , ( "DATA" | "CLK" | "SET" | "CLEAR" ) ) ;
+
+monitor_statement = device_name , { "," , device_name } , ";" ;
+```
+
 ## Development
 
 Install `pre-commit` using `pip` and install the hooks using
