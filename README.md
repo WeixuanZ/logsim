@@ -25,18 +25,19 @@ digit = "0" | digit excluding zero ;
 device_name = ( letter | digit | "_" ) , { letter | digit | "_" } ;
 
 device_type = ( "CLOCK", parameter )
-            | ( "SWITCH", ( "0" | "1" ) )
+            | ( "SWITCH", "<" , ( "0" | "1" ) , ">" )
             | ( ( "AND" | "NAND" | "OR" | "NOR" ), parameter )
             | "XOR"
             | "D_TYPE" ;
 parameter = "<" , digit , { digit } , ">" ;
 
-connection = out_pin , "-" , in_pin , ";" ;
-out_pin = device_name | ( device_name , "." , ( "Q" | "QBAR" ) ;
-in_pin = ( device_name , "." , "I" , digit_excluding_zero , { digit } )
+connection = pin , "-" , pin , ";" ;
+pin = ( in_pin | out_pin ) ;
+in_pin = ( device_name , "." , "I" , digit_excluding_zero , [ digit ] )
        | ( device_name , "." , ( "DATA" | "CLK" | "SET" | "CLEAR" ) ) ;
+out_pin = device_name | ( device_name , "." , ( "Q" | "QBAR" ) );
 
-monitor_statement = device_name , { "," , device_name } , ";" ;
+monitor_statement = pin , { "," , pin } , ";" ;
 ```
 
 ## Development
