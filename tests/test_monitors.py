@@ -57,7 +57,9 @@ def test_make_monitor_gives_errors(new_monitors):
     )
 
     assert new_monitors.make_monitor(OR1_ID, I1) == new_monitors.NOT_OUTPUT
-    assert new_monitors.make_monitor(SW1_ID, None) == new_monitors.MONITOR_PRESENT
+    assert (
+        new_monitors.make_monitor(SW1_ID, None) == new_monitors.MONITOR_PRESENT
+    )
     # I1 is not a device_id in the network
     assert new_monitors.make_monitor(I1, None) == network.DEVICE_ABSENT
 
@@ -73,7 +75,10 @@ def test_remove_monitor(new_monitors):
     [SW1_ID, SW2_ID, OR1_ID] = names.lookup(["Sw1", "Sw2", "Or1"])
 
     new_monitors.remove_monitor(SW1_ID, None)
-    assert new_monitors.monitors_dictionary == {(SW2_ID, None): [], (OR1_ID, None): []}
+    assert new_monitors.monitors_dictionary == {
+        (SW2_ID, None): [],
+        (OR1_ID, None): [],
+    }
 
 
 def test_get_signal_names(new_monitors):
@@ -127,7 +132,9 @@ def test_get_margin(new_monitors):
     """Test if get_margin returns the length of the longest monitor name."""
     names = new_monitors.names
     devices = new_monitors.devices
-    [D_ID, DTYPE_ID, QBAR_ID, Q_ID] = names.lookup(["Dtype1", "DTYPE", "QBAR", "Q"])
+    [D_ID, DTYPE_ID, QBAR_ID, Q_ID] = names.lookup(
+        ["Dtype1", "DTYPE", "QBAR", "Q"]
+    )
 
     # Create a D-type device and set monitors on its outputs
     devices.make_device(D_ID, DTYPE_ID)

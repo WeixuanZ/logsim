@@ -47,7 +47,9 @@ class Names:
         if not isinstance(num_error_codes, int):
             raise TypeError("Expected num_error_codes to be an integer.")
         self.error_code_count += num_error_codes
-        return range(self.error_code_count - num_error_codes, self.error_code_count)
+        return range(
+            self.error_code_count - num_error_codes, self.error_code_count
+        )
 
     def query(self, name_string: str):
         """Return the corresponding name ID for name_string.

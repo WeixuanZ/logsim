@@ -39,7 +39,8 @@ class UserInterface:
     get_character(self):
         Moves the cursor forward by one character in the user entry.
     skip_spaces(self):
-        Skips whitespace characters until a non-whitespace character is reached.
+        Skips whitespace characters until a non-whitespace character
+        is reached.
     read_string(self):
         Returns the next alphanumeric string.
     read_name(self):

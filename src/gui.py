@@ -185,7 +185,12 @@ class MyGLCanvas(wxcanvas.GLCanvas):
             )
         if event.Leaving():
             text = "".join(
-                ["Mouse left canvas at: ", str(event.GetX()), ", ", str(event.GetY())]
+                [
+                    "Mouse left canvas at: ",
+                    str(event.GetX()),
+                    ", ",
+                    str(event.GetY()),
+                ]
             )
         if event.Dragging():
             self.pan_x += event.GetX() - self.last_mouse_x
@@ -206,22 +211,32 @@ class MyGLCanvas(wxcanvas.GLCanvas):
                 ]
             )
         if event.GetWheelRotation() < 0:
-            self.zoom *= 1.0 + (event.GetWheelRotation() / (20 * event.GetWheelDelta()))
+            self.zoom *= 1.0 + (
+                event.GetWheelRotation() / (20 * event.GetWheelDelta())
+            )
             # Adjust pan so as to zoom around the mouse position
             self.pan_x -= (self.zoom - old_zoom) * ox
             self.pan_y -= (self.zoom - old_zoom) * oy
             self.init = False
             text = "".join(
-                ["Negative mouse wheel rotation. Zoom is now: ", str(self.zoom)]
+                [
+                    "Negative mouse wheel rotation. Zoom is now: ",
+                    str(self.zoom),
+                ]
             )
         if event.GetWheelRotation() > 0:
-            self.zoom /= 1.0 - (event.GetWheelRotation() / (20 * event.GetWheelDelta()))
+            self.zoom /= 1.0 - (
+                event.GetWheelRotation() / (20 * event.GetWheelDelta())
+            )
             # Adjust pan so as to zoom around the mouse position
             self.pan_x -= (self.zoom - old_zoom) * ox
             self.pan_y -= (self.zoom - old_zoom) * oy
             self.init = False
             text = "".join(
-                ["Positive mouse wheel rotation. Zoom is now: ", str(self.zoom)]
+                [
+                    "Positive mouse wheel rotation. Zoom is now: ",
+                    str(self.zoom),
+                ]
             )
         if text:
             self.render(text)
@@ -284,7 +299,9 @@ class Gui(wx.Frame):
         self.text = wx.StaticText(self, wx.ID_ANY, "Cycles")
         self.spin = wx.SpinCtrl(self, wx.ID_ANY, "10")
         self.run_button = wx.Button(self, wx.ID_ANY, "Run")
-        self.text_box = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.text_box = wx.TextCtrl(
+            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER
+        )
 
         # Bind events to widgets
         self.Bind(wx.EVT_MENU, self.on_menu)

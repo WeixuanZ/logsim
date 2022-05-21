@@ -9,8 +9,10 @@ Scanner - reads definition file and translates characters into symbols.
 Symbol - encapsulates a symbol and stores its properties.
 """
 
+from typing import Union
+
 from names import Names
-from custom_types import SymbolType
+from custom_types import ReservedSymbolType, ExternalSymbolType
 
 
 class Symbol:
@@ -25,7 +27,9 @@ class Symbol:
     TODO
     """
 
-    def __init__(self, symbol_type: SymbolType):
+    def __init__(
+        self, symbol_type: Union[ReservedSymbolType, ExternalSymbolType]
+    ):
         """Initialise symbol properties."""
         self.type = symbol_type
         self.id = None
@@ -34,7 +38,10 @@ class Symbol:
 
     def __repr__(self):
         """Customised repr of Symbol objects."""
-        return f"Symbol({self.type}, {self.id}, position={self.lineno}:{self.colno})"
+        return (
+            f"Symbol({self.type}, {self.id},"
+            f"position={self.lineno}:{self.colno})"
+        )
 
 
 class Scanner:
@@ -55,7 +62,8 @@ class Scanner:
     Methods
     -------
     get_symbol(self):
-        Translates the next sequence of characters into a symbol and returns the symbol.
+        Translates the next sequence of characters into a symbol
+        and returns the symbol.
     """
 
     def __init__(self, path: str, names: Names):

@@ -1,4 +1,4 @@
-"""Custom types and corresponding strings in the language, and custom error types.
+"""Custom types and corresponding strings in the language.
 
 Used in the Logic Simulator project. Most of the modules in the project
 use this module either directly or indirectly.
@@ -72,7 +72,8 @@ class ExternalSymbolType(Enum):
     """User-defined symbol types."""
 
     Numbers = auto()  # string of digits
-    ExternalNames = auto()  # User defined names (for devices) and pins (e.g. I1)
+    # User defined names (for devices) and pins (e.g. I1)
+    ExternalNames = auto()
 
 
 class ErrorCode(Enum):

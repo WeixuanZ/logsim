@@ -42,7 +42,9 @@ def test_find_devices(devices_with_items):
     """Test if find_devices returns the correct devices of the given kind."""
     devices = devices_with_items
     names = devices.names
-    device_names = [AND1_ID, NOR1_ID, SW1_ID] = names.lookup(["And1", "Nor1", "Sw1"])
+    device_names = [AND1_ID, NOR1_ID, SW1_ID] = names.lookup(
+        ["And1", "Nor1", "Sw1"]
+    )
 
     assert devices.find_devices() == device_names
     assert devices.find_devices(devices.AND) == [AND1_ID]
@@ -79,7 +81,10 @@ def test_make_device(new_devices):
     assert nand_device.outputs == {None: new_devices.LOW}
 
     # Clock could be anywhere in its cycle
-    assert clock_device.outputs in [{None: new_devices.LOW}, {None: new_devices.HIGH}]
+    assert clock_device.outputs in [
+        {None: new_devices.LOW},
+        {None: new_devices.HIGH},
+    ]
 
     assert dtype_device.outputs == {
         new_devices.Q_ID: new_devices.LOW,

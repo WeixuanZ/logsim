@@ -125,7 +125,10 @@ class Network:
                 error_type = self.INPUT_TO_INPUT
             elif second_port_id in second_device.outputs:
                 # Make connection
-                first_device.inputs[first_port_id] = (second_device_id, second_port_id)
+                first_device.inputs[first_port_id] = (
+                    second_device_id,
+                    second_port_id,
+                )
                 error_type = self.NO_ERROR
             else:  # second_port_id is not a valid input or output port
                 error_type = self.PORT_ABSENT
@@ -335,7 +338,9 @@ class Network:
             device = self.devices.get_device(device_id)
             if device.clock_counter == device.clock_half_period:
                 device.clock_counter = 0
-                output_signal = self.get_output_signal(device_id, output_id=None)
+                output_signal = self.get_output_signal(
+                    device_id, output_id=None
+                )
                 if output_signal == self.devices.HIGH:
                     device.outputs[None] = self.devices.FALLING
                 elif output_signal == self.devices.LOW:
@@ -385,7 +390,9 @@ class Network:
                 ):
                     return False
             for device_id in or_devices:  # execute OR gate devices
-                if not self.execute_gate(device_id, self.devices.LOW, self.devices.LOW):
+                if not self.execute_gate(
+                    device_id, self.devices.LOW, self.devices.LOW
+                ):
                     return False
             for device_id in nand_devices:  # execute NAND gate devices
                 if not self.execute_gate(
