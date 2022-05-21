@@ -86,7 +86,7 @@ file and translate them into symbols that are usable by the parser.</p>
 Symbol - encapsulates a symbol and stores its properties.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="scanner.Scanner">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scanner.</span></span><span class="sig-name descname"><span class="pre">Scanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scanner.Scanner" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scanner.</span></span><span class="sig-name descname"><span class="pre">Scanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scanner.Scanner" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Read circuit definition file and translate the characters into symbols.</p>
 <p>Once supplied with the path to a valid definition file, the scanner
@@ -104,7 +104,8 @@ formatting characters, such as spaces and line breaks.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">get_symbol(self):</span></span></dt>
-<dd><p>Translates the next sequence of characters into a symbol and returns the symbol.</p>
+<dd><p>Translates the next sequence of characters into a symbol
+and returns the symbol.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -117,17 +118,17 @@ formatting characters, such as spaces and line breaks.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="scanner.Symbol">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scanner.</span></span><span class="sig-name descname"><span class="pre">Symbol</span></span><a class="headerlink" href="#scanner.Symbol" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scanner.</span></span><span class="sig-name descname"><span class="pre">Symbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">custom_types.ReservedSymbolType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">custom_types.ExternalSymbolType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scanner.Symbol" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Encapsulate a symbol and store its properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>parameters.</strong> (<em>No</em>) – </p>
+<dd class="field-odd"><p><strong>TODO</strong> – </p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">No</span> <span class="pre">public</span> <span class="pre">methods.</span></span></dt>
+<dt class="sig sig-object py" id="scanner.Symbol.TODO">
+<span class="sig-name descname"><span class="pre">TODO</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scanner.Symbol.TODO" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
