@@ -7,7 +7,7 @@ In Extended Backus Naur Form (EBNF)
 circuit = devices , connections , [ monitor ] ;
 devices = "DEVICES" , ":" , device_definition , { device_definition } ;
 connections = "CONNECTIONS" , ":" , connection , { connection } ;
-monitor = "MONITORS" , ":" , monitor_statement ;
+monitor = "MONITORS" , ":" , [ monitor_statement ] ;
 
 device_definition = device_name , { "," , device_name } , "=" , device_type , ";" ;
 
@@ -35,7 +35,7 @@ connection = pin , "-" , pin , ";" ;
 pin = ( in_pin | out_pin ) ;
 in_pin = ( device_name , "." , "I" , digit_excluding_zero , [ digit ] )
        | ( device_name , "." , ( "DATA" | "CLK" | "SET" | "CLEAR" ) ) ;
-out_pin = device_name | ( device_name , "." , ( "Q" | "QBAR" ) );
+out_pin = device_name | ( device_name , "." , ( "Q" | "QBAR" ) ) ;
 
 monitor_statement = pin , { "," , pin } , ";" ;
 ```

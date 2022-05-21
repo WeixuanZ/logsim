@@ -40,27 +40,28 @@ class Names:
     def __init__(self):
         """Initialise names list."""
         self.error_code_count = 0  # how many error codes have been declared
+        # TODO build list of names
 
-    def unique_error_codes(self, num_error_codes):
+    def unique_error_codes(self, num_error_codes: int):
         """Return a list of unique integer error codes."""
         if not isinstance(num_error_codes, int):
             raise TypeError("Expected num_error_codes to be an integer.")
         self.error_code_count += num_error_codes
         return range(self.error_code_count - num_error_codes, self.error_code_count)
 
-    def query(self, name_string):
+    def query(self, name_string: str):
         """Return the corresponding name ID for name_string.
 
         If the name string is not present in the names list, return None.
         """
 
-    def lookup(self, name_string_list):
+    def lookup(self, name_string_list: list):
         """Return a list of name IDs for each name string in name_string_list.
 
         If the name string is not present in the names list, add it.
         """
 
-    def get_name_string(self, name_id):
+    def get_name_string(self, name_id: int):
         """Return the corresponding name string for name_id.
 
         If the name_id is not an index in the names list, return None.

@@ -11,6 +11,7 @@ Devices - makes and stores all the devices in the logic network.
 import random
 
 from names import Names
+from custom_types import DeviceType, DTypeInputType, DTypeOutputType
 
 
 class Device:
@@ -93,11 +94,6 @@ class Devices:
 
         self.devices_list = []
 
-        gate_strings = ["AND", "OR", "NAND", "NOR", "XOR"]
-        device_strings = ["CLOCK", "SWITCH", "DTYPE"]
-        dtype_inputs = ["CLK", "SET", "CLEAR", "DATA"]
-        dtype_outputs = ["Q", "QBAR"]
-
         [
             self.NO_ERROR,
             self.INVALID_QUALIFIER,
@@ -120,18 +116,33 @@ class Devices:
             self.NAND,
             self.NOR,
             self.XOR,
-        ] = self.names.lookup(gate_strings)
+        ] = self.names.lookup(
+            [
+                DeviceType.AND,
+                DeviceType.OR,
+                DeviceType.NAND,
+                DeviceType.NOR,
+                DeviceType.XOR,
+            ]
+        )
         self.device_types = [self.CLOCK, self.SWITCH, self.D_TYPE] = self.names.lookup(
-            device_strings
+            [DeviceType.CLOCK, DeviceType.SWITCH, DeviceType.D_TYPE]
         )
         self.dtype_input_ids = [
             self.CLK_ID,
             self.SET_ID,
             self.CLEAR_ID,
             self.DATA_ID,
-        ] = self.names.lookup(dtype_inputs)
+        ] = self.names.lookup(
+            [
+                DTypeInputType.CLK,
+                DTypeInputType.SET,
+                DTypeInputType.CLEAR,
+                DTypeInputType.DATA,
+            ]
+        )
         self.dtype_output_ids = [self.Q_ID, self.QBAR_ID] = self.names.lookup(
-            dtype_outputs
+            [DTypeOutputType.Q, DTypeOutputType.QBAR]
         )
 
         self.max_gate_inputs = 16

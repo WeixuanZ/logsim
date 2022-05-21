@@ -9,23 +9,32 @@ Scanner - reads definition file and translates characters into symbols.
 Symbol - encapsulates a symbol and stores its properties.
 """
 
+from names import Names
+from custom_types import SymbolType
+
 
 class Symbol:
     """Encapsulate a symbol and store its properties.
 
     Parameters
     ----------
-    No parameters.
+    TODO
 
     Methods
     -------
-    No public methods.
+    TODO
     """
 
-    def __init__(self):
+    def __init__(self, symbol_type: SymbolType):
         """Initialise symbol properties."""
-        self.type = None
+        self.type = symbol_type
         self.id = None
+        self.lineno = None
+        self.colno = None
+
+    def __repr__(self):
+        """Customised repr of Symbol objects."""
+        return f"Symbol({self.type}, {self.id}, position={self.lineno}:{self.colno})"
 
 
 class Scanner:
@@ -49,7 +58,7 @@ class Scanner:
         Translates the next sequence of characters into a symbol and returns the symbol.
     """
 
-    def __init__(self, path, names):
+    def __init__(self, path: str, names: Names):
         """Open specified file and initialise reserved words and IDs."""
 
     def get_symbol(self):
