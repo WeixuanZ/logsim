@@ -13,6 +13,8 @@
 import os
 import sys
 
+from sphinx.ext.autodoc import between
+
 sys.path.insert(0, os.path.abspath("../../src"))
 
 
@@ -59,3 +61,10 @@ html_static_path = ["_static"]
 latex_documents = [
     (master_doc, "logsim.tex", "Logic Simulator", author, "manual", False)
 ]
+
+
+def setup(app):
+    app.connect(
+        "autodoc-process-docstring",
+        between("^.*SPHINX-IGNORE.*$", what=["class"], exclude=True),
+    )
