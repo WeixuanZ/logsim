@@ -4,10 +4,22 @@ Used in the Logic Simulator project. Most of the modules in the project
 use this module either directly or indirectly.
 """
 
-from enum import Enum, auto, unique
+from types import MappingProxyType
+from enum import Enum
+from operator import attrgetter, methodcaller
+from itertools import chain
 
 
-class KeywordType(Enum):
+class ExtendedEnum(Enum):
+    """Subclass of default Enum with add values method."""
+
+    @classmethod
+    def values(cls) -> list:
+        """List all the values of the Enum."""
+        return list(map(attrgetter("value"), cls))
+
+
+class KeywordType(ExtendedEnum):
     """Language builtin keywords, used to initiate blocks."""
 
     DEVICES = "DEVICES"
@@ -15,12 +27,13 @@ class KeywordType(Enum):
     MONITORS = "MONITORS"
 
 
-class OperatorType(Enum):
+class OperatorType(ExtendedEnum):
     """Language operators."""
 
     EQUAL = "="
     CONNECT = "-"
     DOT = "."
+    COMMA = ","
     LEFT_ANGLE = "<"
     RIGHT_ANGLE = ">"
     COLON = ":"
@@ -28,7 +41,7 @@ class OperatorType(Enum):
     FORWARD_SLASH = "/"
 
 
-class DeviceType(Enum):
+class DeviceType(ExtendedEnum):
     """Supported devices."""
 
     AND = "AND"
@@ -41,7 +54,7 @@ class DeviceType(Enum):
     SWITCH = "SWITCH"
 
 
-class DTypeInputType(Enum):
+class DTypeInputType(ExtendedEnum):
     """D-type flip-flop inputs."""
 
     CLK = "CLK"
@@ -50,30 +63,88 @@ class DTypeInputType(Enum):
     DATA = "DATA"
 
 
-class DTypeOutputType(Enum):
+class DTypeOutputType(ExtendedEnum):
     """D-type flip-flop outputs."""
 
     Q = "Q"
     QBAR = "QBAR"
 
 
-@unique
-class ReservedSymbolType(Enum):
-    """All built-in symbol types in the language, which are reserved."""
+class ReservedSymbolTypeMeta(type):
+    """Metaclass that create classes acting as wrapper around Enums.
 
-    Keywords = KeywordType
-    Operators = OperatorType
-    Devices = DeviceType
-    DTypeInputs = DTypeInputType
-    DTypeOutputs = DTypeOutputType
+    This allows combination of several Enums, with value pointing
+    to the original Enum entry, enabling correct comparison.
+
+    Class created have an interface similar to that of the standard Enum.
+    """
+
+    def __new__(mcs, classname, bases, dictionary):
+        """Create the class object."""
+        for symbol_context in dictionary.get("symbol_contexts", ()):
+            for symbol_type in symbol_context:
+                dictionary[symbol_type.value] = symbol_type
+        return super().__new__(mcs, classname, bases, dictionary)
+
+    def __init__(cls, classname, bases, dictionary):
+        """Initialize the class object."""
+        if not hasattr(cls, "symbol_contexts"):
+            cls.symbol_contexts = []
+        super().__init__(classname, bases, dictionary)
+
+    def __iter__(cls):
+        """Make the class an iterator of types."""
+        return chain.from_iterable(cls.symbol_contexts)
+
+    def values(cls) -> list:
+        """Return all the type values."""
+        return list(
+            chain.from_iterable(
+                map(methodcaller("values"), cls.symbol_contexts)
+            )
+        )
+
+    @property
+    def __members__(cls) -> MappingProxyType:
+        """Property that returns a mapping between type value and type."""
+        string_type_pair = chain.from_iterable(
+            map(
+                lambda symbol_context: symbol_context.__members__.items(),
+                cls.symbol_contexts,
+            )
+        )
+        return MappingProxyType(dict(string_type_pair))
 
 
-class ExternalSymbolType(Enum):
+class ReservedSymbolType(metaclass=ReservedSymbolTypeMeta):
+    """All built-in symbol types in the language, which are reserved.
+
+    This class is created from ReservedSymbolTypeMeta, combining all the types
+    together.
+
+    Specify all the symbol type contexts as a class attribute list.
+
+    Attributes
+    ----------
+    symbol_contexts: list
+        List of all symbol type contexts
+    """
+
+    symbol_contexts = [
+        KeywordType,
+        OperatorType,
+        DeviceType,
+        DTypeInputType,
+        DTypeOutputType,
+    ]
+
+
+class ExternalSymbolType(ExtendedEnum):
     """User-defined symbol types."""
 
-    Numbers = auto()  # string of digits
+    NUMBERS = "NUMBERS"  # string of digits
     # User defined names (for devices) and pins (e.g. I1)
-    ExternalNames = auto()
+    EXTERNAL_NAMES = "EXTERNAL_NAMES"
 
 
 class ErrorCode(Enum):
