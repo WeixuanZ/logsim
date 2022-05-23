@@ -118,11 +118,11 @@ class Devices:
             self.XOR,
         ] = self.names.lookup(
             [
-                DeviceType.AND,
-                DeviceType.OR,
-                DeviceType.NAND,
-                DeviceType.NOR,
-                DeviceType.XOR,
+                DeviceType.AND.value,
+                DeviceType.OR.value,
+                DeviceType.NAND.value,
+                DeviceType.NOR.value,
+                DeviceType.XOR.value,
             ]
         )
         self.device_types = [
@@ -130,7 +130,11 @@ class Devices:
             self.SWITCH,
             self.D_TYPE,
         ] = self.names.lookup(
-            [DeviceType.CLOCK, DeviceType.SWITCH, DeviceType.D_TYPE]
+            [
+                DeviceType.CLOCK.value,
+                DeviceType.SWITCH.value,
+                DeviceType.D_TYPE.value,
+            ]
         )
         self.dtype_input_ids = [
             self.CLK_ID,
@@ -139,14 +143,14 @@ class Devices:
             self.DATA_ID,
         ] = self.names.lookup(
             [
-                DTypeInputType.CLK,
-                DTypeInputType.SET,
-                DTypeInputType.CLEAR,
-                DTypeInputType.DATA,
+                DTypeInputType.CLK.value,
+                DTypeInputType.SET.value,
+                DTypeInputType.CLEAR.value,
+                DTypeInputType.DATA.value,
             ]
         )
         self.dtype_output_ids = [self.Q_ID, self.QBAR_ID] = self.names.lookup(
-            [DTypeOutputType.Q, DTypeOutputType.QBAR]
+            [DTypeOutputType.Q.value, DTypeOutputType.QBAR.value]
         )
 
         self.max_gate_inputs = 16

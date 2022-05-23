@@ -8,6 +8,7 @@ Classes
 Monitors - records and displays specified output signals.
 
 """
+from typing import Union
 import collections
 
 from names import Names
@@ -67,7 +68,10 @@ class Monitors:
         ] = self.names.unique_error_codes(3)
 
     def make_monitor(
-        self, device_id: int, output_id: int, cycles_completed: int = 0
+        self,
+        device_id: int,
+        output_id: Union[int, None],
+        cycles_completed: int = 0,
     ):
         """Add the specified signal to the monitors dictionary.
 

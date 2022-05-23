@@ -94,6 +94,9 @@ class Names:
 
         If the name string is not present in the name list, add it.
         """
+        if not isinstance(name_string, str):
+            raise TypeError("name_string must be a string")
+
         if name_string not in self._name_to_id_table:
             self._name_to_id_table[name_string] = self._name_count
             self._id_to_name_table[self._name_count] = name_string

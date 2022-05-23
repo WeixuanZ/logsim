@@ -248,8 +248,8 @@ def test_execute_non_xor_gates(
         ["And1", "Or1", "Nand1", "Nor1", "Sw1", "Sw2", "Sw3", "I1", "I2", "I3"]
     )
 
-    # LOW = devices.LOW
-    # HIGH = devices.HIGH
+    LOW = devices.LOW  # noqa
+    HIGH = devices.HIGH  # noqa
 
     # Make devices
     gate_id = eval(gate_id)

@@ -1,14 +1,13 @@
 """Test the names module."""
-import sys
-
 import pytest
 
 from custom_types import ReservedSymbolTypeMeta, ExtendedEnum
+from names import Names
 
 
 # mock reserved symbols
 # -----------------------------------------------------------------------------
-class TestTypeContext(ExtendedEnum):
+class MockTypeContext(ExtendedEnum):
     """Mock up of symbol type context."""
 
     TEST_RESERVED1 = "TEST_RESERVED1"
@@ -19,7 +18,7 @@ class TestTypeContext(ExtendedEnum):
 class ReservedSymbolType(metaclass=ReservedSymbolTypeMeta):
     """Mock up of ReservedSymbolType."""
 
-    symbol_contexts = [TestTypeContext]
+    symbol_contexts = [MockTypeContext]
 
 
 class ExternalSymbolType(ExtendedEnum):
@@ -29,20 +28,14 @@ class ExternalSymbolType(ExtendedEnum):
     EXTERNAL_NAMES = "EXTERNAL_NAMES"
 
 
-module = type(sys)("custom_types")
-# use the mock classes
-module.ReservedSymbolType = ReservedSymbolType
-module.ExternalSymbolType = ExternalSymbolType
-# inject mock module, so Names is initialized based on mock classes
-sys.modules["custom_types"] = module
-from names import Names  # noqa: E402
-
 # -----------------------------------------------------------------------------
 
 
 @pytest.fixture
-def new_names():
+def new_names(monkeypatch):
     """Return a new names instance."""
+    monkeypatch.setattr("names.ReservedSymbolType", ReservedSymbolType)
+    monkeypatch.setattr("names.ExternalSymbolType", ExternalSymbolType)
     return Names()
 
 
@@ -53,8 +46,10 @@ def name_string_list():
 
 
 @pytest.fixture
-def used_names(name_string_list):
+def used_names(monkeypatch, name_string_list):
     """Return a names instance, after three names have been added."""
+    monkeypatch.setattr("names.ReservedSymbolType", ReservedSymbolType)
+    monkeypatch.setattr("names.ExternalSymbolType", ExternalSymbolType)
     names = Names()
     names.unique_error_codes(1)
     names.lookup(name_string_list)
@@ -199,9 +194,9 @@ def test_get_name_type_raises_exceptions(new_names):
 @pytest.mark.parametrize(
     "name_id, expected_type",
     [
-        (0, TestTypeContext.TEST_RESERVED1),
-        (1, TestTypeContext.TEST_RESERVED2),
-        (2, TestTypeContext.TEST_RESERVED3),
+        (0, MockTypeContext.TEST_RESERVED1),
+        (1, MockTypeContext.TEST_RESERVED2),
+        (2, MockTypeContext.TEST_RESERVED3),
         (3, None),
     ],
 )
