@@ -99,56 +99,36 @@ and allocates new, unique error codes on demand.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">unique_error_codes(self,</span> <span class="pre">num_error_codes):</span></span></dt>
-<dd><p>Returns a list of unique integer error codes.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">query(self,</span> <span class="pre">name_string):</span></span></dt>
-<dd><p>Returns the corresponding name ID for the name string.
-Returns None if the string is not present.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">lookup(self,</span> <span class="pre">name_string_list):</span></span></dt>
-<dd><p>Returns a list of name IDs for each name string.
-Adds a name if not already present.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_name_string(self,</span> <span class="pre">name_id):</span></span></dt>
-<dd><p>Returns the corresponding name string for the name ID.
-Returns None if the ID is not present.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="names.Names.get_name_string">
-<span class="sig-name descname"><span class="pre">get_name_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#names.Names.get_name_string" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_name_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#names.Names.get_name_string" title="Permalink to this definition"></a></dt>
 <dd><p>Return the corresponding name string for name_id.</p>
 <p>If the name_id is not an index in the names list, return None.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="names.Names.get_name_type">
+<span class="sig-name descname"><span class="pre">get_name_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">custom_types.ReservedSymbolType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">custom_types.ExternalSymbolType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#names.Names.get_name_type" title="Permalink to this definition"></a></dt>
+<dd><p>Return the corresponding type for name_id.</p>
+<p>If the name_id is not an index in the names list, return None.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="names.Names.lookup">
-<span class="sig-name descname"><span class="pre">lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_string_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#names.Names.lookup" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_string_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#names.Names.lookup" title="Permalink to this definition"></a></dt>
 <dd><p>Return a list of name IDs for each name string in name_string_list.</p>
 <p>If the name string is not present in the names list, add it.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="names.Names.query">
-<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#names.Names.query" title="Permalink to this definition"></a></dt>
-<dd><p>Return the corresponding name ID for name_string.</p>
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#names.Names.query" title="Permalink to this definition"></a></dt>
+<dd><p>Return the corresponding name ID for name string.</p>
 <p>If the name string is not present in the names list, return None.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="names.Names.unique_error_codes">
-<span class="sig-name descname"><span class="pre">unique_error_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_error_codes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#names.Names.unique_error_codes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">unique_error_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_error_codes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#names.Names.unique_error_codes" title="Permalink to this definition"></a></dt>
 <dd><p>Return a list of unique integer error codes.</p>
 </dd></dl>
 
