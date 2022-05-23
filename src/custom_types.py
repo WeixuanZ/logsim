@@ -181,7 +181,7 @@ class ErrorCode(Enum):
 
 
 class Error:
-    """Class describing each error
+    """Class describing each error.
 
     Parameters
     ----------
@@ -197,22 +197,25 @@ class Error:
     """
 
     def __init__(self, error_message):
+        """Initialise error class."""
         self.basic_message = error_message
         self.description = ""
         self.errorCode = None
 
     def set_description(self, description):
+        """Set detailed description of error."""
         self.description = description
 
     def set_basic_message(self, message):
+        """Set basic message of error."""
         self.basic_message = message
 
 
 class SyntaxErrors(Error):
-    """Different types of syntax errors"""
+    """Different types of syntax errors."""
 
     UnexpectedToken = Error("Unexpected token")
-    MissingSemicolon = Error("Missing \';\' at the end of statement")
+    MissingSemicolon = Error("Missing ';' at the end of statement")
     MissingParam = Error("Missing parameter for device type")
     InvalidSwitchParam = Error("Invalid parameter for SWITCH device")
     NoDevices = Error("No devices found")
@@ -221,7 +224,7 @@ class SyntaxErrors(Error):
 
 
 class SemanticErrors(Error):
-    """Different types of semantic errors"""
+    """Different types of semantic errors."""
 
     UndefinedDevice = Error("Undefined device name")
     NameClash = Error("NameClash")
@@ -230,14 +233,21 @@ class SemanticErrors(Error):
     ConnectInToIn = Error("Attempting to connect input pin to input pin")
     ConnectOutToOut = Error("Attempting to connect output pin to output pin")
     FloatingInput = Error("Floating input")
-    MultipleConnections = Error("Attempting to connect multiple pins to a signle pin")
-    InvalidCLK = Error("Attempting to connect a device other than CLOCK to a CLK input of DTYPE device")
-    InvalidAndParam = Error("Invalid number of inputs for the gate") #for AND/NAND/NOR/OR/XOR
+    MultipleConnections = Error(
+        "Attempting to connect multiple pins to a signle pin"
+    )
+    InvalidCLK = Error(
+        "Attempting to connect a device other than CLOCK to a CLK input of \
+        DTYPE device"
+    )
+    InvalidAndParam = Error(
+        "Invalid number of inputs for the gate"
+    )  # for AND/NAND/NOR/OR/XOR
     InvalidClockParam = Error("Invalid clock period")
 
 
 class Errors:
-    """This class collects and handles errors found while parsing user defined circuit descriptions
+    """Collect and handle errors found while parsing circuit descriptions.
 
     Parameters
     ----------
@@ -249,18 +259,20 @@ class Errors:
     """
 
     def __init__(self):
+        """Initialise Errors class."""
         self.error_counter = 0
         self.error_list = []
 
     def add_error(self, error: Error):
+        """Add an error to the existing list."""
         self.error_counter += 1
         self.error_list.append(error)
 
     def show_error_position(self, colno, lineno):
+        """TODO."""
         # prints a line of error and an arrow pointing to its exact position
-        #TODO.
         pass
 
     def print_error_message(self, error: Error):
-        #TODO.
+        """TODO."""
         pass
