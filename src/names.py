@@ -56,7 +56,7 @@ class Names:
         self._id_to_name_table = dict()
         self._add_reserved_name()
 
-        self._name_to_reserved_type_table = ReservedSymbolType.__members__
+        self._name_to_reserved_type_table = ReservedSymbolType.mappings
 
     def _add_reserved_name(self) -> None:
         """Add reserved names to the table.
@@ -148,4 +148,4 @@ class Names:
         if name_string.isnumeric():
             return ExternalSymbolType.NUMBERS
 
-        return ExternalSymbolType.EXTERNAL_NAMES
+        return ExternalSymbolType.IDENTIFIER

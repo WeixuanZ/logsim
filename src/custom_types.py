@@ -39,6 +39,7 @@ class OperatorType(ExtendedEnum):
     COLON = ":"
     SEMICOLON = ";"
     FORWARD_SLASH = "/"
+    ASTERISK = "*"
 
 
 class DeviceType(ExtendedEnum):
@@ -106,7 +107,7 @@ class ReservedSymbolTypeMeta(type):
 
     @property
     def __members__(cls) -> MappingProxyType:
-        """Property that returns a mapping between type value and type."""
+        """Property that returns a mapping between type name and type."""
         string_type_pair = chain.from_iterable(
             map(
                 lambda symbol_context: symbol_context.__members__.items(),
@@ -114,6 +115,13 @@ class ReservedSymbolTypeMeta(type):
             )
         )
         return MappingProxyType(dict(string_type_pair))
+
+    @property
+    def mappings(cls) -> MappingProxyType:
+        """Property that returns a mapping between type value and type."""
+        return MappingProxyType(
+            dict(map(lambda t: (t.value, t), cls.__members__.values()))
+        )
 
 
 class ReservedSymbolType(metaclass=ReservedSymbolTypeMeta):
@@ -144,7 +152,7 @@ class ExternalSymbolType(ExtendedEnum):
 
     NUMBERS = "NUMBERS"  # string of digits
     # User defined names (for devices) and pins (e.g. I1)
-    EXTERNAL_NAMES = "EXTERNAL_NAMES"
+    IDENTIFIER = "IDENTIFIER"
 
 
 class ErrorCode(Enum):

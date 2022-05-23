@@ -1,7 +1,11 @@
 """Test the names module."""
 import pytest
 
-from custom_types import ReservedSymbolTypeMeta, ExtendedEnum
+from custom_types import (
+    ReservedSymbolTypeMeta,
+    ExtendedEnum,
+    ExternalSymbolType,
+)
 from names import Names
 
 
@@ -21,13 +25,6 @@ class ReservedSymbolType(metaclass=ReservedSymbolTypeMeta):
     symbol_contexts = [MockTypeContext]
 
 
-class ExternalSymbolType(ExtendedEnum):
-    """ExternalSymbolType for injection into mock module."""
-
-    NUMBERS = "NUMBERS"
-    EXTERNAL_NAMES = "EXTERNAL_NAMES"
-
-
 # -----------------------------------------------------------------------------
 
 
@@ -35,7 +32,6 @@ class ExternalSymbolType(ExtendedEnum):
 def new_names(monkeypatch):
     """Return a new names instance."""
     monkeypatch.setattr("names.ReservedSymbolType", ReservedSymbolType)
-    monkeypatch.setattr("names.ExternalSymbolType", ExternalSymbolType)
     return Names()
 
 
@@ -49,7 +45,6 @@ def name_string_list():
 def used_names(monkeypatch, name_string_list):
     """Return a names instance, after three names have been added."""
     monkeypatch.setattr("names.ReservedSymbolType", ReservedSymbolType)
-    monkeypatch.setattr("names.ExternalSymbolType", ExternalSymbolType)
     names = Names()
     names.unique_error_codes(1)
     names.lookup(name_string_list)
@@ -207,7 +202,7 @@ def test_get_name_type_reserved_symbols(new_names, name_id, expected_type):
 
 def test_get_name_type(used_names):
     """Test if get_name_type returns the expected string on external names."""
-    assert used_names.get_name_type(3) is ExternalSymbolType.EXTERNAL_NAMES
+    assert used_names.get_name_type(3) is ExternalSymbolType.IDENTIFIER
     used_names.lookup(["01", "1"])
     assert used_names.get_name_type(6) is ExternalSymbolType.NUMBERS
     assert used_names.get_name_type(7) is ExternalSymbolType.NUMBERS

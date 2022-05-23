@@ -22,7 +22,7 @@ letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
 digit_excluding_zero = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 digit = "0" | digit excluding zero ;
 
-device_name = ( letter | digit | "_" ) , { letter | digit | "_" } ;
+device_name = ( letter | "_" ) , { letter | digit | "_" } ;
 
 device_type = ( "CLOCK", parameter )
             | ( "SWITCH", "<" , ( "0" | "1" ) , ">" )
