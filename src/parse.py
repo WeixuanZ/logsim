@@ -289,41 +289,54 @@ class Parser:
         """Parse CONNECTIONS block.
 
         EBNF syntax: "CONNECTIONS" , ":" , connection , { connection }
-        Return: True if successful parsing,
-        False if there was an error
-        None if there was (unexpected) end of file
+        Return:
+        success - None(unexpected eof), False(syntax not ok), True(syntax ok)
         """
+        if self.current_symbol is None:
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, "Missing CONNECTIONS block"
+            )
+            return None
+
         if not self.current_symbol.type == KeywordType.CONNECTIONS:
-            # TODO check for typos later
             self.throw_error(
                 SyntaxErrors.NoConnections, "Missing CONNECTIONS block"
             )
             return False
 
         if not self.get_next():
+            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected ':'")
             return None
 
         if not self.current_symbol.type == OperatorType.COLON:
-            self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected ':' after CONNECTIONS"
-            )
+            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ':'")
             return False
 
-        if not self.get_next():
+        self.get_next()
+        outcome = self.parse_connection_statement()
+        if outcome is None:
+            self.throw_error(
+                SyntaxErrors.NoConnections, "Empty CONNECTIONS block"
+            )
             return None
-
-        # TODO could be a problem here with misspelling of MONITORS
-        while self.current_symbol.type != KeywordType.MONITORS:
-            success, connections = self.parse_connection_statement()
-            if not success:
-                self.syntax_valid = False
-                self.skip_to_end_of_line()  # current symbol should now be ;
-            elif self.syntax_valid:
-                # TODO add a connection, check validity of parameters
-                pass
-            if not self.get_next():  # move to start of new line
-                # end of file, allowed by syntax
+        if not outcome:
+            if not self.skip_to_end_of_line():
+                # there was end of file
                 return None
+            self.get_next()
+
+        while (
+            self.current_symbol is not None
+            and self.current_symbol.type != KeywordType.MONITORS
+        ):
+            outcome = self.parse_connection_statement()
+            if outcome is None or not outcome:
+                if not self.skip_to_end_of_line():
+                    # there was end of file
+                    return None
+                self.get_next()
+
+        # end of file possible here
         return True
 
     def parse_connection_statement(self):

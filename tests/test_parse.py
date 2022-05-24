@@ -475,3 +475,85 @@ def test_parse_connection_statement_errors(
             == error_type.basic_message
         )
         assert parser.errors.error_list[0].description == description
+
+
+@pytest.mark.parametrize(
+    "statement, success",
+    [
+        (["CONNECTIONS", ":", "A", "-", "B", ";"], True),
+        (
+            [
+                "CONNECTIONS",
+                ":",
+                "A",
+                "-",
+                "B",
+                ";",
+                "C",
+                ".",
+                "I1",
+                "-",
+                "D",
+                ";",
+            ],
+            True,
+        ),
+        (["CONNECTIONS", "A"], False),
+        (["CONNECTIONS", ":"], None),
+    ],
+)
+def test_parse_connection_block(statement, success):
+    """Test module parse_connection_block"""
+    parser = make_parser(statement)
+    outcome = parser.parse_connection_block()
+    assert outcome == success
+
+
+@pytest.mark.parametrize(
+    "statement, error_list",
+    [
+        (
+            [],
+            [(SyntaxErrors.UnexpectedEOF, "Missing CONNECTIONS block")],
+        ),
+        (
+            ["A", ".", "asa"],
+            [(SyntaxErrors.NoConnections, "Missing CONNECTIONS block")],
+        ),
+        (["CONNECTIONS"], [(SyntaxErrors.UnexpectedEOF, "Expected ':'")]),
+        (
+            ["CONNECTIONS", "-", "B"],
+            [(SyntaxErrors.UnexpectedToken, "Expected ':'")],
+        ),
+        (
+            ["CONNECTIONS", ":"],
+            [
+                (
+                    SyntaxErrors.UnexpectedEOF,
+                    "Expected connection statement",
+                ),
+                (SyntaxErrors.NoConnections, "Empty CONNECTIONS block"),
+            ],
+        ),
+        (
+            ["CONNECTIONS", ":", "A", "-", "AND", ";", "C", "D"],
+            [
+                (SyntaxErrors.UnexpectedToken, "Expected pin's device name"),
+                (SyntaxErrors.UnexpectedToken, "Expected '.', '-', or ';'"),
+            ],
+        ),
+    ],
+)
+def test_parse_connection_block_errors(statement, error_list):
+    """Test errors arising in parse_block_statement."""
+    parser = make_parser(statement)
+    parser.parse_connection_block()
+    if len(error_list) > 0:
+        assert parser.errors.error_counter == len(error_list)
+        for i in range(len(error_list)):
+            (e_type, e_des) = error_list[i]
+            assert (
+                parser.errors.error_list[i].basic_message
+                == e_type.basic_message
+            )
+            assert parser.errors.error_list[i].description == e_des
