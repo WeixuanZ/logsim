@@ -330,8 +330,55 @@ class Parser:
         """Parse connection statement from CONNECTIONS block.
 
         EBNF syntax: pin , "-" , pin , ";"
+
+        Return:
+        success - None(unexpected eof), False(syntax not ok), True(syntax ok)
         """
-        pass
+        if self.current_symbol is None:
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF,
+                "Expected " "connection " "statement",
+            )
+            return None
+
+        outcome, pin1 = self.parse_pin()
+        if outcome is None or not outcome:
+            self.syntax_valid = False
+            return outcome
+
+        if self.current_symbol is None:
+            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected '-'")
+            return None
+
+        if not self.current_symbol.type == OperatorType.CONNECT:
+            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected '-'")
+            return False
+
+        self.get_next()
+
+        outcome, pin2 = self.parse_pin()
+        if outcome is None or not outcome:
+            self.syntax_valid = False
+            # this is a bit hacky, TODO change if time allows
+            if self.errors.error_counter == 1:
+                if (
+                    self.errors.error_list[0].description
+                    == "Expected '.', '-', or ';'"
+                ):
+                    self.errors.error_list[0].set_description("Expected ';'")
+            return outcome
+
+        if self.current_symbol is None:
+            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected ';'")
+            return None
+
+        if not self.current_symbol.type == OperatorType.SEMICOLON:
+            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ';'")
+            return False
+
+        # TODO check validity of pins and make connection with pin1 and pin2
+        self.get_next()
+        return True
 
     def parse_pin(self):
         """Parse pin.
@@ -363,7 +410,7 @@ class Parser:
 
         if not self.get_next():
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected '.', '<', or ';'"
+                SyntaxErrors.UnexpectedEOF, "Expected '.', '-', or ';'"
             )
             return None, None
 
@@ -376,7 +423,7 @@ class Parser:
 
         if not self.current_symbol.type == OperatorType.DOT:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected '.', '<', or ';'"
+                SyntaxErrors.UnexpectedToken, "Expected '.', '-', or ';'"
             )
             return False, None
 

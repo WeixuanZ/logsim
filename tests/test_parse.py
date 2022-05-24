@@ -375,16 +375,13 @@ def test_parse_pin(statement, out, device_name, pin_name, success):
     """Test module parse_pin."""
     parser = make_parser(statement)
     outcome, pin = parser.parse_pin()
-    if success is None:
-        assert outcome is None
-    else:
-        assert outcome == success
-        if success:
-            (o, d, p) = pin
-            assert o == out
-            assert device_name == d
-            if pin_name is not None:
-                assert p == pin_name
+    assert outcome == success
+    if success:
+        (o, d, p) = pin
+        assert o == out
+        assert device_name == d
+        if pin_name is not None:
+            assert p == pin_name
 
 
 @pytest.mark.parametrize(
@@ -397,11 +394,11 @@ def test_parse_pin(statement, out, device_name, pin_name, success):
             "Expected pin's device name",
             False,
         ),
-        (["A"], SyntaxErrors.UnexpectedEOF, "Expected '.', '<', or ';'", None),
+        (["A"], SyntaxErrors.UnexpectedEOF, "Expected '.', '-', or ';'", None),
         (
             ["A", "="],
             SyntaxErrors.UnexpectedToken,
-            "Expected '.', '<', or ';'",
+            "Expected '.', '-', or ';'",
             False,
         ),
         (["A", "."], SyntaxErrors.UnexpectedEOF, "Expected pin name", None),
@@ -419,6 +416,59 @@ def test_parse_pin_errors(statement, error_type, description, success):
     out, pin = parser.parse_pin()
     if success is None or not success:
         assert out == success
+        assert parser.errors.error_counter == 1
+        assert (
+            parser.errors.error_list[0].basic_message
+            == error_type.basic_message
+        )
+        assert parser.errors.error_list[0].description == description
+
+
+@pytest.mark.parametrize(
+    "statement, success",
+    [
+        (["A", "-", "B", ";"], True),
+        (["A", ".", "CLK", "-", "B", ";"], True),
+        (["A", "-", "B", ".", "I3", ";"], True),
+        (["A", ";"], False),
+        (["A", "-", "B"], None),
+    ],
+)
+def test_parse_connection_statement(statement, success):
+    """Test module parse_connection_statement"""
+    parser = make_parser(statement)
+    outcome = parser.parse_connection_statement()
+    assert outcome == success
+
+
+@pytest.mark.parametrize(
+    "statement, error_type, description, success",
+    [
+        (
+            [],
+            SyntaxErrors.UnexpectedEOF,
+            "Expected connection statement",
+            None,
+        ),
+        (["A", ".", "asa"], SyntaxErrors.UnexpectedEOF, "Expected '-'", None),
+        (["A", ";"], SyntaxErrors.UnexpectedToken, "Expected '-'", False),
+        (["A", "-", "B"], SyntaxErrors.UnexpectedEOF, "Expected ';'", None),
+        (
+            ["A", "-", "B", ".", "Q", "A"],
+            SyntaxErrors.UnexpectedToken,
+            "Expected ';'",
+            False,
+        ),
+    ],
+)
+def test_parse_connection_statement_errors(
+    statement, error_type, description, success
+):
+    """Test errors arising in parse_connection_statement."""
+    parser = make_parser(statement)
+    outcome = parser.parse_connection_statement()
+    if success is None or not success:
+        assert outcome == success
         assert parser.errors.error_counter == 1
         assert (
             parser.errors.error_list[0].basic_message
