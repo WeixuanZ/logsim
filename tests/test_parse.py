@@ -174,7 +174,7 @@ def test_parse_device_type(statement, type, parameter, success):
             "Expected '>'",
             False,
         ),
-        (["AND"], SyntaxErrors.MissingSemicolon, "", True),
+        (["AND"], SyntaxErrors.UnexpectedToken, "Expected '<' or ';'", True),
         (["NAND", "<", "2"], None, "", True),
         (["NOR", "<", "0000", ">"], SyntaxErrors.MissingSemicolon, "", True),
         ([], None, "", True),
@@ -290,3 +290,69 @@ def test_parse_devices_statement_errors(
                 parser.errors.error_list[0].basic_message
                 == error_type.basic_message
             )
+
+
+@pytest.mark.parametrize(
+    "statement, success",
+    [
+        (["DEVICES", ":", "A", "=", "AND", ";"], True),
+        (
+            ["DEVICES", ":", "A", ",", "B", "=", "XOR", "<", "0", ">", ";"],
+            True,
+        ),
+        (["DEVICES", ":", "A", "=", "AND", ";" "B", "=", "SWITCH", ";"], True),
+        (["DEVICES", ":", "CLOCK", "=", "AND"], False),
+        ([], None),
+        (["DEVICES", ":"], None),
+    ],
+)
+def test_parse_device_block(statement, success):
+    parser = make_parser(statement)
+    out = parser.parse_device_block()
+    assert out == success
+
+
+@pytest.mark.parametrize(
+    "statement, error_list",
+    [
+        ([], [(SyntaxErrors.NoDevices, "Missing DEVICES block")]),
+        (
+            ["DEVICS", ":", "A", "=", "AND", ";"],
+            [(SyntaxErrors.NoDevices, "Missing DEVICES block")],
+        ),
+        (
+            ["DEVICES"],
+            [(SyntaxErrors.UnexpectedToken, "Expected ':' after DEVICES")],
+        ),
+        (
+            ["DEVICES", ":", "A", "=", "AD", ";", "B", "C", "=", "AND", ";"],
+            [
+                (SyntaxErrors.UnexpectedToken, "Expected device type"),
+                (SyntaxErrors.UnexpectedToken, "Expected ',' or '='"),
+            ],
+        ),
+    ],
+)
+def test_parse_device_block_errors(statement, error_list):
+    parser = make_parser(statement)
+    parser.parse_device_block()
+    if len(error_list) > 0:
+        assert parser.errors.error_counter == len(error_list)
+        if len(error_list) == 2:
+            print(
+                parser.errors.error_list[0].basic_message
+                + " "
+                + parser.errors.error_list[0].description
+            )
+            print(
+                parser.errors.error_list[1].basic_message
+                + " "
+                + parser.errors.error_list[1].description
+            )
+
+        for i in range(len(error_list)):
+            (type, des) = error_list[i]
+            assert (
+                parser.errors.error_list[i].basic_message == type.basic_message
+            )
+            assert parser.errors.error_list[i].description == des

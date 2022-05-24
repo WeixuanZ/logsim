@@ -24,7 +24,7 @@ SemanticErrors
 SyntaxErrors
 SPHINX-IGNORE
 """
-
+import copy
 from types import MappingProxyType
 from enum import Enum
 from operator import attrgetter, methodcaller
@@ -221,6 +221,7 @@ class SyntaxErrors(Error):
     NoDevices = Error("No devices found")
     NoConnections = Error("No connections found")
     NoMonitors = Error("No monitor pins found")
+    UnexpectedEOF = Error("Unexpected end of file")
 
 
 class SemanticErrors(Error):
@@ -266,7 +267,8 @@ class Errors:
     def add_error(self, error: Error):
         """Add an error to the existing list."""
         self.error_counter += 1
-        self.error_list.append(error)
+        # TODO restructure Error classes so that there is no need to copy
+        self.error_list.append(copy.deepcopy(error))
 
     def show_error_position(self, colno, lineno):
         """TODO."""

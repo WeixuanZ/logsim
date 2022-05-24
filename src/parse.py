@@ -91,7 +91,6 @@ class Parser:
         if self.current_symbol is None:
             return False
         while self.current_symbol.type != OperatorType.SEMICOLON:
-            print(self.current_symbol.type)
             if not self.get_next():
                 return False
         return True
@@ -118,12 +117,18 @@ class Parser:
         False if there was an error,
         None if there was (unexpected) end of file
         """
+        if self.current_symbol is None:
+            self.throw_error(SyntaxErrors.NoDevices, "Missing DEVICES block")
+            return None
         if not self.current_symbol.type == KeywordType.DEVICES:
             # TODO check for typos later to give suggestions for improvement
             self.throw_error(SyntaxErrors.NoDevices, "Missing DEVICES block")
             return False
 
         if not self.get_next():
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken, "Expected ':' after DEVICES"
+            )
             return None
 
         if not self.current_symbol.type == OperatorType.COLON:
@@ -133,20 +138,26 @@ class Parser:
             return False
 
         if not self.get_next():
+            self.throw_error(SyntaxErrors.NoDevices, "No Devices found")
             return None
 
         # TODO could be a problem here with misspelling of CONNECTIONS
         while self.current_symbol.type != KeywordType.CONNECTIONS:
             success, device = self.parse_devices_statement()
-            if not success:
+            if success is None or not success:
                 self.syntax_valid = False
-                self.skip_to_end_of_line()  # current symbol should now be ;
+                if not self.skip_to_end_of_line():
+                    # unexpected end of file
+                    return success
+                # current symbol should now be ;
             elif self.syntax_valid:
                 # TODO add devices and pins, check validity of parameters
                 (device_names, gate_type, parameter) = device
                 pass
             if not self.get_next():  # move to start of new line
-                return None
+                # treat end of file here as normal, let parse_network
+                # deal with the missing CONNECTIONS block
+                return True
         return True
 
     def parse_devices_statement(self):
@@ -174,7 +185,6 @@ class Parser:
                 SyntaxErrors.UnexpectedToken, "Expected device name"
             )
             return False, None
-
         if self.current_symbol.type == OperatorType.COMMA:
             while self.current_symbol.type == OperatorType.COMMA:
                 if not self.get_next():
@@ -191,6 +201,7 @@ class Parser:
                     )
                     return False, None
         if not self.current_symbol.type == OperatorType.EQUAL:
+            print(self.names.get_name_string(self.current_symbol.id))
             self.throw_error(
                 SyntaxErrors.UnexpectedToken, "Expected ',' or '='"
             )
@@ -233,6 +244,7 @@ class Parser:
                 )
                 return None, None
         else:
+            print(self.names.get_name_string(self.current_symbol.id))
             self.throw_error(
                 SyntaxErrors.UnexpectedToken, "Expected device type"
             )
@@ -282,7 +294,7 @@ class Parser:
         if not self.current_symbol.type == KeywordType.CONNECTIONS:
             # TODO check for typos later
             self.throw_error(
-                SyntaxErrors.NoDevices, "Missing CONNECTIONS block"
+                SyntaxErrors.NoConnections, "Missing CONNECTIONS block"
             )
             return False
 
