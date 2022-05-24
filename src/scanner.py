@@ -259,26 +259,6 @@ class Scanner:
             )
         )
 
-    def get_line_by_lineno(self, lineno: int) -> str:
-        """Get the content of a line using the line number."""
-        Scanner._check_is_natural_number(lineno, "Line number")
-        if lineno > len(self._line_lengths) - 1:
-            raise ValueError(
-                "Line number larger than the number of lines in file"
-            )
-
-        if lineno == 0:
-            return self._file_content[: self._line_end_pos[lineno] + 1]
-
-        return self._file_content[
-            self._line_end_pos[lineno - 1] + 1 : self._line_end_pos[lineno] + 1
-        ]
-
-    def get_line_by_pos(self, pos: int) -> str:
-        """Get the content of a line a given position is on."""
-        lineno, _ = self.get_lineno_colno(pos)
-        return self.get_line_by_lineno(lineno)
-
     def move_pointer_absolute(self, pos: int) -> None:
         """Move the pointer to an absolute position."""
         Scanner._check_is_natural_number(pos, "New pointer position")
@@ -322,6 +302,7 @@ class Scanner:
             Whether to reset the pointer after read. Default to False
         """
         Scanner._check_is_natural_number(n, "Chunk size n")
+        old_pos = self._pointer_pos
 
         if start is not None:
             Scanner._check_is_natural_number(start, "Start position")
@@ -341,7 +322,9 @@ class Scanner:
             )
         ]
 
-        if not reset_pointer:
+        if reset_pointer:
+            self.move_pointer_absolute(old_pos)
+        else:
             if self._pointer_pos + n > self._file_content_length:
                 logging.warning(
                     "End of file reached, subsequent reads will return EOF "
@@ -351,6 +334,26 @@ class Scanner:
                 min(self._file_content_length, self._pointer_pos + n)
             )
         return chunk
+
+    def get_line_by_lineno(self, lineno: int) -> str:
+        """Get the content of a line using the line number."""
+        Scanner._check_is_natural_number(lineno, "Line number")
+        if lineno > len(self._line_lengths) - 1:
+            raise ValueError(
+                "Line number larger than the number of lines in file"
+            )
+
+        start_pos = 0 if lineno == 0 else self._line_end_pos[lineno - 1] + 1
+        return self.read(
+            self._line_end_pos[lineno] + 1 - start_pos,
+            start=start_pos,
+            reset_pointer=True,
+        )
+
+    def get_line_by_pos(self, pos: int) -> str:
+        """Get the content of a line a given position is on."""
+        lineno, _ = self.get_lineno_colno(pos)
+        return self.get_line_by_lineno(lineno)
 
     def _reset_pointer_wrapper(self, reset_pointer: bool = False):
         """Add an option to return pointer to original position.
