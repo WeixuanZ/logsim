@@ -84,7 +84,7 @@ class ReservedSymbolTypeMeta(type):
         """Create the class object."""
         for symbol_context in dictionary.get("symbol_contexts", ()):
             for symbol_type in symbol_context:
-                dictionary[symbol_type.value] = symbol_type
+                dictionary[symbol_type.name] = symbol_type
         return super().__new__(mcs, classname, bases, dictionary)
 
     def __init__(cls, classname, bases, dictionary):
