@@ -41,11 +41,6 @@ def scanner(input_file):
 # -----------------------------------------------------------------------------
 
 
-def test_file_content(scanner, file_content):
-    """Test if the scanner reads file correctly."""
-    assert scanner.file_content == file_content
-
-
 def test_get_lineno_colno_raises_exceptions(scanner):
     """Test if get_lineno_colno raises expected exceptions."""
     with pytest.raises(TypeError):

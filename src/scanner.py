@@ -15,6 +15,7 @@ from typing import Union, Tuple, Type, Callable
 from operator import methodcaller
 from itertools import accumulate, dropwhile, starmap
 import logging
+import mmap
 
 from names import Names
 from custom_types import ReservedSymbolType, ExternalSymbolType
@@ -93,8 +94,8 @@ class Scanner:
     SPHINX-IGNORE
     Attributes
     ----------
-    file_content:
-        Content of the file.
+    encoding:
+        Encoding scheme of the file.
     pointer:
         Pointer position, line number, and column number.
     pointer_pos:
@@ -158,20 +159,26 @@ class Scanner:
         """Open specified file and initialise reserved words and IDs."""
         self.path = path
         self.names = names
+        self.encoding = "utf-8"
 
         # >= 0, <= file_content_length, at EOF when = file_content_length
         self._pointer_pos = 0
         self._line_lengths = []
-        self._file_content = ""
 
-        # memory is not a constraint here
-        # if not held in memory repeated calls to read(1) is slow
-        # IMPROVEMENT: use mmap
-        with open(self.path, "r") as file:
-            for line in file.readlines():
+        # using memory mapping to improve performance
+        with open(self.path, "rb", buffering=0) as file_obj:
+            self._file_obj = mmap.mmap(
+                file_obj.fileno(), length=0, access=mmap.ACCESS_READ
+            )
+            self._file_obj.madvise(mmap.MADV_SEQUENTIAL)
+
+        while True:
+            line = self._file_obj.readline()
+            if line:
                 self._line_lengths.append(len(line))
-                self._file_content += line
-        self._file_content_length = len(self._file_content)
+            else:
+                break
+        self._file_content_length = self._file_obj.tell()
 
         # the pos of last character on the line
         self._line_end_pos = list(accumulate(self._line_lengths, initial=-1))[
@@ -181,10 +188,9 @@ class Scanner:
         self._line_end_pos[-1] += 1
         self._line_lengths[-1] += 1
 
-    @property
-    def file_content(self) -> str:
-        """Content of the file."""
-        return self._file_content
+    def __del__(self):
+        """Close mmap on destruction."""
+        self._file_obj.close()
 
     @property
     def pointer_pos(self) -> Union[int, Type[EOF]]:
@@ -316,11 +322,11 @@ class Scanner:
         if self._pointer_pos > self._file_content_length - 1:
             return Scanner.EOF
 
-        chunk = self.file_content[
+        chunk = self._file_obj[
             self._pointer_pos : min(
                 self._pointer_pos + n, self._file_content_length
             )
-        ]
+        ].decode(self.encoding)
 
         if reset_pointer:
             self.move_pointer_absolute(old_pos)
