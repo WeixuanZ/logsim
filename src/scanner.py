@@ -341,8 +341,9 @@ class Scanner:
         Note that the pointer will be on the character instead of after it,
         i.e. subsequent call to self.read(1) will return the desired character.
         """
-        self.get_next_character(predicate=predicate)
-        self.move_pointer_relative(-1)
+        next_char = self.get_next_character(predicate=predicate)
+        if next_char is not Scanner.EOF:
+            self.move_pointer_relative(-1)
 
     def move_pointer_after_next_match(self, target: str) -> None:
         """Move pointer after the specific target."""

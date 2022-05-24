@@ -192,6 +192,7 @@ def test_move_pointer_onto_next_character(scanner):
     assert scanner.pointer_pos == 0
     scanner.move_pointer_onto_next_character()
     assert scanner.pointer_pos == 0
+
     # test predicate
     scanner.move_pointer_onto_next_character(predicate=lambda c: c == "!")
     assert scanner.pointer_pos == 11
@@ -200,6 +201,11 @@ def test_move_pointer_onto_next_character(scanner):
     scanner.move_pointer_onto_next_character(predicate=lambda c: c.isdigit())
     assert scanner.pointer_pos == 27
     assert scanner.read(1, reset_pointer=True) == "1"
+
+    scanner.move_pointer_absolute(149)
+    scanner.move_pointer_onto_next_character()
+    assert scanner.pointer_pos is Scanner.EOF
+    assert scanner.read(1) is Scanner.EOF
 
 
 def test_move_pointer_after_next_match(scanner):

@@ -42,9 +42,7 @@ def test_reserved_symbol_type():
         MockReservedSymbolType.TEST_KEYWORD1
         is MockKeywordTypeContext.TEST_KEYWORD1
     )
-    assert (
-        MockReservedSymbolType.COMMA is MockOperatorTypeContext.TEST_KEYWORD2
-    )
+    assert MockReservedSymbolType.COMMA is MockOperatorTypeContext.COMMA
 
     assert MockReservedSymbolType.values() == [
         "TEST_KEYWORD1",
