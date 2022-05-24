@@ -9,7 +9,8 @@ Scanner - reads definition file and translates characters into symbols.
 Symbol - encapsulates a symbol and stores its properties.
 """
 
-from typing import Union, Tuple, Type
+from typing import Union, Tuple, Type, Callable
+from operator import methodcaller
 from itertools import accumulate, dropwhile, starmap
 import logging
 
@@ -90,6 +91,9 @@ class Scanner:
         self._line_lengths = []
         self._file_content = ""
 
+        # memory is not a constraint here
+        # if not held in memory repeated calls to read(1) is slow
+        # IMPROVEMENT: use mmap
         with open(self.path, "r") as file:
             for line in file.readlines():
                 self._line_lengths.append(len(line))
@@ -293,6 +297,137 @@ class Scanner:
             return wrapped
 
         return wrapper
+
+    def get_next_character(
+        self,
+        predicate: Callable[[str], bool] = lambda c: True,
+        reset_pointer: bool = False,
+    ) -> str:
+        """Return the next desired character in file.
+
+        An optional predicate can be specified to get the next character
+        meeting a certain criteria.
+
+        If the end of file is reached, will return Scanner.EOF.
+
+        Examples
+        --------
+        >>> self.get_next_character(predicate=lambda c: not c.isdigit())
+
+        Parameters
+        ----------
+        predicate: Callable[[str], bool]
+            Optional callable that accepts a character and return whether to
+            it is the desired next character
+        reset_pointer: bool
+            Whether to reset the pointer to the initial position before this
+            function call
+        """
+
+        @self._reset_pointer_wrapper(reset_pointer=reset_pointer)
+        def inner():
+            while (next_char := self.read(1)) is not Scanner.EOF:
+                if predicate(next_char):
+                    return next_char
+            return Scanner.EOF
+
+        return inner()
+
+    def move_pointer_onto_next_character(
+        self, predicate: Callable[[str], bool] = lambda c: True
+    ) -> None:
+        """Move pointer onto the next desired character.
+
+        Note that the pointer will be on the character instead of after it,
+        i.e. subsequent call to self.read(1) will return the desired character.
+        """
+        self.get_next_character(predicate=predicate)
+        self.move_pointer_relative(-1)
+
+    def move_pointer_after_next_match(self, target: str) -> None:
+        """Move pointer after the specific target."""
+        while (
+            next_chars := self.read(len(target), reset_pointer=True)
+        ) is not Scanner.EOF:
+            if next_chars == target:
+                self.move_pointer_relative(len(target))
+                return
+            self.move_pointer_relative(1)
+
+    def get_next_non_whitespace_character(self, reset_pointer=False) -> str:
+        """Return the next non-whitespace character in file."""
+        return self.get_next_character(
+            predicate=lambda c: not c.isspace(), reset_pointer=reset_pointer
+        )
+
+    def move_pointer_skip_whitespace_characters(self) -> None:
+        """Move pointer onto the next character that is not a whitespace."""
+        self.move_pointer_onto_next_character(
+            predicate=lambda c: not c.isspace()
+        )
+
+    def get_next_chunk(
+        self,
+        start_predicate: Callable[[str], bool],
+        end_predicate: Callable[[str], bool],
+        reset_pointer=False,
+    ) -> str:
+        """Get the next chunk of characters from the file.
+
+        The start_predicate is a callable returning a bool, which specifies
+        when the chunk starts. The chunk is returned upto when the
+        end_predicate returns True (not including the character making
+        end_predicate True). The chunk is at least one character long, i.e.
+        only characters after the chunk starting character are passed to
+        end_predicate.
+
+        Parameters
+        ----------
+        start_predicate: Callable[[str], bool]
+            A callable that accepts a character and returns whether to start
+            the chunk
+        end_predicate: Callable[[str], bool]
+            A callable that accepts a character and returns whether to end the
+            chunk. The input character causing a True return is not included
+            in the chunk
+        reset_pointer: bool
+            Whether to reset the pointer to initial position before this
+            function call. Default to False.
+        """
+
+        @self._reset_pointer_wrapper(reset_pointer=reset_pointer)
+        def inner():
+            self.move_pointer_onto_next_character(predicate=start_predicate)
+            chunk_start = self._pointer_pos
+            self.move_pointer_onto_next_character(predicate=end_predicate)
+            chunk_end = self._pointer_pos
+
+            return self.read(chunk_end - chunk_start, start=chunk_start)
+
+        return inner()
+
+    def get_next_number(self, reset_pointer=False) -> str:
+        """Return the next number in file.
+
+        Number strings can start with "0"s.
+        """
+        return self.get_next_chunk(
+            start_predicate=methodcaller("isdigit"),
+            end_predicate=lambda c: not c.isdigit(),
+            reset_pointer=reset_pointer,
+        )
+
+    def get_next_name(self, reset_pointer=False) -> str:
+        """Return the next name string in file.
+
+        A name is defined as a sequence of characters that starts with a letter
+        and is followed by a mixture of letters and numbers.
+        """
+        return self.get_next_chunk(
+            start_predicate=lambda c: c.isalpha() or c == "_",
+            end_predicate=lambda c: not (c.isalnum() or c == "_"),
+            reset_pointer=reset_pointer,
+        )
 
     def get_symbol(self):
         """Translate the next sequence of characters into a symbol."""
