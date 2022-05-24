@@ -174,7 +174,7 @@ def test_parse_device_type(statement, type, parameter, success):
             "Expected '>'",
             False,
         ),
-        (["AND"], None, "", True),
+        (["AND"], SyntaxErrors.MissingSemicolon, "", True),
         (["NAND", "<", "2"], None, "", True),
         (["NOR", "<", "0000", ">"], SyntaxErrors.MissingSemicolon, "", True),
         ([], None, "", True),
@@ -251,19 +251,19 @@ def test_parse_devices_statement(statement, names, type, param, success):
         (
             ["A", "B", "=", "SWITCH", ";"],
             SyntaxErrors.UnexpectedToken,
-            "Expected ','",
+            "Expected ',' or '='",
             False,
         ),
         (
             ["A", ",", "B", ",", "C", "SWITCH", ";"],
             SyntaxErrors.UnexpectedToken,
-            "Expected '='",
+            "Expected ',' or '='",
             False,
         ),
         (
             ["A", ",", "B", ",", "C", "=", "SWITCH"],
-            SyntaxErrors.MissingSemicolon,
-            "",
+            SyntaxErrors.UnexpectedToken,
+            "Expected '<' or ';'",
             True,
         ),
     ],
@@ -283,9 +283,8 @@ def test_parse_devices_statement_errors(
         )
         assert parser.errors.error_list[0].description == description
     else:
-        print(parser.errors.error_list[0].description)
         assert out is None
-        if error_type == SyntaxErrors.MissingSemicolon:
+        if error_type is not None:
             assert parser.errors.error_counter == 1
             assert (
                 parser.errors.error_list[0].basic_message

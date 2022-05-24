@@ -190,7 +190,7 @@ class Parser:
                         SyntaxErrors.UnexpectedToken, "Expected device name"
                     )
                     return False, None
-        elif not self.current_symbol.type == OperatorType.EQUAL:
+        if not self.current_symbol.type == OperatorType.EQUAL:
             self.throw_error(
                 SyntaxErrors.UnexpectedToken, "Expected ',' or '='"
             )
@@ -209,7 +209,7 @@ class Parser:
 
         if not self.current_symbol.type == OperatorType.SEMICOLON:
             self.throw_error(SyntaxErrors.MissingSemicolon)
-            return False, None, None
+            return None, None
 
         return True, (device_names, dtype, parameter)
 
@@ -228,6 +228,9 @@ class Parser:
         if self.current_symbol.type in DeviceType:
             device_type = self.current_symbol.type
             if not self.get_next():
+                self.throw_error(
+                    SyntaxErrors.UnexpectedToken, "Expected '<' or ';'"
+                )
                 return None, None
         else:
             self.throw_error(
