@@ -196,10 +196,10 @@ class Error:
         Sets basic message of the error
     """
 
-    def __init__(self, error_message):
+    def __init__(self, error_message, description=""):
         """Initialise error class."""
         self.basic_message = error_message
-        self.description = ""
+        self.description = description
         self.errorCode = None
 
     def set_description(self, description):

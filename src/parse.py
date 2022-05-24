@@ -159,8 +159,10 @@ class Parser:
                 device: (device_names, gate_type, parameter) when success=True
                         None otherwise
         """
-        device_names = []
+        if self.current_symbol is None:
+            return None, None
 
+        device_names = []
         if self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
             device_names.append(
                 self.names.get_name_string(self.current_symbol.id)
@@ -173,23 +175,25 @@ class Parser:
             )
             return False, None
 
-        while self.current_symbol.type == OperatorType.COMMA:
-            if not self.get_next():
-                return None, None
-            if self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
-                device_names.append(
-                    self.names.get_name_string(self.current_symbol.id)
-                )
+        if self.current_symbol.type == OperatorType.COMMA:
+            while self.current_symbol.type == OperatorType.COMMA:
                 if not self.get_next():
                     return None, None
-            else:
-                self.throw_error(
-                    SyntaxErrors.UnexpectedToken, "Unexpected ','"
-                )
-                return False, None
-
-        if not self.current_symbol.type == OperatorType.EQUAL:
-            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected '='")
+                if self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
+                    device_names.append(
+                        self.names.get_name_string(self.current_symbol.id)
+                    )
+                    if not self.get_next():
+                        return None, None
+                else:
+                    self.throw_error(
+                        SyntaxErrors.UnexpectedToken, "Expected device name"
+                    )
+                    return False, None
+        elif not self.current_symbol.type == OperatorType.EQUAL:
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken, "Expected ',' or '='"
+            )
             return False, None
 
         if not self.get_next():
@@ -219,8 +223,9 @@ class Parser:
             | "D_TYPE" ;
             parameter = "<" , digit , { digit } , ">" ;
         """
+        if self.current_symbol is None:
+            return None, None
         if self.current_symbol.type in DeviceType:
-            # TODO check if types work like this
             device_type = self.current_symbol.type
             if not self.get_next():
                 return None, None
@@ -253,6 +258,7 @@ class Parser:
                 return False, None
 
             if not self.get_next():
+                self.throw_error(SyntaxErrors.MissingSemicolon)
                 return None, None
 
             return True, (device_type, parameter)
