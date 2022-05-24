@@ -87,8 +87,6 @@ class Scanner:
 
         # >= 0, <= file_content_length, at EOF when = file_content_length
         self._pointer_pos = 0
-        self._pointer_lineno = 0  # zero-indexed
-        self._pointer_colno = 0  # zero-indexed
         self._line_lengths = []
         self._file_content = ""
 
@@ -104,6 +102,7 @@ class Scanner:
         ]
         # EOF
         self._line_end_pos[-1] += 1
+        self._line_lengths[-1] += 1
 
     @property
     def file_content(self) -> str:
@@ -111,12 +110,17 @@ class Scanner:
         return self._file_content
 
     @property
-    def pointer_pos(self) -> int:
+    def pointer_pos(self) -> Union[int, Type[EOF]]:
         """Return current pointer position in the file.
 
-        It is zero-indexed and protected.
+        It is zero-indexed and protected. If the pointer is at end of file,
+        Scanner.EOF will be returned.
         """
-        return self._pointer_pos
+        return (
+            self._pointer_pos
+            if self._pointer_pos < self._file_content_length
+            else Scanner.EOF
+        )
 
     @property
     def pointer_lineno(self) -> int:
@@ -124,7 +128,7 @@ class Scanner:
 
         It is zero-indexed and protected.
         """
-        return self._pointer_lineno
+        return self.get_lineno_colno(self._pointer_pos)[0]
 
     @property
     def pointer_colno(self) -> int:
@@ -134,12 +138,13 @@ class Scanner:
         of the line if the pointer is on the last line, which denotes the end
         of file is reached.
         """
-        return self._pointer_colno
+        return self.get_lineno_colno(self._pointer_pos)[1]
 
     @property
     def pointer(self) -> Tuple[int, int, int]:
         """Return current pointer position, line number, and column number."""
-        return self._pointer_pos, self._pointer_lineno, self._pointer_colno
+        lineno, colno = self.get_lineno_colno(self._pointer_pos)
+        return self._pointer_pos, lineno, colno
 
     @staticmethod
     def _check_is_natural_number(num, num_name):
@@ -207,9 +212,6 @@ class Scanner:
             )
 
         self._pointer_pos = pos
-        self._pointer_lineno, self._pointer_colno = self.get_lineno_colno(
-            self._pointer_pos
-        )
 
     def move_pointer_relative(self, n: int) -> None:
         """Move the pointer by a relative distance."""
@@ -230,6 +232,9 @@ class Scanner:
         Fewer than n characters can be returned if the end of file is
         reached. If no character is left, Scanner.EOF will be returned.
 
+        The pointer will be moved to one position after the last character
+        returned by read. This can be prevented using the reset_pointer flag.
+
         Parameters
         ----------
         n: int
@@ -237,7 +242,7 @@ class Scanner:
         start: Union[int, None]
             Optional start position to read
         reset_pointer: bool
-            Whether to rest the pointer after read. Default to False
+            Whether to reset the pointer after read. Default to False
         """
         Scanner._check_is_natural_number(n, "Chunk size n")
 

@@ -10,10 +10,10 @@ from names import Names
 def file_content():
     """Test file content."""
     return (
-        "Hello World!\n"
-        "Some numbers: 1, 23, 456\n"
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n"
-        "Aenean vitae quam eget ex laoreet vehicula ac a diam.\n"
+        "Hello World!\n"  # 13
+        "Some numbers: 1, 23, 456\n"  # 38
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n"  # 95
+        "Aenean vitae quam eget ex laoreet vehicula ac a diam.\n"  # 149
     )
 
 
@@ -61,8 +61,8 @@ def test_get_lineno_colno_raises_exceptions(scanner):
         (14, 1, 1),
         (38, 2, 0),
         (39, 2, 1),
-        (96, 3, 0),
-        (148, 3, 52),
+        (95, 3, 0),
+        (148, 3, 53),
     ],
 )
 def test_get_lineno_colno(scanner, pos, lineno, colno):
@@ -135,6 +135,10 @@ def test_move_pointer(scanner):
     scanner.move_pointer_relative(-2)
     assert scanner.pointer == (2, 0, 2)
 
+    # pointer at EOF
+    scanner.move_pointer_absolute(149)
+    assert scanner.pointer_pos is Scanner.EOF
+
 
 def test_read_raises_exceptions(scanner):
     """Test if read raise expected exceptions."""
@@ -149,10 +153,14 @@ def test_read(scanner, file_content):
     assert scanner.read(0) == ""
     assert scanner.read(2) == "He"
     assert scanner.read(2) == "ll"
+
     assert scanner.read(5, start=0) == "Hello"
     assert scanner.read(1, reset_pointer=True) == " "
     assert scanner.read(1) == " "
+
     assert scanner.read(1000, start=0) == file_content
     assert scanner.read(1) is scanner.EOF
+    assert scanner.read(1) is scanner.EOF
+
     assert scanner.read(1, start=148) == "\n"
     assert scanner.read(1, start=149) == scanner.EOF
