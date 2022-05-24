@@ -66,5 +66,5 @@ latex_documents = [
 def setup(app):
     app.connect(
         "autodoc-process-docstring",
-        between("^.*SPHINX-IGNORE.*$", what=["class"], exclude=True),
+        between("^.*SPHINX-IGNORE.*$", exclude=True),
     )

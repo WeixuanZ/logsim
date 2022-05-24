@@ -3,9 +3,11 @@
 Used in the Logic Simulator project. Most of the modules in the project
 use this module either directly or indirectly.
 
+SPHINX-IGNORE
 Classes
 -------
 Names - maps variable names and string names to unique integers.
+SPHINX-IGNORE
 """
 from typing import Union
 
@@ -24,11 +26,11 @@ class Names:
     It also keeps track of the number of error codes defined by other classes,
     and allocates new, unique error codes on demand.
 
+    SPHINX-IGNORE
     Parameters
     ----------
     No parameters.
 
-    SPHINX-IGNORE
     Public Methods
     --------------
     unique_error_codes(self, num_error_codes: int):

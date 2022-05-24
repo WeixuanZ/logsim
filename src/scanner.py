@@ -3,10 +3,12 @@
 Used in the Logic Simulator project to read the characters in the definition
 file and translate them into symbols that are usable by the parser.
 
+SPHINX-IGNORE
 Classes
 -------
 Scanner - reads definition file and translates characters into symbols.
 Symbol - encapsulates a symbol and stores its properties.
+SPHINX-IGNORE
 """
 
 from typing import Union, Tuple, Type, Callable
@@ -23,11 +25,20 @@ class Symbol:
 
     Parameters
     ----------
-    TODO
+    symbol_type: Union[ReservedSymbolType, ExternalSymbolType]
+        The type of the symbol
+    symbol_id: int
+        ID of the symbol, from the Names instance
+    lineno:
+        The line number of the symbol string in file
+    colno:
+        The column number of the start of the symbol string in file
 
-    Methods
-    -------
-    TODO
+    SPHINX-IGNORE
+    Public Methods
+    --------------
+    No public methods.
+    SPHINX-IGNORE
     """
 
     def __init__(
@@ -74,18 +85,64 @@ class Scanner:
 
     Parameters
     ----------
-    path:
+    path: str
         path to the circuit definition file.
-    names:
+    names: Names
         instance of the names.Names() class.
 
     SPHINX-IGNORE
+    Attributes
+    ----------
+    file_content:
+        Content of the file.
+    pointer:
+        Pointer position, line number, and column number.
+    pointer_pos:
+        Pointer position in the file.
+    pointer_lineno:
+        Line number of the pointer.
+    pointer_colno:
+        Column number of the pointer.
+    LINE_COMMENT_IDENTIFIER:
+        Identifier specifying start of line comments.
+    BLOCK_COMMENT_IDENTIFIERS:
+        Identifiers specifying start and end of block comments.
+    EOF:
+        Symbol indicating the end of file.
+
     Public Methods
     --------------
-    TODO
+    get_line_by_lineno(self, lineno):
+        Get the content of a line using the line number.
+    get_line_by_pos(self, pos):
+        Get the content of a line a given position is on.
+    get_lineno_colno(self, pos):
+        Get the line and column numbers of a position in file.
+    get_next_character(self, predicate=lambda c: True, reset_pointer=False):
+        Return the next desired character in file.
+    get_next_chunk(self, start_predicate, end_predicate):
+        Get the next chunk of characters from the file.
+    get_next_name(self, reset_pointer=False):
+        Return the next name string in file.
+    get_next_non_whitespace_character(self, reset_pointer=False):
+        Return the next non-whitespace character in file.
+    get_next_number(self, reset_pointer=False):
+        Return the next number in file.
     get_symbol(self):
-        Translates the next sequence of characters into a symbol
-        and returns the symbol.
+        Translates the next sequence of characters into a symbol and returns
+        the symbol.
+    move_pointer_absolute(self, pos):
+        Move the pointer to an absolute position.
+    move_pointer_after_next_match(self, target):
+        Move pointer after the specific target.
+    move_pointer_onto_next_character(self, predicate=lambda c: True):
+        Move pointer onto the next desired character.
+    move_pointer_relative(self, n):
+        Move the pointer by a relative distance.
+    move_pointer_skip_whitespace_characters(self):
+        Move pointer onto the next character that is not a whitespace.
+    read(self, n, start=None, reset_pointer=False):
+        Read up to n characters from the file and return them.
     SPHINX-IGNORE
     """
 
@@ -131,7 +188,7 @@ class Scanner:
 
     @property
     def pointer_pos(self) -> Union[int, Type[EOF]]:
-        """Return current pointer position in the file.
+        """Pointer position in the file.
 
         It is zero-indexed and protected. If the pointer is at end of file,
         Scanner.EOF will be returned.
@@ -144,7 +201,7 @@ class Scanner:
 
     @property
     def pointer_lineno(self) -> int:
-        """Return current line number of the pointer.
+        """Line number of the pointer.
 
         It is zero-indexed and protected.
         """
@@ -152,7 +209,7 @@ class Scanner:
 
     @property
     def pointer_colno(self) -> int:
-        """Return current column number of the pointer.
+        """Column number of the pointer.
 
         It is zero-indexed and protected. It can be one larger than the length
         of the line if the pointer is on the last line, which denotes the end
@@ -162,7 +219,7 @@ class Scanner:
 
     @property
     def pointer(self) -> Tuple[int, int, int]:
-        """Return current pointer position, line number, and column number."""
+        """Pointer position, line number, and column number."""
         lineno, colno = self.get_lineno_colno(self._pointer_pos)
         return self._pointer_pos, lineno, colno
 
@@ -447,7 +504,11 @@ class Scanner:
         )
 
     def get_symbol(self) -> Union[Symbol, None]:
-        """Translate the next sequence of characters into a symbol."""
+        """Translate the next sequence of characters into a symbol.
+
+        If the end of file is reached, None will be returned instead of a
+        Symbol instance.
+        """
         self.move_pointer_skip_whitespace_characters()
         current_character = self.get_next_character(reset_pointer=True)
         if current_character is Scanner.EOF:  # EOF

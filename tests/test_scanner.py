@@ -540,6 +540,7 @@ class ReservedSymbolType(metaclass=ReservedSymbolTypeMeta):
     ],
 )
 def test_get_symbol(tmp_path, monkeypatch, content, expected_symbols):
+    """Test get_symbol behaves as expected."""
     d = tmp_path / "sub"
     d.mkdir()
     p = d / "test.txt"
