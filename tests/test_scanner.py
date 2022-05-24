@@ -2,8 +2,13 @@
 
 import pytest
 
-from scanner import Scanner
+from scanner import Symbol, Scanner
 from names import Names
+from custom_types import (
+    ReservedSymbolTypeMeta,
+    ExtendedEnum,
+    ExternalSymbolType,
+)
 
 
 @pytest.fixture()
@@ -202,6 +207,9 @@ def test_move_pointer_onto_next_character(scanner):
     assert scanner.pointer_pos == 27
     assert scanner.read(1, reset_pointer=True) == "1"
 
+    scanner.move_pointer_absolute(148)
+    scanner.move_pointer_onto_next_character()
+    assert scanner.pointer_pos == 148
     scanner.move_pointer_absolute(149)
     scanner.move_pointer_onto_next_character()
     assert scanner.pointer_pos is Scanner.EOF
@@ -302,3 +310,245 @@ def test_get_next_name(scanner):
     assert scanner.get_next_name() == "Some"
     assert scanner.get_next_name() == "numbers"
     assert scanner.get_next_name() == "Lorem"
+
+
+# -----------------------------------------------------------------------------
+
+
+# mock reserved symbols
+class MockKeywordTypeContext(ExtendedEnum):
+    """Mock of keyword symbol type context."""
+
+    KEYWORD1 = "KEYWORD1"  # id = 0
+    KEYWORD2 = "KEYWORD2"  # id = 1
+    KEYWORD3 = "KEYWORD3"  # id = 2
+
+
+class MockOperatorTypeContext(ExtendedEnum):
+    """Mock of operator symbol type context"""
+
+    COMMA = ","  # id = 3
+
+
+class ReservedSymbolType(metaclass=ReservedSymbolTypeMeta):
+    """Mock up of ReservedSymbolType."""
+
+    symbol_contexts = [MockKeywordTypeContext, MockOperatorTypeContext]
+
+
+@pytest.mark.parametrize(
+    "content, expected_symbols",
+    [
+        (  # keyword
+            "KEYWORD1",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                )
+            ],
+        ),
+        (  # not keyword
+            "KEYWORD",
+            [
+                Symbol(
+                    symbol_type=ExternalSymbolType.IDENTIFIER,
+                    symbol_id=4,
+                    lineno=0,
+                    colno=0,
+                )
+            ],
+        ),
+        (  # new line
+            "KEYWORD1\nKEYWORD2",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                ),
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD2,
+                    symbol_id=1,
+                    lineno=1,
+                    colno=0,
+                ),
+            ],
+        ),
+        (  # line comment
+            "KEYWORD1 // line comment",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                )
+            ],
+        ),
+        (  # not line comment
+            "KEYWORD1 / line comment",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                ),
+                Symbol(
+                    symbol_type=ExternalSymbolType.IDENTIFIER,
+                    symbol_id=4,
+                    lineno=0,
+                    colno=11,
+                ),
+                Symbol(
+                    symbol_type=ExternalSymbolType.IDENTIFIER,
+                    symbol_id=5,
+                    lineno=0,
+                    colno=16,
+                ),
+            ],
+        ),
+        (  # block comment
+            "KEYWORD1 /* block \n" "comment */",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                )
+            ],
+        ),
+        (  # not block comment
+            "KEYWORD1 /* block \n" "comment /*",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                ),
+                Symbol(
+                    symbol_type=ExternalSymbolType.IDENTIFIER,
+                    symbol_id=4,
+                    lineno=0,
+                    colno=12,
+                ),
+                Symbol(
+                    symbol_type=ExternalSymbolType.IDENTIFIER,
+                    symbol_id=5,
+                    lineno=1,
+                    colno=0,
+                ),
+            ],
+        ),
+        (  # operator
+            "KEYWORD1, KEYWORD2",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                ),
+                Symbol(
+                    symbol_type=ReservedSymbolType.COMMA,
+                    symbol_id=3,
+                    lineno=0,
+                    colno=8,
+                ),
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD2,
+                    symbol_id=1,
+                    lineno=0,
+                    colno=10,
+                ),
+            ],
+        ),
+        (  # new line and whitespaces
+            "KEYWORD1,\n    KEYWORD2",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                ),
+                Symbol(
+                    symbol_type=ReservedSymbolType.COMMA,
+                    symbol_id=3,
+                    lineno=0,
+                    colno=8,
+                ),
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD2,
+                    symbol_id=1,
+                    lineno=1,
+                    colno=4,
+                ),
+            ],
+        ),
+        (  # identifier and numbers
+            "KEYWORD1 a123 123",
+            [
+                Symbol(
+                    symbol_type=ReservedSymbolType.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=0,
+                ),
+                Symbol(
+                    symbol_type=ExternalSymbolType.IDENTIFIER,
+                    symbol_id=4,
+                    lineno=0,
+                    colno=9,
+                ),
+                Symbol(
+                    symbol_type=ExternalSymbolType.NUMBERS,
+                    symbol_id=5,
+                    lineno=0,
+                    colno=14,
+                ),
+            ],
+        ),
+        (  # naming starting with _
+            "_NEW_KEYWORD",
+            [
+                Symbol(
+                    symbol_type=ExternalSymbolType.IDENTIFIER,
+                    symbol_id=4,
+                    lineno=0,
+                    colno=0,
+                ),
+            ],
+        ),
+        (  # invalid character
+            "!! KEYWORD1",
+            [
+                Symbol(
+                    symbol_type=MockKeywordTypeContext.KEYWORD1,
+                    symbol_id=0,
+                    lineno=0,
+                    colno=3,
+                ),
+            ],
+        ),
+    ],
+)
+def test_get_symbol(tmp_path, monkeypatch, content, expected_symbols):
+    d = tmp_path / "sub"
+    d.mkdir()
+    p = d / "test.txt"
+    p.write_text(content)
+
+    monkeypatch.setattr("names.ReservedSymbolType", ReservedSymbolType)
+    monkeypatch.setattr("scanner.ReservedSymbolType", ReservedSymbolType)
+    scanner = Scanner(p, Names())
+
+    expected_symbols = iter(expected_symbols)
+    while (symbol := scanner.get_symbol()) is not None:
+        assert symbol == next(expected_symbols)

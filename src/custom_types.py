@@ -38,8 +38,6 @@ class OperatorType(ExtendedEnum):
     RIGHT_ANGLE = ">"
     COLON = ":"
     SEMICOLON = ";"
-    FORWARD_SLASH = "/"
-    ASTERISK = "*"
 
 
 class DeviceType(ExtendedEnum):

@@ -43,10 +43,23 @@ class Symbol:
         self.lineno = lineno
         self.colno = colno
 
+    def __eq__(self, other):
+        """Check if two Symbol instances are the same."""
+        if isinstance(self, other.__class__):
+            return all(
+                (
+                    self.type == other.type,
+                    self.id == other.id,
+                    self.lineno == other.lineno,
+                    self.colno == other.colno,
+                )
+            )
+        return False
+
     def __repr__(self):
         """Customised repr of Symbol objects."""
         return (
-            f"Symbol({self.type}, {self.id},"
+            f"Symbol({self.type}, {self.id}, "
             f"position={self.lineno}:{self.colno})"
         )
 
@@ -80,6 +93,9 @@ class Scanner:
         """Symbol indicating the end of file."""
 
         pass
+
+    LINE_COMMENT_IDENTIFIER = "//"
+    BLOCK_COMMENT_IDENTIFIERS = ("/*", "*/")
 
     def __init__(self, path: str, names: Names):
         """Open specified file and initialise reserved words and IDs."""
@@ -430,5 +446,55 @@ class Scanner:
             reset_pointer=reset_pointer,
         )
 
-    def get_symbol(self):
+    def get_symbol(self) -> Union[Symbol, None]:
         """Translate the next sequence of characters into a symbol."""
+        self.move_pointer_skip_whitespace_characters()
+        current_character = self.get_next_character(reset_pointer=True)
+        if current_character is Scanner.EOF:  # EOF
+            return None
+
+        # line comment
+        if current_character == Scanner.LINE_COMMENT_IDENTIFIER[0]:
+            if (
+                self.read(
+                    len(Scanner.LINE_COMMENT_IDENTIFIER), reset_pointer=True
+                )
+                == Scanner.LINE_COMMENT_IDENTIFIER
+            ):
+                self.move_pointer_onto_next_character(
+                    predicate=lambda c: c == "\n"
+                )
+                return self.get_symbol()
+        # block comment
+        if current_character == Scanner.BLOCK_COMMENT_IDENTIFIERS[0][0]:
+            if (
+                self.read(
+                    len(Scanner.BLOCK_COMMENT_IDENTIFIERS[0]),
+                    reset_pointer=True,
+                )
+                == Scanner.BLOCK_COMMENT_IDENTIFIERS[0]
+            ):
+                self.move_pointer_after_next_match(
+                    target=Scanner.BLOCK_COMMENT_IDENTIFIERS[1]
+                )
+                return self.get_symbol()
+
+        if current_character.isalpha() or current_character == "_":  # name
+            symbol_string = self.get_next_name()
+
+        elif current_character.isdigit():  # number
+            symbol_string = self.get_next_number()
+
+        elif current_character in ReservedSymbolType.values():  # operator
+            symbol_string = self.get_next_character()
+
+        else:  # not a valid character
+            self.move_pointer_relative(1)
+            return self.get_symbol()
+
+        [symbol_id] = self.names.lookup([symbol_string])
+        symbol_type = self.names.get_name_type(symbol_id)
+        symbol_lineno, symbol_colno = self.get_lineno_colno(
+            self._pointer_pos - len(symbol_string)
+        )
+        return Symbol(symbol_type, symbol_id, symbol_lineno, symbol_colno)
