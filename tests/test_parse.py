@@ -307,6 +307,7 @@ def test_parse_devices_statement_errors(
     ],
 )
 def test_parse_device_block(statement, success):
+    """Test module parse_device_block."""
     parser = make_parser(statement)
     out = parser.parse_device_block()
     assert out == success
@@ -334,6 +335,7 @@ def test_parse_device_block(statement, success):
     ],
 )
 def test_parse_device_block_errors(statement, error_list):
+    """Test errors arising in parse_device_block."""
     parser = make_parser(statement)
     parser.parse_device_block()
     if len(error_list) > 0:
@@ -356,3 +358,70 @@ def test_parse_device_block_errors(statement, error_list):
                 parser.errors.error_list[i].basic_message == type.basic_message
             )
             assert parser.errors.error_list[i].description == des
+
+
+@pytest.mark.parametrize(
+    "statement, out, device_name, pin_name, success",
+    [
+        (["A", "-"], "out", "A", None, True),
+        (["A", ".", "I1"], "in", "A", "I1", True),
+        (["A", ".", "QBAR"], "out", "A", "QBAR", True),
+        (["A", ".", "CLK"], "in", "A", "CLK", True),
+        (["A", "I1"], None, None, None, False),
+        (["A", "."], None, None, None, None),
+    ],
+)
+def test_parse_pin(statement, out, device_name, pin_name, success):
+    """Test module parse_pin."""
+    parser = make_parser(statement)
+    outcome, pin = parser.parse_pin()
+    if success is None:
+        assert outcome is None
+    else:
+        assert outcome == success
+        if success:
+            (o, d, p) = pin
+            assert o == out
+            assert device_name == d
+            if pin_name is not None:
+                assert p == pin_name
+
+
+@pytest.mark.parametrize(
+    "statement, error_type, description, success",
+    [
+        ([], SyntaxErrors.UnexpectedEOF, "Expected pin's device name", None),
+        (
+            ["AND"],
+            SyntaxErrors.UnexpectedToken,
+            "Expected pin's device name",
+            False,
+        ),
+        (["A"], SyntaxErrors.UnexpectedEOF, "Expected '.', '<', or ';'", None),
+        (
+            ["A", "="],
+            SyntaxErrors.UnexpectedToken,
+            "Expected '.', '<', or ';'",
+            False,
+        ),
+        (["A", "."], SyntaxErrors.UnexpectedEOF, "Expected pin name", None),
+        (
+            ["A", ".", ";"],
+            SyntaxErrors.UnexpectedToken,
+            "Expected pin name",
+            False,
+        ),
+    ],
+)
+def test_parse_pin_errors(statement, error_type, description, success):
+    """Test errors arising in parse_pin."""
+    parser = make_parser(statement)
+    out, pin = parser.parse_pin()
+    if success is None or not success:
+        assert out == success
+        assert parser.errors.error_counter == 1
+        assert (
+            parser.errors.error_list[0].basic_message
+            == error_type.basic_message
+        )
+        assert parser.errors.error_list[0].description == description

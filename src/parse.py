@@ -16,6 +16,8 @@ from custom_types import (
     Errors,
     OperatorType,
     SyntaxErrors,
+    DTypeInputType,
+    DTypeOutputType,
 )
 
 
@@ -330,6 +332,73 @@ class Parser:
         EBNF syntax: pin , "-" , pin , ";"
         """
         pass
+
+    def parse_pin(self):
+        """Parse pin.
+
+        EBNF syntax:    pin = ( in_pin | out_pin ) ;
+        in_pin = ( device_name , "." , " I " , digit_excluding_zero , [digit])
+        31 | ( device_name , "." , (" DATA " | " CLK " | " SET " | " CLEAR "));
+        out_pin = device_name | ( device_name , "." , ( " Q " | " QBAR " ) ) ;
+
+        Return: success, (out_pin, device_name, pin_name)
+        success = None(unexpected eof), False(syntax not ok), True(syntax ok)
+        out_pin = 'out' or 'in'
+        device_name = string
+        pin_name = None or string
+        """
+        if self.current_symbol is None:
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, "Expected pin's device name"
+            )
+            return None, None
+
+        if not self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken, "Expected pin's device name"
+            )
+            return False, None
+
+        device_name = self.names.get_name_string(self.current_symbol.id)
+
+        if not self.get_next():
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, "Expected '.', '<', or ';'"
+            )
+            return None, None
+
+        if self.current_symbol.type in [
+            OperatorType.SEMICOLON,
+            OperatorType.CONNECT,
+        ]:
+            # out_pin = device_name
+            return True, ("out", device_name, None)
+
+        if not self.current_symbol.type == OperatorType.DOT:
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken, "Expected '.', '<', or ';'"
+            )
+            return False, None
+
+        if not self.get_next():
+            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected pin name")
+            return None, None
+
+        if (
+            self.current_symbol.type in DTypeInputType
+            or self.current_symbol.type == ExternalSymbolType.IDENTIFIER
+        ):
+            pin_name = self.names.get_name_string(self.current_symbol.id)
+            self.get_next()
+            return True, ("in", device_name, pin_name)
+
+        if self.current_symbol.type in DTypeOutputType:
+            pin_name = self.names.get_name_string(self.current_symbol.id)
+            self.get_next()
+            return True, ("out", device_name, pin_name)
+
+        self.throw_error(SyntaxErrors.UnexpectedToken, "Expected pin name")
+        return False, None
 
     def parse_monitors_block(self):
         """Parse MONITORS block.
