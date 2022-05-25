@@ -11,6 +11,33 @@ from custom_types import (
 )
 
 
+def test_symbol_equal():
+    symbol1 = Symbol(
+        symbol_type=ExternalSymbolType.IDENTIFIER,
+        symbol_id=0,
+        lineno=0,
+        colno=0,
+    )
+    symbol2 = Symbol(
+        symbol_type=ExternalSymbolType.IDENTIFIER,
+        symbol_id=0,
+        lineno=0,
+        colno=0,
+    )
+    symbol3 = Symbol(
+        symbol_type=ExternalSymbolType.IDENTIFIER,
+        symbol_id=1,
+        lineno=0,
+        colno=0,
+    )
+    assert symbol1 == symbol2
+    assert symbol1 != symbol3
+    assert symbol1 != "Symbol"
+
+
+# -----------------------------------------------------------------------------
+
+
 @pytest.fixture()
 def file_content():
     """Content of the test file."""
@@ -128,12 +155,24 @@ def test_move_pointer_raises_exceptions(scanner):
 def test_move_pointer(scanner):
     """Test if move pointer functions behave as expected."""
     assert scanner.pointer == (0, 0, 0)
+    assert scanner.pointer_pos == 0
+    assert scanner.pointer_lineno == 0
+    assert scanner.pointer_colno == 0
     scanner.move_pointer_absolute(3)
     assert scanner.pointer == (3, 0, 3)
+    assert scanner.pointer_pos == 3
+    assert scanner.pointer_lineno == 0
+    assert scanner.pointer_colno == 3
     scanner.move_pointer_relative(1)
     assert scanner.pointer == (4, 0, 4)
+    assert scanner.pointer_pos == 4
+    assert scanner.pointer_lineno == 0
+    assert scanner.pointer_colno == 4
     scanner.move_pointer_relative(-2)
     assert scanner.pointer == (2, 0, 2)
+    assert scanner.pointer_pos == 2
+    assert scanner.pointer_lineno == 0
+    assert scanner.pointer_colno == 2
 
     # pointer at EOF
     scanner.move_pointer_absolute(149)

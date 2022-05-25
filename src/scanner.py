@@ -70,7 +70,7 @@ class Symbol:
 
     def __repr__(self):
         """Customised repr of Symbol objects."""
-        return (
+        return (  # pragma: no cover
             f"Symbol({self.type}, {self.id}, "
             f"position={self.lineno}:{self.colno})"
         )

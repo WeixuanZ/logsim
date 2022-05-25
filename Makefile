@@ -6,6 +6,9 @@ DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 test:
 	pytest tests/
 
+coverage:
+	coverage run --source=src -m pytest -v tests && coverage report -m
+
 lint:
 	pycodestyle src/
 	pydocstyle src/

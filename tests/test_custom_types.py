@@ -44,18 +44,34 @@ def test_reserved_symbol_type():
     )
     assert MockReservedSymbolType.COMMA is MockOperatorTypeContext.COMMA
 
+    # iter
+    for (type, expected_type) in zip(
+        MockReservedSymbolType,
+        [
+            MockKeywordTypeContext.TEST_KEYWORD1,
+            MockKeywordTypeContext.TEST_KEYWORD2,
+            MockKeywordTypeContext.TEST_KEYWORD3,
+        ],
+    ):
+        assert type is expected_type
+
+    # values()
     assert MockReservedSymbolType.values() == [
         "TEST_KEYWORD1",
         "TEST_KEYWORD2",
         "TEST_KEYWORD3",
         ",",
     ]
+
+    # __members__
     assert MockReservedSymbolType.__members__ == {
         "TEST_KEYWORD1": MockKeywordTypeContext.TEST_KEYWORD1,
         "TEST_KEYWORD2": MockKeywordTypeContext.TEST_KEYWORD2,
         "TEST_KEYWORD3": MockKeywordTypeContext.TEST_KEYWORD3,
         "COMMA": MockOperatorTypeContext.COMMA,
     }
+
+    # mappings
     assert MockReservedSymbolType.mappings == {
         "TEST_KEYWORD1": MockKeywordTypeContext.TEST_KEYWORD1,
         "TEST_KEYWORD2": MockKeywordTypeContext.TEST_KEYWORD2,
