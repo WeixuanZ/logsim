@@ -54,5 +54,4 @@ jobs:
         with:
           pytest-coverage-path: ./pytest-coverage.txt
           junitxml-path: ./pytest.xml
-          report-only-changed-files: true
           default-branch: master

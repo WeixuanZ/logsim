@@ -31,9 +31,9 @@ class Symbol:
     symbol_id: int
         ID of the symbol, from the Names instance
     lineno:
-        The line number of the symbol string in file
+        The line number of the symbol string in file (optional)
     colno:
-        The column number of the start of the symbol string in file
+        The column number of the start of the symbol string in file (optional)
 
     SPHINX-IGNORE
     Public Methods
@@ -46,8 +46,8 @@ class Symbol:
         self,
         symbol_type: Union[ReservedSymbolType, ExternalSymbolType],
         symbol_id: int,
-        lineno: int,
-        colno: int,
+        lineno: Union[int, None] = None,
+        colno: Union[int, None] = None,
     ):
         """Initialise symbol properties."""
         self.type = symbol_type
