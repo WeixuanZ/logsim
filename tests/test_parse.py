@@ -2,6 +2,7 @@
 import pytest
 from typing import Union
 from parse import Parser
+from devices import Devices
 from scanner import Symbol
 from names import Names
 from custom_types import OperatorType, SyntaxErrors, SemanticErrors, DeviceType
@@ -33,9 +34,10 @@ def make_parser(statement):
 
     names = Names()
     names.lookup(statement)
+    devices = Devices(names)
     scanner = MockScanner(names, statement)
 
-    return Parser(names, None, None, None, scanner)
+    return Parser(names, devices, None, None, scanner)
 
 
 @pytest.mark.parametrize(
@@ -289,24 +291,45 @@ def test_parse_devices_statement_errors(
 
 
 @pytest.mark.parametrize(
-    "statement, success",
+    "statement, dev_num, success",
     [
-        (["DEVICES", ":", "A", "=", "AND", ";"], True),
+        (["DEVICES", ":", "A", "=", "AND", "<", "2", ">", ";"], 1, True),
         (
-            ["DEVICES", ":", "A", ",", "B", "=", "XOR", "<", "0", ">", ";"],
+            ["DEVICES", ":", "A", ",", "B", "=", "XOR", ";"],
+            2,
             True,
         ),
-        (["DEVICES", ":", "A", "=", "AND", ";" "B", "=", "SWITCH", ";"], True),
-        (["DEVICES", ":", "CLOCK", "=", "AND"], None),
-        ([], None),
-        (["DEVICES", ":"], None),
+        (
+            [
+                "DEVICES",
+                ":",
+                "A",
+                "=",
+                "DTYPE",
+                ";",
+                "B",
+                "=",
+                "SWITCH",
+                "<",
+                "0",
+                ">",
+                ";",
+            ],
+            2,
+            True,
+        ),
+        (["DEVICES", ":", "CLOCK", "=", "AND"], 0, None),
+        ([], 0, None),
+        (["DEVICES", ":"], 0, None),
     ],
 )
-def test_parse_device_block(statement, success):
+def test_parse_device_block(statement, dev_num, success):
     """Test module parse_device_block."""
     parser = make_parser(statement)
     out = parser.parse_device_block()
     assert out == success
+    if parser.devices is not None:
+        assert len(parser.devices.devices_list) == dev_num
 
 
 @pytest.mark.parametrize(

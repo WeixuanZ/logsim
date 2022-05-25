@@ -217,6 +217,7 @@ class SyntaxErrors(Error):
     UnexpectedToken = Error("Unexpected token")
     MissingSemicolon = Error("Missing ';' at the end of statement")
     MissingParam = Error("Missing parameter for device type")
+    UnexpectedParam = Error("Unexpected parameter for device type")
     InvalidSwitchParam = Error("Invalid parameter for SWITCH device")
     NoDevices = Error("No devices found")
     NoConnections = Error("No connections found")
@@ -236,10 +237,6 @@ class SemanticErrors(Error):
     FloatingInput = Error("Floating input")
     MultipleConnections = Error(
         "Attempting to connect multiple pins to a signle pin"
-    )
-    InvalidCLK = Error(
-        "Attempting to connect a device other than CLOCK to a CLK input of \
-        DTYPE device"
     )
     InvalidAndParam = Error(
         "Invalid number of inputs for the gate"

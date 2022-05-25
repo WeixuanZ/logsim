@@ -17,6 +17,7 @@ from custom_types import (
     Errors,
     OperatorType,
     SyntaxErrors,
+    SemanticErrors,
     DTypeInputType,
     DTypeOutputType,
 )
@@ -107,7 +108,6 @@ class Parser:
         if self.current_symbol is None:
             return False
         while self.current_symbol.type != keyword:
-            # TODO check this in code when it gets to end of file
             if not self.get_next():
                 return False
         return True
@@ -156,6 +156,9 @@ class Parser:
                 return None
             self.get_next()
 
+        (device_names, gate_type, parameter) = device
+        self.add_devices(device_names, gate_type, parameter)
+
         while (
             self.current_symbol is not None
             and self.current_symbol.type != KeywordType.CONNECTIONS
@@ -167,11 +170,9 @@ class Parser:
                     # unexpected end of file
                     return success
             if self.syntax_valid:
-                # TODO add devices and pins, check validity of parameters
                 (device_names, gate_type, parameter) = device
-                pass
+                self.add_devices(device_names, gate_type, parameter)
             self.get_next()
-
         return True
 
     def parse_devices_statement(self):
@@ -602,6 +603,46 @@ class Parser:
 
         self.get_next()
         return True, pins
+
+    def add_devices(self, device_names, gate_type, parameter):
+        """Add devices parsed by parse_device_statement, add errors.
+
+        Parameters:
+            device_names - list of names of devices
+            gate_type - DeviceType.AND|NAND|NOR|OR|XOR|DTYPE|CLOCK|SWITCH
+            parameter - number or None
+        """
+        device_type = self.names.query(gate_type.value)
+        if gate_type == DeviceType.SWITCH.value:
+            if parameter == 0:
+                parameter = self.devices.LOW
+            elif parameter == 1:
+                parameter = self.devices.HIGH
+        for device_name in device_names:
+            device_id = self.names.query(device_name)
+            if self.devices is None:
+                return
+            error = self.devices.make_device(device_id, device_type, parameter)
+            if error == self.devices.NO_ERROR:
+                continue
+
+            self.syntax_valid = False
+            if error == self.devices.DEVICE_PRESENT:
+                self.throw_error(SemanticErrors.NameClash)
+            elif error == self.devices.QUALIFIER_PRESENT:
+                self.throw_error(SyntaxErrors.UnexpectedParam)
+            elif error == self.devices.NO_QUALIFIER:
+                self.throw_error(SyntaxErrors.MissingParam)
+            elif error == self.devices.INVALID_QUALIFIER:
+                if gate_type == DeviceType.SWITCH:
+                    self.throw_error(SyntaxErrors.InvalidSwitchParam)
+                elif gate_type == DeviceType.CLOCK:
+                    self.throw_error(SemanticErrors.InvalidClockParam)
+                else:
+                    self.throw_error(SemanticErrors.InvalidAndParam)
+            elif error == self.devices.BAD_DEVICE:
+                # should not happen as parser already checks this
+                pass
 
     def parse_network(self):
         """Parse the circuit definition file."""
