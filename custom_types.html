@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>custom_types module &mdash; logsim  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="names module" href="names.html" />
+    <link rel="prev" title="Logic Simulator Documnetation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> logsim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">custom_types module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="names.html">names module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scanner.html">scanner module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parse.html">parser module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitors.html">monitors module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devices.html">devices module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">network module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">gui module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">logsim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>custom_types module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/custom_types.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-custom_types">
+<span id="custom-types-module"></span><h1>custom_types module<a class="headerlink" href="#module-custom_types" title="Permalink to this headline"></a></h1>
+<p>Custom types and corresponding strings in the language.</p>
+<p>Used in the Logic Simulator project. Most of the modules in the project
+use this module either directly or indirectly.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.DTypeInputType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">DTypeInputType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.DTypeInputType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.ExtendedEnum" title="custom_types.ExtendedEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.ExtendedEnum</span></code></a></p>
+<p>D-type flip-flop inputs.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DTypeInputType.CLEAR">
+<span class="sig-name descname"><span class="pre">CLEAR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CLEAR'</span></em><a class="headerlink" href="#custom_types.DTypeInputType.CLEAR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DTypeInputType.CLK">
+<span class="sig-name descname"><span class="pre">CLK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CLK'</span></em><a class="headerlink" href="#custom_types.DTypeInputType.CLK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DTypeInputType.DATA">
+<span class="sig-name descname"><span class="pre">DATA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DATA'</span></em><a class="headerlink" href="#custom_types.DTypeInputType.DATA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DTypeInputType.SET">
+<span class="sig-name descname"><span class="pre">SET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SET'</span></em><a class="headerlink" href="#custom_types.DTypeInputType.SET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.DTypeOutputType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">DTypeOutputType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.DTypeOutputType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.ExtendedEnum" title="custom_types.ExtendedEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.ExtendedEnum</span></code></a></p>
+<p>D-type flip-flop outputs.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DTypeOutputType.Q">
+<span class="sig-name descname"><span class="pre">Q</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Q'</span></em><a class="headerlink" href="#custom_types.DTypeOutputType.Q" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DTypeOutputType.QBAR">
+<span class="sig-name descname"><span class="pre">QBAR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'QBAR'</span></em><a class="headerlink" href="#custom_types.DTypeOutputType.QBAR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.DeviceType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">DeviceType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.DeviceType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.ExtendedEnum" title="custom_types.ExtendedEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.ExtendedEnum</span></code></a></p>
+<p>Supported devices.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DeviceType.AND">
+<span class="sig-name descname"><span class="pre">AND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AND'</span></em><a class="headerlink" href="#custom_types.DeviceType.AND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DeviceType.CLOCK">
+<span class="sig-name descname"><span class="pre">CLOCK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CLOCK'</span></em><a class="headerlink" href="#custom_types.DeviceType.CLOCK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DeviceType.D_TYPE">
+<span class="sig-name descname"><span class="pre">D_TYPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DTYPE'</span></em><a class="headerlink" href="#custom_types.DeviceType.D_TYPE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DeviceType.NAND">
+<span class="sig-name descname"><span class="pre">NAND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NAND'</span></em><a class="headerlink" href="#custom_types.DeviceType.NAND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DeviceType.NOR">
+<span class="sig-name descname"><span class="pre">NOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NOR'</span></em><a class="headerlink" href="#custom_types.DeviceType.NOR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DeviceType.OR">
+<span class="sig-name descname"><span class="pre">OR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'OR'</span></em><a class="headerlink" href="#custom_types.DeviceType.OR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DeviceType.SWITCH">
+<span class="sig-name descname"><span class="pre">SWITCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SWITCH'</span></em><a class="headerlink" href="#custom_types.DeviceType.SWITCH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.DeviceType.XOR">
+<span class="sig-name descname"><span class="pre">XOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'XOR'</span></em><a class="headerlink" href="#custom_types.DeviceType.XOR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.Error">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">Error</span></span><a class="headerlink" href="#custom_types.Error" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>TODO.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.ErrorCode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">ErrorCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.ErrorCode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>TODO.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.Errors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">Errors</span></span><a class="headerlink" href="#custom_types.Errors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.Error" title="custom_types.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.Error</span></code></a></p>
+<p>TODO.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.ExtendedEnum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">ExtendedEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.ExtendedEnum" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Subclass of default Enum with add values method.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="custom_types.ExtendedEnum.values">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#custom_types.ExtendedEnum.values" title="Permalink to this definition"></a></dt>
+<dd><p>List all the values of the Enum.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.ExternalSymbolType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">ExternalSymbolType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.ExternalSymbolType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.ExtendedEnum" title="custom_types.ExtendedEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.ExtendedEnum</span></code></a></p>
+<p>User-defined symbol types.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ExternalSymbolType.IDENTIFIER">
+<span class="sig-name descname"><span class="pre">IDENTIFIER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'IDENTIFIER'</span></em><a class="headerlink" href="#custom_types.ExternalSymbolType.IDENTIFIER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ExternalSymbolType.NUMBERS">
+<span class="sig-name descname"><span class="pre">NUMBERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NUMBERS'</span></em><a class="headerlink" href="#custom_types.ExternalSymbolType.NUMBERS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.KeywordType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">KeywordType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.KeywordType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.ExtendedEnum" title="custom_types.ExtendedEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.ExtendedEnum</span></code></a></p>
+<p>Language builtin keywords, used to initiate blocks.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.KeywordType.CONNECTIONS">
+<span class="sig-name descname"><span class="pre">CONNECTIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CONNECTIONS'</span></em><a class="headerlink" href="#custom_types.KeywordType.CONNECTIONS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.KeywordType.DEVICES">
+<span class="sig-name descname"><span class="pre">DEVICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEVICES'</span></em><a class="headerlink" href="#custom_types.KeywordType.DEVICES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.KeywordType.MONITORS">
+<span class="sig-name descname"><span class="pre">MONITORS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MONITORS'</span></em><a class="headerlink" href="#custom_types.KeywordType.MONITORS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.OperatorType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">OperatorType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.OperatorType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.ExtendedEnum" title="custom_types.ExtendedEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.ExtendedEnum</span></code></a></p>
+<p>Operators defined in the logic definition language.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.OperatorType.COLON">
+<span class="sig-name descname"><span class="pre">COLON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">':'</span></em><a class="headerlink" href="#custom_types.OperatorType.COLON" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.OperatorType.COMMA">
+<span class="sig-name descname"><span class="pre">COMMA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">','</span></em><a class="headerlink" href="#custom_types.OperatorType.COMMA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.OperatorType.CONNECT">
+<span class="sig-name descname"><span class="pre">CONNECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'-'</span></em><a class="headerlink" href="#custom_types.OperatorType.CONNECT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.OperatorType.DOT">
+<span class="sig-name descname"><span class="pre">DOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.'</span></em><a class="headerlink" href="#custom_types.OperatorType.DOT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.OperatorType.EQUAL">
+<span class="sig-name descname"><span class="pre">EQUAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'='</span></em><a class="headerlink" href="#custom_types.OperatorType.EQUAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.OperatorType.LEFT_ANGLE">
+<span class="sig-name descname"><span class="pre">LEFT_ANGLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;'</span></em><a class="headerlink" href="#custom_types.OperatorType.LEFT_ANGLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.OperatorType.RIGHT_ANGLE">
+<span class="sig-name descname"><span class="pre">RIGHT_ANGLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&gt;'</span></em><a class="headerlink" href="#custom_types.OperatorType.RIGHT_ANGLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.OperatorType.SEMICOLON">
+<span class="sig-name descname"><span class="pre">SEMICOLON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">';'</span></em><a class="headerlink" href="#custom_types.OperatorType.SEMICOLON" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">ReservedSymbolType</span></span><a class="headerlink" href="#custom_types.ReservedSymbolType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>All built-in symbol types in the language, which are reserved.</p>
+<p>This class is created from ReservedSymbolTypeMeta, combining all the types
+together.</p>
+<p>Specify all the symbol type contexts as a class attribute list.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.symbol_contexts">
+<span class="sig-name descname"><span class="pre">symbol_contexts</span></span><a class="headerlink" href="#custom_types.ReservedSymbolType.symbol_contexts" title="Permalink to this definition"></a></dt>
+<dd><p>List of all symbol type contexts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.AND">
+<span class="sig-name descname"><span class="pre">AND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AND'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.AND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.CLEAR">
+<span class="sig-name descname"><span class="pre">CLEAR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CLEAR'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.CLEAR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.CLK">
+<span class="sig-name descname"><span class="pre">CLK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CLK'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.CLK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.CLOCK">
+<span class="sig-name descname"><span class="pre">CLOCK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CLOCK'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.CLOCK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.COLON">
+<span class="sig-name descname"><span class="pre">COLON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">':'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.COLON" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.COMMA">
+<span class="sig-name descname"><span class="pre">COMMA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">','</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.COMMA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.CONNECT">
+<span class="sig-name descname"><span class="pre">CONNECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'-'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.CONNECT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.CONNECTIONS">
+<span class="sig-name descname"><span class="pre">CONNECTIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CONNECTIONS'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.CONNECTIONS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.DATA">
+<span class="sig-name descname"><span class="pre">DATA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DATA'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.DATA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.DEVICES">
+<span class="sig-name descname"><span class="pre">DEVICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEVICES'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.DEVICES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.DOT">
+<span class="sig-name descname"><span class="pre">DOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.DOT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.D_TYPE">
+<span class="sig-name descname"><span class="pre">D_TYPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DTYPE'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.D_TYPE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.EQUAL">
+<span class="sig-name descname"><span class="pre">EQUAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'='</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.EQUAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.LEFT_ANGLE">
+<span class="sig-name descname"><span class="pre">LEFT_ANGLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.LEFT_ANGLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.MONITORS">
+<span class="sig-name descname"><span class="pre">MONITORS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MONITORS'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.MONITORS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.NAND">
+<span class="sig-name descname"><span class="pre">NAND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NAND'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.NAND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.NOR">
+<span class="sig-name descname"><span class="pre">NOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NOR'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.NOR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.OR">
+<span class="sig-name descname"><span class="pre">OR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'OR'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.OR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.Q">
+<span class="sig-name descname"><span class="pre">Q</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Q'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.Q" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.QBAR">
+<span class="sig-name descname"><span class="pre">QBAR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'QBAR'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.QBAR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.RIGHT_ANGLE">
+<span class="sig-name descname"><span class="pre">RIGHT_ANGLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&gt;'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.RIGHT_ANGLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.SEMICOLON">
+<span class="sig-name descname"><span class="pre">SEMICOLON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">';'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.SEMICOLON" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.SET">
+<span class="sig-name descname"><span class="pre">SET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SET'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.SET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.SWITCH">
+<span class="sig-name descname"><span class="pre">SWITCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SWITCH'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.SWITCH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolType.XOR">
+<span class="sig-name descname"><span class="pre">XOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'XOR'</span></em><a class="headerlink" href="#custom_types.ReservedSymbolType.XOR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">symbol_contexts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;enum</span> <span class="pre">'KeywordType'&gt;,</span> <span class="pre">&lt;enum</span> <span class="pre">'OperatorType'&gt;,</span> <span class="pre">&lt;enum</span> <span class="pre">'DeviceType'&gt;,</span> <span class="pre">&lt;enum</span> <span class="pre">'DTypeInputType'&gt;,</span> <span class="pre">&lt;enum</span> <span class="pre">'DTypeOutputType'&gt;]</span></em><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolTypeMeta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">ReservedSymbolTypeMeta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_types.ReservedSymbolTypeMeta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></p>
+<p>Metaclass that create classes acting as wrapper around Enums.</p>
+<p>This allows combination of several Enums, with value pointing
+to the original Enum entry, enabling correct comparison.</p>
+<p>Class created have an interface similar to that of the standard Enum.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolTypeMeta.mappings">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mappings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">mappingproxy</span></em><a class="headerlink" href="#custom_types.ReservedSymbolTypeMeta.mappings" title="Permalink to this definition"></a></dt>
+<dd><p>Property that returns a mapping between type value and type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="custom_types.ReservedSymbolTypeMeta.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#custom_types.ReservedSymbolTypeMeta.values" title="Permalink to this definition"></a></dt>
+<dd><p>Return all the type values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.SemanticErrors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">SemanticErrors</span></span><a class="headerlink" href="#custom_types.SemanticErrors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.Error" title="custom_types.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.Error</span></code></a></p>
+<p>TODO.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="custom_types.SyntaxErrors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">custom_types.</span></span><span class="sig-name descname"><span class="pre">SyntaxErrors</span></span><a class="headerlink" href="#custom_types.SyntaxErrors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#custom_types.Error" title="custom_types.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">custom_types.Error</span></code></a></p>
+<p>TODO.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Logic Simulator Documnetation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="names.html" class="btn btn-neutral float-right" title="names module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, JS Bhoot, V Njaradi, W Zhang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
