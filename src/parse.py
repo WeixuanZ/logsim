@@ -10,7 +10,6 @@ Classes
 Parser - parses the definition file and builds the logic network.
 SPHINX-IGNORE
 """
-import copy
 
 from symbol_types import (
     KeywordType,
@@ -72,9 +71,7 @@ class Parser:
 
     def throw_error(self, error, description=None):
         """Add error with optional description to the list."""
-        if description:
-            error.set_description(description)
-        self.errors.add_error(error)
+        self.errors.add_error(error(description))
 
     def get_next(self):
         """Get next symbol from scanner and set it as current symbol.
@@ -418,9 +415,7 @@ class Parser:
                     self.errors.error_list[0].description
                     == "Expected '.', '-', or ';'"
                 ):
-                    self.errors.error_list[0] = copy.deepcopy(
-                        SyntaxErrors.MissingSemicolon
-                    )
+                    self.errors.error_list[0] = SyntaxErrors.MissingSemicolon()
             return outcome
 
         if self.current_symbol is None:

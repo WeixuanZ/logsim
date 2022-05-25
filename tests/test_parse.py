@@ -59,9 +59,7 @@ def test_throw_error(
     assert parser.errors.error_counter == 0
     parser.throw_error(error_type, description)
     assert parser.errors.error_counter == 1
-    assert (
-        parser.errors.error_list[0].basic_message == error_type.basic_message
-    )
+    assert parser.errors.error_list[0].message == error_type.message
     if description is not None:
         assert parser.errors.error_list[0].description
 
@@ -201,9 +199,7 @@ def test_parse_device_type_errors(statement, error_type, description, success):
     out, _ = parser.parse_device_type()
     assert out == success
     assert parser.errors.error_counter == 1
-    assert (
-        parser.errors.error_list[0].basic_message == error_type.basic_message
-    )
+    assert parser.errors.error_list[0].message == error_type.message
     assert parser.errors.error_list[0].description == description
 
 
@@ -287,9 +283,7 @@ def test_parse_devices_statement_errors(
     out, _ = parser.parse_devices_statement()
     assert out == success
     assert parser.errors.error_counter == 1
-    assert (
-        parser.errors.error_list[0].basic_message == error_type.basic_message
-    )
+    assert parser.errors.error_list[0].message == error_type.message
     assert parser.errors.error_list[0].description == description
 
 
@@ -376,9 +370,7 @@ def test_parse_device_block_errors(statement, error_list):
         assert parser.errors.error_counter == len(error_list)
         for i in range(len(error_list)):
             (type, des) = error_list[i]
-            assert (
-                parser.errors.error_list[i].basic_message == type.basic_message
-            )
+            assert parser.errors.error_list[i].message == type.message
             assert parser.errors.error_list[i].description == des
 
 
@@ -439,10 +431,7 @@ def test_parse_pin_errors(statement, error_type, description, success):
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1
-        assert (
-            parser.errors.error_list[0].basic_message
-            == error_type.basic_message
-        )
+        assert parser.errors.error_list[0].message == error_type.message
         assert parser.errors.error_list[0].description == description
 
 
@@ -492,10 +481,7 @@ def test_parse_connection_statement_errors(
     if success is None or not success:
         assert outcome == success
         assert parser.errors.error_counter == 1
-        assert (
-            parser.errors.error_list[0].basic_message
-            == error_type.basic_message
-        )
+        assert parser.errors.error_list[0].message == error_type.message
         assert parser.errors.error_list[0].description == description
 
 
@@ -574,10 +560,7 @@ def test_parse_connection_block_errors(statement, error_list):
         assert parser.errors.error_counter == len(error_list)
         for i in range(len(error_list)):
             (e_type, e_des) = error_list[i]
-            assert (
-                parser.errors.error_list[i].basic_message
-                == e_type.basic_message
-            )
+            assert parser.errors.error_list[i].message == e_type.message
             assert parser.errors.error_list[i].description == e_des
 
 
@@ -639,10 +622,7 @@ def test_parse_monitor_statement_errors(
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1
-        assert (
-            parser.errors.error_list[0].basic_message
-            == error_type.basic_message
-        )
+        assert parser.errors.error_list[0].message == error_type.message
         assert parser.errors.error_list[0].description == description
 
 
@@ -690,10 +670,7 @@ def test_parse_monitors_block_errors(
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1
-        assert (
-            parser.errors.error_list[0].basic_message
-            == error_type.basic_message
-        )
+        assert parser.errors.error_list[0].message == error_type.message
         assert parser.errors.error_list[0].description == description
 
 

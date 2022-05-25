@@ -12,71 +12,98 @@ SyntaxErrors
 SPHINX-IGNORE
 """
 
-import copy
 
+class ParseBaseExceptionMeta(type):
+    """Metaclass create ParseBaseException classes.
 
-class Error:
-    """Class describing each error.
-
-    Parameters
-    ----------
-    error_message:
-        short message presented to the user when the error is found
-
-    Methods
-    -------
-    set_description(self, description):
-        Sets a more detailed description of the error
-    set_basic_message(self, message):
-        Sets basic message of the error
+    This allows default message to be defined using the doc string, simplify
+    the code.
     """
 
-    def __init__(self, error_message, description=""):
-        """Initialise error class."""
-        self.basic_message = error_message
-        self.description = description
-        self.errorCode = None
-
-    def set_description(self, description):
-        """Set detailed description of error."""
-        self.description = description
-
-    def set_basic_message(self, message):
-        """Set basic message of error."""
-        self.basic_message = message
+    def __init__(cls, classname, bases, dictionary):
+        """Initialize the class object."""
+        if msg := dictionary.get("__doc__"):
+            cls.message = msg
+        super().__init__(classname, bases, dictionary)
 
 
-class SyntaxErrors(Error):
+class ParseBaseException(metaclass=ParseBaseExceptionMeta):
+    """Base parse exception."""
+
+    def __init__(self, description=None):
+        """Initialize the exception instance."""
+        self.description = description if description is not None else ""
+
+    def explain(self):
+        """TODO."""
+        pass
+
+
+class SyntaxErrors:
     """Different types of syntax errors."""
 
-    UnexpectedToken = Error("Unexpected token")
-    MissingSemicolon = Error("Missing ';' at the end of statement")
-    MissingParam = Error("Missing parameter for device type")
-    InvalidSwitchParam = Error("Invalid parameter for SWITCH device")
-    UnexpectedParam = Error("Unexpected parameter for device type")
-    NoDevices = Error("No devices found")
-    NoConnections = Error("No connections found")
-    NoMonitors = Error("No monitor pins found")
-    UnexpectedEOF = Error("Unexpected end of file")
+    class UnexpectedToken(ParseBaseException):
+        """Unexpected token."""
+
+    class MissingSemicolon(ParseBaseException):
+        """Missing ';' at the end of statement."""
+
+    class MissingParam(ParseBaseException):
+        """Missing parameter for device type."""
+
+    class InvalidSwitchParam(ParseBaseException):
+        """Invalid parameter for SWITCH device."""
+
+    class UnexpectedParam(ParseBaseException):
+        """Unexpected parameter for device type."""
+
+    class NoDevices(ParseBaseException):
+        """No devices found."""
+
+    class NoConnections(ParseBaseException):
+        """No connections found."""
+
+    class NoMonitors(ParseBaseException):
+        """No monitor pins found."""
+
+    class UnexpectedEOF(ParseBaseException):
+        """Unexpected end of file."""
 
 
-class SemanticErrors(Error):
+class SemanticErrors:
     """Different types of semantic errors."""
 
-    UndefinedDevice = Error("Undefined device name")
-    NameClash = Error("NameClash")
-    UndefinedInPin = Error("Undefined input pin")
-    UndefinedOutPin = Error("Undefined output pin")
-    ConnectInToIn = Error("Attempting to connect input pin to input pin")
-    ConnectOutToOut = Error("Attempting to connect output pin to output pin")
-    FloatingInput = Error("Floating input")
-    MultipleConnections = Error(
-        "Attempting to connect multiple pins to a signle pin"
-    )
-    InvalidAndParam = Error(
-        "Invalid number of inputs for the gate"
-    )  # for AND/NAND/NOR/OR/XOR
-    InvalidClockParam = Error("Invalid clock period")
+    class UndefinedDevice(ParseBaseException):
+        """Undefined device name."""
+
+    class NameClash(ParseBaseException):
+        """NameClash."""
+
+    class UndefinedInPin(ParseBaseException):
+        """Undefined input pin."""
+
+    class UndefinedOutPin(ParseBaseException):
+        """Undefined output pin."""
+
+    class ConnectInToIn(ParseBaseException):
+        """Attempting to connect input pin to input pin."""
+
+    class ConnectOutToOut(ParseBaseException):
+        """Attempting to connect output pin to output pin."""
+
+    class FloatingInput(ParseBaseException):
+        """Floating input."""
+
+    class MultipleConnections(ParseBaseException):
+        """Attempting to connect multiple pins to a single pin."""
+
+    class InvalidAndParam(ParseBaseException):
+        """Invalid number of inputs for the gate."""
+
+        # for AND/NAND/NOR/OR/XOR
+
+    class InvalidClockParam(ParseBaseException):
+        """Invalid clock period."""
 
 
 class Errors:
@@ -96,17 +123,11 @@ class Errors:
         self.error_counter = 0
         self.error_list = []
 
-    def add_error(self, error: Error):
+    def add_error(self, error):
         """Add an error to the existing list."""
         self.error_counter += 1
-        # TODO restructure Error classes so that there is no need to copy
-        self.error_list.append(copy.deepcopy(error))
+        self.error_list.append(error)
 
-    def show_error_position(self, colno, lineno):
-        """TODO."""
-        # prints a line of error and an arrow pointing to its exact position
-        pass
-
-    def print_error_message(self, error: Error):
+    def print_error_message(self, error):
         """TODO."""
         pass
