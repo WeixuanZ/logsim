@@ -4,6 +4,7 @@ from typing import Union
 from parse import Parser
 from devices import Devices
 from scanner import Symbol
+from network import Network
 from names import Names
 from custom_types import OperatorType, SyntaxErrors, SemanticErrors, DeviceType
 
@@ -36,8 +37,9 @@ def make_parser(statement):
     names.lookup(statement)
     devices = Devices(names)
     scanner = MockScanner(names, statement)
+    network = Network(names, devices)
 
-    return Parser(names, devices, None, None, scanner)
+    return Parser(names, devices, network, None, scanner)
 
 
 @pytest.mark.parametrize(
@@ -706,15 +708,14 @@ def test_parse_monitors_block_errors(
                 "B",
                 "=",
                 "XOR",
-                "<",
-                "0",
-                ">",
                 ";",
                 "CONNECTIONS",
                 ":",
                 "A",
                 "-",
                 "B",
+                ".",
+                "I1",
                 ";",
             ],
             True,
@@ -727,7 +728,7 @@ def test_parse_monitors_block_errors(
                 ",",
                 "B",
                 "=",
-                "XOR",
+                "SWITCH",
                 "<",
                 "0",
                 ">",

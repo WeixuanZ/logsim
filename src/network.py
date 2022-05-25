@@ -61,9 +61,10 @@ class Network:
             self.INPUT_TO_INPUT,
             self.OUTPUT_TO_OUTPUT,
             self.INPUT_CONNECTED,
-            self.PORT_ABSENT,
+            self.FIRST_PORT_ABSENT,
+            self.SECOND_PORT_ABSENT,
             self.DEVICE_ABSENT,
-        ] = self.names.unique_error_codes(6)
+        ] = self.names.unique_error_codes(7)
         self.steady_state = True  # for checking if signals have settled
 
     def get_connected_output(self, device_id, input_id):
@@ -131,7 +132,7 @@ class Network:
                 )
                 error_type = self.NO_ERROR
             else:  # second_port_id is not a valid input or output port
-                error_type = self.PORT_ABSENT
+                error_type = self.SECOND_PORT_ABSENT
 
         elif first_port_id in first_device.outputs:
             if second_port_id in second_device.outputs:
@@ -148,10 +149,10 @@ class Network:
                     )
                     error_type = self.NO_ERROR
             else:
-                error_type = self.PORT_ABSENT
+                error_type = self.SECOND_PORT_ABSENT
 
         else:  # first_port_id not a valid input or output port
-            error_type = self.PORT_ABSENT
+            error_type = self.FIRST_PORT_ABSENT
 
         return error_type
 

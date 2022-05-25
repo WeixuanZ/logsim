@@ -147,17 +147,20 @@ class Parser:
         self.get_next()
         outcome, device = self.parse_devices_statement()
         if outcome is None:
+            self.syntax_valid = False
             self.throw_error(SyntaxErrors.NoDevices, "Empty DEVICES block")
             return None
         if not outcome:
+            self.syntax_valid = False
             if not self.skip_to_end_of_line():
                 # there was end of file
                 self.throw_error(SyntaxErrors.NoDevices, "Empty DEVICES block")
                 return None
             self.get_next()
 
-        (device_names, gate_type, parameter) = device
-        self.add_devices(device_names, gate_type, parameter)
+        if self.syntax_valid:
+            (device_names, gate_type, parameter) = device
+            self.add_devices(device_names, gate_type, parameter)
 
         while (
             self.current_symbol is not None
@@ -427,8 +430,7 @@ class Parser:
             return False
 
         if self.syntax_valid:
-            # TODO check validity and make connection with pin1 and pin2
-            pass
+            self.add_connection(pin1, pin2)
         self.get_next()
         return True
 
@@ -643,6 +645,59 @@ class Parser:
             elif error == self.devices.BAD_DEVICE:
                 # should not happen as parser already checks this
                 pass
+
+    def add_connection(self, pin1, pin2):
+        """Add connection between pin1 and pin2 if valid.
+
+        Parameters: pin1 = (out_pin1, device_name1, pin_name1),
+        pin2 = (out_pin2, device_name2, pin_name2)
+        out_pin = 'out' or 'in'
+        device_name = string
+        pin_name = None or string
+        """
+        (out1, device_name, pin_name) = pin1
+        device1_id = self.names.query(device_name)
+        if pin_name is not None:
+            pin1_id = self.names.query(pin_name)
+        else:
+            pin1_id = None
+
+        (out2, device_name, pin_name) = pin2
+        device2_id = self.names.query(device_name)
+        if pin_name is not None:
+            pin2_id = self.names.query(pin_name)
+        else:
+            pin2_id = None
+
+        if self.network is None:
+            return
+
+        error = self.network.make_connection(
+            device1_id, pin1_id, device2_id, pin2_id
+        )
+        if error == self.network.NO_ERROR:
+            return
+
+        self.syntax_valid = False
+
+        if error == self.network.INPUT_TO_INPUT:
+            self.throw_error(SemanticErrors.ConnectInToIn)
+        elif error == self.network.OUTPUT_TO_OUTPUT:
+            self.throw_error(SemanticErrors.ConnectOutToOut)
+        elif error == self.network.INPUT_CONNECTED:
+            self.throw_error(SemanticErrors.MultipleConnections)
+        elif error == self.network.DEVICE_ABSENT:
+            self.throw_error(SemanticErrors.UndefinedDevice)
+        elif error == self.network.FIRST_PORT_ABSENT:
+            if out1 == "out":
+                self.throw_error(SemanticErrors.UndefinedOutPin)
+            else:
+                self.throw_error(SemanticErrors.UndefinedInPin)
+        else:
+            if out2 == "out":
+                self.throw_error(SemanticErrors.UndefinedOutPin)
+            else:
+                self.throw_error(SemanticErrors.UndefinedInPin)
 
     def parse_network(self):
         """Parse the circuit definition file."""
