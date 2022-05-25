@@ -118,6 +118,8 @@ def test_lookup_raises_exceptions(new_names):
         new_names.lookup("TEST")
     with pytest.raises(TypeError):
         new_names.lookup(1)
+    with pytest.raises(TypeError):
+        new_names.lookup([1])
 
 
 @pytest.mark.parametrize(
@@ -179,11 +181,11 @@ def test_get_name_string(used_names, name_id, expected_string):
 def test_get_name_type_raises_exceptions(new_names):
     """Test if get_name_type raises expected exceptions."""
     with pytest.raises(TypeError):
-        new_names.get_name_string(1.4)
+        new_names.get_name_type(1.4)
     with pytest.raises(TypeError):
-        new_names.get_name_string("hello")
+        new_names.get_name_type("hello")
     with pytest.raises(ValueError):
-        new_names.get_name_string(-1)
+        new_names.get_name_type(-1)
 
 
 @pytest.mark.parametrize(

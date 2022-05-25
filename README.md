@@ -53,6 +53,11 @@ Run tests using
 make test
 ```
 
+Check test coverage using
+```shell
+make coverage
+```
+
 ### Installing Dependencies
 
 #### macOS

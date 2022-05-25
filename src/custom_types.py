@@ -2,6 +2,27 @@
 
 Used in the Logic Simulator project. Most of the modules in the project
 use this module either directly or indirectly.
+
+SPHINX-IGNORE
+Classes
+-------
+DTypeInputType - D-type flip-flop inputs.
+DTypeOutputType - D-type flip-flop outputs.
+DeviceType - Supported devices.
+Error
+ErrorCode
+Errors
+ExtendedEnum - Subclass of default Enum with add values method.
+ExternalSymbolType - User-defined symbol types.
+KeywordType - Language builtin keywords, used to initiate blocks.
+OperatorType - Operators defined in the logic definition language.
+ReservedSymbolType -
+    All built-in symbol types in the language, which are reserved.
+ReservedSymbolTypeMeta -
+    Metaclass that create classes acting as wrapper around Enums.
+SemanticErrors
+SyntaxErrors
+SPHINX-IGNORE
 """
 
 from types import MappingProxyType
@@ -28,7 +49,7 @@ class KeywordType(ExtendedEnum):
 
 
 class OperatorType(ExtendedEnum):
-    """Language operators."""
+    """Operators defined in the logic definition language."""
 
     EQUAL = "="
     CONNECT = "-"
@@ -38,8 +59,6 @@ class OperatorType(ExtendedEnum):
     RIGHT_ANGLE = ">"
     COLON = ":"
     SEMICOLON = ";"
-    FORWARD_SLASH = "/"
-    ASTERISK = "*"
 
 
 class DeviceType(ExtendedEnum):
@@ -84,7 +103,7 @@ class ReservedSymbolTypeMeta(type):
         """Create the class object."""
         for symbol_context in dictionary.get("symbol_contexts", ()):
             for symbol_type in symbol_context:
-                dictionary[symbol_type.value] = symbol_type
+                dictionary[symbol_type.name] = symbol_type
         return super().__new__(mcs, classname, bases, dictionary)
 
     def __init__(cls, classname, bases, dictionary):

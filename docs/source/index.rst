@@ -10,6 +10,7 @@ Logic Simulator Documnetation
    :maxdepth: 1
    :caption: Contents:
 
+   custom_types
    names
    scanner
    parse

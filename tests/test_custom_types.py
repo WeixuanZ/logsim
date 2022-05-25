@@ -3,19 +3,25 @@
 from custom_types import ExtendedEnum, ReservedSymbolTypeMeta
 
 
-class MockSymbolContext(ExtendedEnum):
-    """Mock up of a symbol type context."""
+# mock reserved symbols
+class MockKeywordTypeContext(ExtendedEnum):
+    """Mock of keyword symbol type context."""
 
-    TEST1 = "TEST1"
-    TEST2 = "TEST2"
-    TEST3 = ","
-    TEST4 = ";"
+    TEST_KEYWORD1 = "TEST_KEYWORD1"
+    TEST_KEYWORD2 = "TEST_KEYWORD2"
+    TEST_KEYWORD3 = "TEST_KEYWORD3"
+
+
+class MockOperatorTypeContext(ExtendedEnum):
+    """Mock of operator symbol type context"""
+
+    COMMA = ","
 
 
 class MockReservedSymbolType(metaclass=ReservedSymbolTypeMeta):
-    """Mock up of ReservedSymbolType class."""
+    """Mock of ReservedSymbolType."""
 
-    symbol_contexts = [MockSymbolContext]
+    symbol_contexts = [MockKeywordTypeContext, MockOperatorTypeContext]
 
 
 def test_extended_enum():
@@ -32,18 +38,43 @@ def test_extended_enum():
 
 def test_reserved_symbol_type():
     """Test ReservedSymbolTypeMeta creates classes with the correct methods."""
-    assert MockReservedSymbolType.TEST1 is MockSymbolContext.TEST1
-    assert MockReservedSymbolType.TEST2 is MockSymbolContext.TEST2
-    assert MockReservedSymbolType.values() == ["TEST1", "TEST2", ",", ";"]
+    assert (
+        MockReservedSymbolType.TEST_KEYWORD1
+        is MockKeywordTypeContext.TEST_KEYWORD1
+    )
+    assert MockReservedSymbolType.COMMA is MockOperatorTypeContext.COMMA
+
+    # iter
+    for (type, expected_type) in zip(
+        MockReservedSymbolType,
+        [
+            MockKeywordTypeContext.TEST_KEYWORD1,
+            MockKeywordTypeContext.TEST_KEYWORD2,
+            MockKeywordTypeContext.TEST_KEYWORD3,
+        ],
+    ):
+        assert type is expected_type
+
+    # values()
+    assert MockReservedSymbolType.values() == [
+        "TEST_KEYWORD1",
+        "TEST_KEYWORD2",
+        "TEST_KEYWORD3",
+        ",",
+    ]
+
+    # __members__
     assert MockReservedSymbolType.__members__ == {
-        "TEST1": MockSymbolContext.TEST1,
-        "TEST2": MockSymbolContext.TEST2,
-        "TEST3": MockSymbolContext.TEST3,
-        "TEST4": MockSymbolContext.TEST4,
+        "TEST_KEYWORD1": MockKeywordTypeContext.TEST_KEYWORD1,
+        "TEST_KEYWORD2": MockKeywordTypeContext.TEST_KEYWORD2,
+        "TEST_KEYWORD3": MockKeywordTypeContext.TEST_KEYWORD3,
+        "COMMA": MockOperatorTypeContext.COMMA,
     }
+
+    # mappings
     assert MockReservedSymbolType.mappings == {
-        "TEST1": MockSymbolContext.TEST1,
-        "TEST2": MockSymbolContext.TEST2,
-        ",": MockSymbolContext.TEST3,
-        ";": MockSymbolContext.TEST4,
+        "TEST_KEYWORD1": MockKeywordTypeContext.TEST_KEYWORD1,
+        "TEST_KEYWORD2": MockKeywordTypeContext.TEST_KEYWORD2,
+        "TEST_KEYWORD3": MockKeywordTypeContext.TEST_KEYWORD3,
+        ",": MockOperatorTypeContext.COMMA,
     }
