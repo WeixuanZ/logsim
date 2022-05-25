@@ -4,7 +4,7 @@ import pytest
 
 from scanner import Symbol, Scanner
 from names import Names
-from custom_types import (
+from symbol_types import (
     ReservedSymbolTypeMeta,
     ExtendedEnum,
     ExternalSymbolType,

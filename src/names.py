@@ -11,7 +11,7 @@ SPHINX-IGNORE
 """
 from typing import Union
 
-from custom_types import (
+from symbol_types import (
     ReservedSymbolType,
     ExternalSymbolType,
 )

@@ -6,7 +6,8 @@ from devices import Devices
 from scanner import Symbol
 from network import Network
 from names import Names
-from custom_types import OperatorType, SyntaxErrors, SemanticErrors, DeviceType
+from symbol_types import OperatorType, DeviceType
+from exceptions import SyntaxErrors, SemanticErrors
 
 
 class MockScanner:

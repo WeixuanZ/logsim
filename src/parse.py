@@ -4,23 +4,23 @@ Used in the Logic Simulator project to analyse the syntactic and semantic
 correctness of the symbols received from the scanner and then builds the
 logic network.
 
+SPHINX-IGNORE
 Classes
 -------
 Parser - parses the definition file and builds the logic network.
+SPHINX-IGNORE
 """
 import copy
 
-from custom_types import (
+from symbol_types import (
     KeywordType,
     DeviceType,
     ExternalSymbolType,
-    Errors,
     OperatorType,
-    SyntaxErrors,
-    SemanticErrors,
     DTypeInputType,
     DTypeOutputType,
 )
+from exceptions import SyntaxErrors, SemanticErrors, Errors
 
 
 class Parser:
@@ -45,10 +45,12 @@ class Parser:
     scanner:
         instance of the scanner.Scanner() class.
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     parse_network(self):
         Parses the circuit definition file.
+    SPHINX-IGNORE
     """
 
     def __init__(self, names, devices, network, monitors, scanner):

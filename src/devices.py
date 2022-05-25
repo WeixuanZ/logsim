@@ -11,7 +11,7 @@ Devices - makes and stores all the devices in the logic network.
 import random
 
 from names import Names
-from custom_types import DeviceType, DTypeInputType, DTypeOutputType
+from symbol_types import DeviceType, DTypeInputType, DTypeOutputType
 
 
 class Device:
