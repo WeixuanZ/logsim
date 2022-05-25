@@ -37,8 +37,22 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install --no-install-recommends -y python3-opengl python3-wxgtk4.0 freeglut3-dev
-          pip install pytest
+          pip install pytest pytest-cov
 
       - name: Run test suite
         run: |
           pytest tests/
+
+      - name: Build coverage file
+        if: github.event_name == 'pull_request'
+        run: |
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=src tests/ | tee pytest-coverage.txt
+
+      - name: Pytest coverage comment
+        if: github.event_name == 'pull_request'
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./pytest.xml
+          report-only-changed-files: true
+          default-branch: master
