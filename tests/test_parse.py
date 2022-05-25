@@ -553,3 +553,68 @@ def test_parse_connection_block_errors(statement, error_list):
                 == e_type.basic_message
             )
             assert parser.errors.error_list[i].description == e_des
+
+
+@pytest.mark.parametrize(
+    "statement, pin_list, success",
+    [
+        (["A", ";"], [("out", "A", None)], True),
+        (
+            ["A", ",", "B", ".", "QBAR", ";"],
+            [("out", "A", None), ("out", "B", "QBAR")],
+            True,
+        ),
+        (
+            ["A", ".", "I1", ",", "B", ".", "I2", ",", "C", ";"],
+            [("in", "A", "I1"), ("in", "B", "I2"), ("out", "C", None)],
+            True,
+        ),
+        ([], None, True),
+        (["A"], None, None),
+        (["A", "-"], None, False),
+    ],
+)
+def test_parse_monitor_statement(statement, pin_list, success):
+    """Test module parse_monitor_statement."""
+    parser = make_parser(statement)
+    outcome, pins = parser.parse_monitor_statement()
+    assert outcome == success
+    if success is True:
+        if pin_list is None:
+            assert pins is None
+        else:
+            assert len(pin_list) == len(pins)
+            for i in range(len(pin_list)):
+                (out, dev_name, pin_name) = pins[i]
+                (true_out, true_dev_name, true_pin_name) = pin_list[i]
+                assert out == true_out
+                assert dev_name == true_dev_name
+                assert pin_name == true_pin_name
+
+
+@pytest.mark.parametrize(
+    "statement, error_type, description, success",
+    [
+        (["A", ",", "B", ".", "Q"], SyntaxErrors.MissingSemicolon, "", None),
+        (
+            ["A", ",", "B", ".", "Q", "."],
+            SyntaxErrors.UnexpectedToken,
+            "Expected ',' or ';'",
+            None,
+        ),
+    ],
+)
+def test_parse_monitor_statement_errors(
+    statement, error_type, description, success
+):
+    """Test errors arising in parse_monitors_statement."""
+    parser = make_parser(statement)
+    out, _ = parser.parse_monitor_statement()
+    if success is None or not success:
+        assert out == success
+        assert parser.errors.error_counter == 1
+        assert (
+            parser.errors.error_list[0].basic_message
+            == error_type.basic_message
+        )
+        assert parser.errors.error_list[0].description == description

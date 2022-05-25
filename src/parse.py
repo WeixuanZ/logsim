@@ -477,6 +477,7 @@ class Parser:
         if connection_statement and self.current_symbol.type in [
             OperatorType.SEMICOLON,
             OperatorType.CONNECT,
+            OperatorType.COMMA,
         ]:
             # out_pin = device_name
             return True, ("out", device_name, None)
@@ -530,8 +531,47 @@ class Parser:
         """Parse monitor statement from MONITORS block.
 
         EBNF syntax: pin , { "," , pin } , ";"
+
+        Return: success, pins = {(out_pin, device_name, pin_name)}
+        success = None(unexpected eof), False(syntax not ok), True(syntax ok)
+        out_pin = 'out' or 'in'
+        device_name = string
+        pin_name = None or string
         """
-        pass
+        if self.current_symbol is None:
+            # end of file allowed here
+            return True, None
+
+        outcome, pin = self.parse_pin(connection_statement=False)
+        if outcome is None or not outcome:
+            self.syntax_valid = False
+            return outcome, None
+
+        pins = [pin]
+
+        while (
+            self.current_symbol is not None
+            and self.current_symbol.type == OperatorType.COMMA
+        ):
+            self.get_next()
+            outcome, pin = self.parse_pin(connection_statement=False)
+            if outcome is None or not outcome:
+                self.syntax_valid = False
+                return outcome, None
+            pins.append(pin)
+
+        if self.current_symbol is None:
+            self.throw_error(SyntaxErrors.MissingSemicolon)
+            return None, None
+
+        if not self.current_symbol.type == OperatorType.SEMICOLON:
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken, "Expected ',' or ';'"
+            )
+            return None, None
+
+        self.get_next()
+        return True, pins
 
     def parse_network(self):
         """Parse the circuit definition file."""
