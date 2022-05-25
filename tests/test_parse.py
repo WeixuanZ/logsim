@@ -370,7 +370,7 @@ def test_parse_device_block_errors(statement, error_list):
 def test_parse_pin(statement, out, device_name, pin_name, success):
     """Test module parse_pin."""
     parser = make_parser(statement)
-    outcome, pin = parser.parse_pin()
+    outcome, pin = parser.parse_pin(connection_statement=True)
     assert outcome == success
     if success:
         (o, d, p) = pin
@@ -409,7 +409,7 @@ def test_parse_pin(statement, out, device_name, pin_name, success):
 def test_parse_pin_errors(statement, error_type, description, success):
     """Test errors arising in parse_pin."""
     parser = make_parser(statement)
-    out, pin = parser.parse_pin()
+    out, pin = parser.parse_pin(connection_statement=True)
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1

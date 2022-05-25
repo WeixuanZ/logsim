@@ -388,7 +388,7 @@ class Parser:
             )
             return None
 
-        outcome, pin1 = self.parse_pin()
+        outcome, pin1 = self.parse_pin(connection_statement=True)
         if outcome is None or not outcome:
             self.syntax_valid = False
             return outcome
@@ -403,7 +403,7 @@ class Parser:
 
         self.get_next()
 
-        outcome, pin2 = self.parse_pin()
+        outcome, pin2 = self.parse_pin(connection_statement=True)
         if outcome is None or not outcome:
             self.syntax_valid = False
             # TODO this is a bit hacky, change if time allows
@@ -431,13 +431,17 @@ class Parser:
         self.get_next()
         return True
 
-    def parse_pin(self):
+    def parse_pin(self, connection_statement):
         """Parse pin.
 
         EBNF syntax:    pin = ( in_pin | out_pin ) ;
         in_pin = ( device_name , "." , " I " , digit_excluding_zero , [digit])
         31 | ( device_name , "." , (" DATA " | " CLK " | " SET " | " CLEAR "));
         out_pin = device_name | ( device_name , "." , ( " Q " | " QBAR " ) ) ;
+
+        Parameters: connection_statement = True if called from
+                    parse_connection_statement
+                    False if called from parse_monitors_statement
 
         Return: success, (out_pin, device_name, pin_name)
         success = None(unexpected eof), False(syntax not ok), True(syntax ok)
@@ -460,22 +464,39 @@ class Parser:
         device_name = self.names.get_name_string(self.current_symbol.id)
 
         if not self.get_next():
-            self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected '.', '-', or ';'"
-            )
+            if connection_statement:
+                self.throw_error(
+                    SyntaxErrors.UnexpectedEOF, "Expected '.', '-', or ';'"
+                )
+            else:
+                self.throw_error(
+                    SyntaxErrors.UnexpectedEOF, "Expected ',' or ';'"
+                )
             return None, None
 
-        if self.current_symbol.type in [
+        if connection_statement and self.current_symbol.type in [
             OperatorType.SEMICOLON,
             OperatorType.CONNECT,
         ]:
             # out_pin = device_name
             return True, ("out", device_name, None)
 
+        if not connection_statement and self.current_symbol.type in [
+            OperatorType.COMMA,
+            OperatorType.SEMICOLON,
+        ]:
+            # out_pin = device_name
+            return True, ("out", device_name, None)
+
         if not self.current_symbol.type == OperatorType.DOT:
-            self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected '.', '-', or ';'"
-            )
+            if connection_statement:
+                self.throw_error(
+                    SyntaxErrors.UnexpectedToken, "Expected '.', '-', or ';'"
+                )
+            else:
+                self.throw_error(
+                    SyntaxErrors.UnexpectedToken, "Expected '.', ',' or ';'"
+                )
             return False, None
 
         if not self.get_next():
