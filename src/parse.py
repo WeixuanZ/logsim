@@ -609,40 +609,26 @@ class Parser:
         # skeleton code. When complete, should return False when there are
         # errors in the circuit definition file.
         # TODO check for semantics and empty devices/connections
-
         success = self.parse_device_block()
         if success is None:
             # there was end of file
-            self.syntax_valid = False
-            self.throw_error(SyntaxErrors.NoDevices, "Missing DEVICES block")
+            return False
         elif not success:
             # syntax error in DEVICES block
-            self.syntax_valid = False
-            self.skip_to_block(KeywordType.CONNECTIONS)
+            if not self.skip_to_block(KeywordType.CONNECTIONS):
+                return False
 
         success = self.parse_connection_block()
         if success is None:
             # there was unexpected end of file
-            self.syntax_valid = False
-            self.throw_error(
-                SyntaxErrors.NoConnections, "Missing CONNECTIONS block"
-            )
+            return False
         elif not success:
             # syntax error in DEVICES block
-            self.syntax_valid = False
-            # TODO check if end of file, could be there is no MONITORS block
-            self.skip_to_block(KeywordType.MONITORS)
+            if not self.skip_to_block(KeywordType.MONITORS):
+                return False
 
-        # TODO: move the rest to parse_monitors_block
-        self.get_next()
-
-        # TODO could be a problem here with misspelling of MONITORS
-        while self.current_symbol.type != KeywordType.MONITORS:
-            success, connection = self.parse_connection_statement()
-            # TODO check validity of connection
-            if not success:
-                self.syntax_valid = False
-                self.skip_to_block(KeywordType.MONITORS)
-                break
+        success = self.parse_monitors_block()
+        if success is None or not success:
+            return False
 
         return True

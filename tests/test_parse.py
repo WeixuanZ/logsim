@@ -669,3 +669,116 @@ def test_parse_monitors_block_errors(
             == error_type.basic_message
         )
         assert parser.errors.error_list[0].description == description
+
+
+@pytest.mark.parametrize(
+    "statement, success",
+    [
+        (
+            [
+                "DEVICES",
+                ":",
+                "A",
+                ",",
+                "B",
+                "=",
+                "XOR",
+                "<",
+                "0",
+                ">",
+                ";",
+                "CONNECTIONS",
+                ":",
+                "A",
+                "-",
+                "B",
+                ";",
+            ],
+            True,
+        ),
+        (
+            [
+                "DEVICES",
+                ":",
+                "A",
+                ",",
+                "B",
+                "=",
+                "XOR",
+                "<",
+                "0",
+                ">",
+                ";",
+                "CONNECTIONS",
+                ":",
+                "A",
+                "-",
+                "B",
+                ";",
+                "MONITORS",
+                ":",
+                "A",
+                ",",
+                "B",
+                ".",
+                "I1",
+                ";",
+            ],
+            True,
+        ),
+        (
+            [
+                "DEVICES",
+                ":",
+                "A",
+                ",",
+                "B",
+                "=",
+                "XOR",
+                "<",
+                "0",
+                ">",
+                ";",
+                "CONNECTIONS",
+                ":",
+                "A",
+                "-",
+                "B",
+                ";",
+                "MONITORS",
+                ":",
+            ],
+            True,
+        ),
+        ([], False),
+        (
+            ["DEVICES", ":", "A", ",", "B", "=", "XOR", "<", "0", ">", ";"],
+            False,
+        ),
+        (
+            [
+                "DEVICES",
+                ":",
+                "A",
+                ",",
+                "B",
+                "=",
+                "XOR",
+                "<",
+                "0",
+                ">",
+                ";",
+                "CONNECTIONS",
+                ":",
+                "A",
+                "-",
+            ],
+            False,
+        ),
+    ],
+)
+def test_parse_network(statement, success):
+    """Test module parse_network."""
+    parser = make_parser(statement)
+    outcome = parser.parse_network()
+    assert outcome == success
