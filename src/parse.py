@@ -524,8 +524,38 @@ class Parser:
         """Parse MONITORS block.
 
         EBNF syntax: "MONITORS" , ":" , [ monitor_statement ]
+        Return:
+        success - None(unexpected eof), False(syntax not ok), True(syntax ok)
         """
-        pass
+        if self.current_symbol is None:
+            # allowed to not have monitors block
+            return True
+
+        if not self.current_symbol.type == KeywordType.MONITORS:
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken,
+                "Expected MONITORS keyword or end of file",
+            )
+            return False
+
+        if not self.get_next():
+            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected ':'")
+            return None
+
+        if not self.current_symbol.type == OperatorType.COLON:
+            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ':'")
+            return False
+
+        self.get_next()
+        outcome, pins = self.parse_monitor_statement()
+        if outcome is None or not outcome:
+            return outcome
+
+        if pins is None:
+            return True
+
+        # TODO set pins to monitor and check validity
+        return True
 
     def parse_monitor_statement(self):
         """Parse monitor statement from MONITORS block.

@@ -607,9 +607,60 @@ def test_parse_monitor_statement(statement, pin_list, success):
 def test_parse_monitor_statement_errors(
     statement, error_type, description, success
 ):
-    """Test errors arising in parse_monitors_statement."""
+    """Test errors arising in parse_monitor_statement."""
     parser = make_parser(statement)
     out, _ = parser.parse_monitor_statement()
+    if success is None or not success:
+        assert out == success
+        assert parser.errors.error_counter == 1
+        assert (
+            parser.errors.error_list[0].basic_message
+            == error_type.basic_message
+        )
+        assert parser.errors.error_list[0].description == description
+
+
+@pytest.mark.parametrize(
+    "statement, success",
+    [
+        ([], True),
+        (["MONITORS", ":"], True),
+        (["MONITORS", ":", "A", ";"], True),
+        (["MONITORS", ":", "A", ",", "B", ".", "I1", ";"], True),
+        (["MONITORS"], None),
+        (["MONITORS", ";"], False),
+    ],
+)
+def test_parse_monitors_block(statement, success):
+    parser = make_parser(statement)
+    outcome = parser.parse_monitors_block()
+    assert outcome == success
+
+
+@pytest.mark.parametrize(
+    "statement, error_type, description, success",
+    [
+        (
+            ["MONITOR"],
+            SyntaxErrors.UnexpectedToken,
+            "Expected MONITORS keyword or end of file",
+            False,
+        ),
+        (["MONITORS"], SyntaxErrors.UnexpectedEOF, "Expected ':'", None),
+        (
+            ["MONITORS", ";"],
+            SyntaxErrors.UnexpectedToken,
+            "Expected ':'",
+            False,
+        ),
+    ],
+)
+def test_parse_monitors_block_errors(
+    statement, error_type, description, success
+):
+    """Test errors arising in parse_monitors_block."""
+    parser = make_parser(statement)
+    out = parser.parse_monitors_block()
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1
