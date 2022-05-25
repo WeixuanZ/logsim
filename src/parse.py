@@ -8,6 +8,7 @@ Classes
 -------
 Parser - parses the definition file and builds the logic network.
 """
+import copy
 
 from custom_types import (
     KeywordType,
@@ -115,13 +116,17 @@ class Parser:
         """Parse DEVICES block.
 
         EBNF syntax: "DEVICES" , ":" , device_definition , {device_definition}
+
         Return: True if successful parsing,
         False if there was an error,
         None if there was (unexpected) end of file
         """
         if self.current_symbol is None:
-            self.throw_error(SyntaxErrors.NoDevices, "Missing DEVICES block")
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, "Missing DEVICES block"
+            )
             return None
+
         if not self.current_symbol.type == KeywordType.DEVICES:
             # TODO check for typos later to give suggestions for improvement
             self.throw_error(SyntaxErrors.NoDevices, "Missing DEVICES block")
@@ -129,7 +134,7 @@ class Parser:
 
         if not self.get_next():
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected ':' after DEVICES"
+                SyntaxErrors.UnexpectedEOF, "Expected ':' after DEVICES"
             )
             return None
 
@@ -139,91 +144,109 @@ class Parser:
             )
             return False
 
-        if not self.get_next():
-            self.throw_error(SyntaxErrors.NoDevices, "No Devices found")
+        self.get_next()
+        outcome, device = self.parse_devices_statement()
+        if outcome is None:
+            self.throw_error(SyntaxErrors.NoDevices, "Empty DEVICES block")
             return None
+        if not outcome:
+            if not self.skip_to_end_of_line():
+                # there was end of file
+                self.throw_error(SyntaxErrors.NoDevices, "Empty DEVICES block")
+                return None
+            self.get_next()
 
-        # TODO could be a problem here with misspelling of CONNECTIONS
-        while self.current_symbol.type != KeywordType.CONNECTIONS:
+        while (
+            self.current_symbol is not None
+            and self.current_symbol.type != KeywordType.CONNECTIONS
+        ):
             success, device = self.parse_devices_statement()
             if success is None or not success:
                 self.syntax_valid = False
                 if not self.skip_to_end_of_line():
                     # unexpected end of file
                     return success
-                # current symbol should now be ;
-            elif self.syntax_valid:
+            if self.syntax_valid:
                 # TODO add devices and pins, check validity of parameters
                 (device_names, gate_type, parameter) = device
                 pass
-            if not self.get_next():  # move to start of new line
-                # treat end of file here as normal, let parse_network
-                # deal with the missing CONNECTIONS block
-                return True
+            self.get_next()
+
         return True
 
     def parse_devices_statement(self):
         """Parse device statement from DEVICES block.
 
         EBNF syntax: device_name ,{"," , device_name}, "=" ,device_type ,";"
-        Return: success: True if valid statement
-                         False if there was a syntax error
-                         None if there was unexpected end of file
-                device: (device_names, gate_type, parameter) when success=True
-                        None otherwise
+
+        Return: success, (device_names, gate_type, parameter)
+        success = None(unexpected eof), False(syntax not ok), True(syntax ok)
+        device_names = list of strings
+        gate_type = 'AND'|'NAND'|'OR'|'NOR'|'XOR'|'CLOCK'|'SWITCH'|'DTYPE'
+        parameter = None or number
         """
         if self.current_symbol is None:
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, "Expected device definition"
+            )
             return None, None
 
-        device_names = []
-        if self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
-            device_names.append(
-                self.names.get_name_string(self.current_symbol.id)
-            )
-            if not self.get_next():
-                return None, None
-        else:
+        if not self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
             self.throw_error(
                 SyntaxErrors.UnexpectedToken, "Expected device name"
             )
             return False, None
-        if self.current_symbol.type == OperatorType.COMMA:
-            while self.current_symbol.type == OperatorType.COMMA:
-                if not self.get_next():
-                    return None, None
-                if self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
-                    device_names.append(
-                        self.names.get_name_string(self.current_symbol.id)
-                    )
-                    if not self.get_next():
-                        return None, None
-                else:
-                    self.throw_error(
-                        SyntaxErrors.UnexpectedToken, "Expected device name"
-                    )
-                    return False, None
+
+        device_names = [self.names.get_name_string(self.current_symbol.id)]
+
+        self.get_next()
+
+        while (
+            self.current_symbol is not None
+            and self.current_symbol.type == OperatorType.COMMA
+        ):
+            if not self.get_next():
+                self.throw_error(
+                    SyntaxErrors.UnexpectedEOF, "Expected device name"
+                )
+                return None, None
+            if not self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
+                self.throw_error(
+                    SyntaxErrors.UnexpectedToken, "Expected device name"
+                )
+                return False, None
+            device_names.append(
+                self.names.get_name_string(self.current_symbol.id)
+            )
+            self.get_next()
+
+        if self.current_symbol is None:
+            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected ',' or '='")
+            return None, None
+
         if not self.current_symbol.type == OperatorType.EQUAL:
-            print(self.names.get_name_string(self.current_symbol.id))
             self.throw_error(
                 SyntaxErrors.UnexpectedToken, "Expected ',' or '='"
             )
             return False, None
 
-        if not self.get_next():
-            return None, None
+        self.get_next()
 
         success, device_type = self.parse_device_type()
-        if success is None:
-            return None, None
-        elif not success:
-            return False, None
+        if success is None or not success:
+            return success, None
 
         (dtype, parameter) = device_type
 
-        if not self.current_symbol.type == OperatorType.SEMICOLON:
+        if self.current_symbol is None:
             self.throw_error(SyntaxErrors.MissingSemicolon)
             return None, None
 
+        if not self.current_symbol.type == OperatorType.SEMICOLON:
+            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ';'")
+            return False, None
+
+        self.get_next()
         return True, (device_names, dtype, parameter)
 
     def parse_device_type(self):
@@ -235,22 +258,29 @@ class Parser:
             | "XOR"
             | "D_TYPE" ;
             parameter = "<" , digit , { digit } , ">" ;
+
+        Return: success, (device_type, parameter)
+        success = None(unexpected eof), False(syntax not ok), True(syntax ok)
+        device_type = 'AND'|'NAND'|'OR'|'NOR'|'XOR'|'CLOCK'|'SWITCH'|'DTYPE'
+        parameter = None or number
         """
         if self.current_symbol is None:
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, "Expected device type"
+            )
             return None, None
-        if self.current_symbol.type in DeviceType:
-            device_type = self.current_symbol.type
-            if not self.get_next():
-                self.throw_error(
-                    SyntaxErrors.UnexpectedToken, "Expected '<' or ';'"
-                )
-                return None, None
-        else:
-            print(self.names.get_name_string(self.current_symbol.id))
+
+        if self.current_symbol.type not in DeviceType:
             self.throw_error(
                 SyntaxErrors.UnexpectedToken, "Expected device type"
             )
             return False, None
+
+        device_type = self.current_symbol.type
+
+        if not self.get_next():
+            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected '<' or ';'")
+            return None, None
 
         if self.current_symbol.type == OperatorType.SEMICOLON:
             return True, (device_type, None)
@@ -262,28 +292,29 @@ class Parser:
             return False, None
 
         if not self.get_next():
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, "Expected number parameter"
+            )
             return None, None
 
-        if self.current_symbol.type == ExternalSymbolType.NUMBERS:
-            parameter = int(self.names.get_name_string(self.current_symbol.id))
+        if not self.current_symbol.type == ExternalSymbolType.NUMBERS:
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken, "Expected number parameter"
+            )
+            return False, None
 
-            if not self.get_next():
-                return None, None
+        parameter = int(self.names.get_name_string(self.current_symbol.id))
 
-            if not self.current_symbol.type == OperatorType.RIGHT_ANGLE:
-                self.throw_error(SyntaxErrors.UnexpectedToken, "Expected '>'")
-                return False, None
+        if not self.get_next():
+            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected '>'")
+            return None, None
 
-            if not self.get_next():
-                self.throw_error(SyntaxErrors.MissingSemicolon)
-                return None, None
+        if not self.current_symbol.type == OperatorType.RIGHT_ANGLE:
+            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected '>'")
+            return False, None
 
-            return True, (device_type, parameter)
-
-        self.throw_error(
-            SyntaxErrors.UnexpectedToken, "Expected number parameter"
-        )
-        return False, None
+        self.get_next()
+        return True, (device_type, parameter)
 
     def parse_connection_block(self):
         """Parse CONNECTIONS block.
@@ -322,6 +353,9 @@ class Parser:
         if not outcome:
             if not self.skip_to_end_of_line():
                 # there was end of file
+                self.throw_error(
+                    SyntaxErrors.NoConnections, "Empty CONNECTIONS block"
+                )
                 return None
             self.get_next()
 
@@ -372,24 +406,28 @@ class Parser:
         outcome, pin2 = self.parse_pin()
         if outcome is None or not outcome:
             self.syntax_valid = False
-            # this is a bit hacky, TODO change if time allows
+            # TODO this is a bit hacky, change if time allows
             if self.errors.error_counter == 1:
                 if (
                     self.errors.error_list[0].description
                     == "Expected '.', '-', or ';'"
                 ):
-                    self.errors.error_list[0].set_description("Expected ';'")
+                    self.errors.error_list[0] = copy.deepcopy(
+                        SyntaxErrors.MissingSemicolon
+                    )
             return outcome
 
         if self.current_symbol is None:
-            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected ';'")
+            self.throw_error(SyntaxErrors.MissingSemicolon)
             return None
 
         if not self.current_symbol.type == OperatorType.SEMICOLON:
             self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ';'")
             return False
 
-        # TODO check validity of pins and make connection with pin1 and pin2
+        if self.syntax_valid:
+            # TODO check validity and make connection with pin1 and pin2
+            pass
         self.get_next()
         return True
 

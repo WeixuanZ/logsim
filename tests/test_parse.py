@@ -148,19 +148,27 @@ def test_parse_device_type(statement, type, parameter, success):
 
 
 @pytest.mark.parametrize(
-    "statement, error_type, description, early_eof",
+    "statement, error_type, description, success",
     [
+        ([], SyntaxErrors.UnexpectedEOF, "Expected device type", None),
         (
             ["Swnass"],
             SyntaxErrors.UnexpectedToken,
             "Expected device type",
             False,
         ),
+        (["SWITCH"], SyntaxErrors.UnexpectedEOF, "Expected '<' or ';'", None),
         (
             ["SWITCH", ">"],
             SyntaxErrors.UnexpectedToken,
             "Expected '<' or ';'",
             False,
+        ),
+        (
+            ["DTYPE", "<"],
+            SyntaxErrors.UnexpectedEOF,
+            "Expected number parameter",
+            None,
         ),
         (
             ["DTYPE", "<", "a"],
@@ -169,39 +177,29 @@ def test_parse_device_type(statement, type, parameter, success):
             False,
         ),
         (
-            ["AND", "<", "025", ";"],
+            ["AND", "<", "025"],
+            SyntaxErrors.UnexpectedEOF,
+            "Expected '>'",
+            None,
+        ),
+        (
+            ["AND", "<", "025", "A"],
             SyntaxErrors.UnexpectedToken,
             "Expected '>'",
             False,
         ),
-        (["AND"], SyntaxErrors.UnexpectedToken, "Expected '<' or ';'", True),
-        (["NAND", "<", "2"], None, "", True),
-        (["NOR", "<", "0000", ">"], SyntaxErrors.MissingSemicolon, "", True),
-        ([], None, "", True),
     ],
 )
-def test_parse_device_type_errors(
-    statement, error_type, description, early_eof
-):
+def test_parse_device_type_errors(statement, error_type, description, success):
     """Test specific syntax errors arising in parse_device_type."""
     parser = make_parser(statement)
     out, _ = parser.parse_device_type()
-    if not early_eof:
-        assert out is False
-        assert parser.errors.error_counter == 1
-        assert (
-            parser.errors.error_list[0].basic_message
-            == error_type.basic_message
-        )
-        assert parser.errors.error_list[0].description == description
-    else:
-        assert out is None
-        if error_type is not None:
-            assert parser.errors.error_counter == 1
-            assert (
-                parser.errors.error_list[0].basic_message
-                == error_type.basic_message
-            )
+    assert out == success
+    assert parser.errors.error_counter == 1
+    assert (
+        parser.errors.error_list[0].basic_message == error_type.basic_message
+    )
+    assert parser.errors.error_list[0].description == description
 
 
 @pytest.mark.parametrize(
@@ -222,6 +220,13 @@ def test_parse_device_type_errors(
             None,
             True,
         ),
+        (
+            ["A", ",", "B", ",", "C", "=", "SWITCH", ";"],
+            ["A", "B", "C"],
+            DeviceType.SWITCH,
+            None,
+            True,
+        ),
         (["A", "=", ";"], None, None, None, False),
     ],
 )
@@ -238,21 +243,22 @@ def test_parse_devices_statement(statement, names, type, param, success):
 
 
 @pytest.mark.parametrize(
-    "statement, error_type, description, early_eof",
+    "statement, error_type, description, success",
     [
-        ([], None, None, True),
-        (["Weixuan", "=", "OR", "<", "2"], None, None, True),
+        ([], SyntaxErrors.UnexpectedEOF, "Expected device definition", None),
+        (["AND"], SyntaxErrors.UnexpectedToken, "Expected device name", False),
+        (["A"], SyntaxErrors.UnexpectedEOF, "Expected ',' or '='", None),
         (
-            ["AND", ",", "B", "=", "SWITCH", ";"],
-            SyntaxErrors.UnexpectedToken,
-            "Expected device name",
-            False,
-        ),
-        (
-            ["A", "B", "=", "SWITCH", ";"],
+            ["A", ";"],
             SyntaxErrors.UnexpectedToken,
             "Expected ',' or '='",
             False,
+        ),
+        (
+            ["A", ","],
+            SyntaxErrors.UnexpectedEOF,
+            "Expected device name",
+            None,
         ),
         (
             ["A", ",", "B", ",", "C", "SWITCH", ";"],
@@ -261,35 +267,25 @@ def test_parse_devices_statement(statement, names, type, param, success):
             False,
         ),
         (
-            ["A", ",", "B", ",", "C", "=", "SWITCH"],
+            ["A", ",", "B", ",", "C", "=", "SWITCH", "<", "1", ">", "A"],
             SyntaxErrors.UnexpectedToken,
-            "Expected '<' or ';'",
-            True,
+            "Expected ';'",
+            False,
         ),
     ],
 )
 def test_parse_devices_statement_errors(
-    statement, error_type, description, early_eof
+    statement, error_type, description, success
 ):
     """Test specific syntax errors arising in parse_devices_statement."""
     parser = make_parser(statement)
     out, _ = parser.parse_devices_statement()
-    if not early_eof:
-        assert out is False
-        assert parser.errors.error_counter == 1
-        assert (
-            parser.errors.error_list[0].basic_message
-            == error_type.basic_message
-        )
-        assert parser.errors.error_list[0].description == description
-    else:
-        assert out is None
-        if error_type is not None:
-            assert parser.errors.error_counter == 1
-            assert (
-                parser.errors.error_list[0].basic_message
-                == error_type.basic_message
-            )
+    assert out == success
+    assert parser.errors.error_counter == 1
+    assert (
+        parser.errors.error_list[0].basic_message == error_type.basic_message
+    )
+    assert parser.errors.error_list[0].description == description
 
 
 @pytest.mark.parametrize(
@@ -301,7 +297,7 @@ def test_parse_devices_statement_errors(
             True,
         ),
         (["DEVICES", ":", "A", "=", "AND", ";" "B", "=", "SWITCH", ";"], True),
-        (["DEVICES", ":", "CLOCK", "=", "AND"], False),
+        (["DEVICES", ":", "CLOCK", "=", "AND"], None),
         ([], None),
         (["DEVICES", ":"], None),
     ],
@@ -316,14 +312,26 @@ def test_parse_device_block(statement, success):
 @pytest.mark.parametrize(
     "statement, error_list",
     [
-        ([], [(SyntaxErrors.NoDevices, "Missing DEVICES block")]),
+        ([], [(SyntaxErrors.UnexpectedEOF, "Missing DEVICES block")]),
+        (["CONNEC"], [(SyntaxErrors.NoDevices, "Missing DEVICES block")]),
         (
             ["DEVICS", ":", "A", "=", "AND", ";"],
             [(SyntaxErrors.NoDevices, "Missing DEVICES block")],
         ),
         (
             ["DEVICES"],
+            [(SyntaxErrors.UnexpectedEOF, "Expected ':' after DEVICES")],
+        ),
+        (
+            ["DEVICES", ";"],
             [(SyntaxErrors.UnexpectedToken, "Expected ':' after DEVICES")],
+        ),
+        (
+            ["DEVICES", ":"],
+            [
+                (SyntaxErrors.UnexpectedEOF, "Expected device definition"),
+                (SyntaxErrors.NoDevices, "Empty DEVICES block"),
+            ],
         ),
         (
             ["DEVICES", ":", "A", "=", "AD", ";", "B", "C", "=", "AND", ";"],
@@ -340,18 +348,6 @@ def test_parse_device_block_errors(statement, error_list):
     parser.parse_device_block()
     if len(error_list) > 0:
         assert parser.errors.error_counter == len(error_list)
-        if len(error_list) == 2:
-            print(
-                parser.errors.error_list[0].basic_message
-                + " "
-                + parser.errors.error_list[0].description
-            )
-            print(
-                parser.errors.error_list[1].basic_message
-                + " "
-                + parser.errors.error_list[1].description
-            )
-
         for i in range(len(error_list)):
             (type, des) = error_list[i]
             assert (
@@ -452,7 +448,7 @@ def test_parse_connection_statement(statement, success):
         ),
         (["A", ".", "asa"], SyntaxErrors.UnexpectedEOF, "Expected '-'", None),
         (["A", ";"], SyntaxErrors.UnexpectedToken, "Expected '-'", False),
-        (["A", "-", "B"], SyntaxErrors.UnexpectedEOF, "Expected ';'", None),
+        (["A", "-", "B"], SyntaxErrors.MissingSemicolon, "", None),
         (
             ["A", "-", "B", ".", "Q", "A"],
             SyntaxErrors.UnexpectedToken,
