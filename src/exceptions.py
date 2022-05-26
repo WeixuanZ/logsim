@@ -23,7 +23,7 @@ class ParseBaseExceptionMeta(type):
     def __init__(cls, classname, bases, dictionary):
         """Initialize the class object."""
         if msg := dictionary.get("__doc__"):
-            cls.message = msg
+            cls.message = msg[:-1]
         super().__init__(classname, bases, dictionary)
 
 
@@ -33,6 +33,12 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
     def __init__(self, description=None):
         """Initialize the exception instance."""
         self.description = description if description is not None else ""
+
+    def __repr__(self):
+        """Customised repr of error objects."""
+        return (
+            f"{self.__class__.__name__}: {self.message} - {self.description}"
+        )
 
     def explain(self):
         """TODO."""
