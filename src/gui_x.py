@@ -199,39 +199,55 @@ class Gui(wx.Frame):
         self.SetMenuBar(menuBar)
 
         # Configure widgets
-        self.scrollable_canvas = wx.ScrolledCanvas(self, wx.ID_ANY)
+        self.scrollable_canvas = wx.ScrolledCanvas(
+            self, wx.ID_ANY
+        )  # Scrollable canvas to display monitored signals
         self.scrollable_canvas.SetSizeHints(500, 500)
         self.scrollable_canvas.ShowScrollbars(
             wx.SHOW_SB_DEFAULT, wx.SHOW_SB_DEFAULT
         )
         self.scrollable_canvas.SetScrollbars(20, 20, 15, 10)
 
-        self.run_button = wx.Button(self, wx.ID_ANY, "Run")
-        self.cont_button = wx.Button(self, wx.ID_ANY, "Continue")
-        self.cycles = wx.SpinCtrl(self, wx.ID_ANY, "10")
-        self.cycles_text = wx.StaticText(self, wx.ID_ANY, "Cycles")
+        self.run_button = wx.Button(self, wx.ID_ANY, "Run")  # Run button
+        self.cont_button = wx.Button(
+            self, wx.ID_ANY, "Continue"
+        )  # Continue button
+        self.cycles = wx.SpinCtrl(
+            self, wx.ID_ANY, "10", size=(60, 30)
+        )  # Number selected to specify #cycles
+        self.cycles_text = wx.StaticText(
+            self, wx.ID_ANY, "Cycles"
+        )  # Text 'Cycles'
 
         # Bind events to widgets
-        self.Bind(wx.EVT_MENU, self.on_menu)
+        self.Bind(wx.EVT_MENU, self.on_menu)  # Menu functionality
         self.run_button.Bind(wx.EVT_BUTTON, self.on_run_button)
         self.cont_button.Bind(wx.EVT_BUTTON, self.on_cont_button)
 
         # Configure sizers for layout
-        main_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        side_sizer = wx.BoxSizer(wx.VERTICAL)
-        cycle_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        monitors_sizer = wx.BoxSizer(wx.VERTICAL)
+        main_sizer = wx.BoxSizer(wx.HORIZONTAL)  # Sizer containing everything
+        side_sizer = wx.BoxSizer(
+            wx.VERTICAL
+        )  # Right hand plane, containing all controls
+        cycle_sizer = wx.BoxSizer(
+            wx.HORIZONTAL
+        )  # Sizer containing 'Cycles' text and number selector
+        buttons_sizer = wx.BoxSizer(
+            wx.HORIZONTAL
+        )  # Sizer containing Run and Continue buttons
 
         self.canvas = Canvas(
             self.scrollable_canvas, wx.ID_ANY, (10, 10), wx.Size(300, 200)
         )
         self.canvas.SetSizeHints(500, 500)
-        main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
+        main_sizer.Add(
+            self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10
+        )  # Add scrollable canvas to left hand side
 
-        side_sizer.AddSpacer(30)
-        side_sizer.Add(cycle_sizer, 1, wx.LEFT, 100)
-        side_sizer.Add(monitors_sizer, 1, wx.LEFT, 100)
+        side_sizer.AddSpacer(
+            30
+        )  # Add vertical space at top of right hand side
+        side_sizer.Add(cycle_sizer, 1, wx.ALIGN_CENTRE, 130)
         main_sizer.Add(side_sizer, 1, wx.ALL, 5)
 
         controlwin1 = wx.ScrolledWindow(
@@ -240,12 +256,14 @@ class Gui(wx.Frame):
             wx.DefaultPosition,
             (100, 200),
             wx.SUNKEN_BORDER | wx.HSCROLL | wx.VSCROLL,
-        )
+        )  # Scrollable window/panel to contain outputs - select monitors.
+
         # Add Text 'Monitors' above box containing monitors.
         # Currently causes massive gap!
         # Put them together into another sizer?
         # side_sizer.Add(wx.StaticText(self, wx.ID_ANY, 'Monitors'),
         # 1, wx.LEFT, 10)
+        # side_sizer.AddSpacer(-100)
         side_sizer.Add(controlwin1, 1, wx.EXPAND | wx.ALL, 10)
         monitors_sizer = wx.BoxSizer(wx.VERTICAL)
         controlwin1.SetSizer(monitors_sizer)
@@ -279,7 +297,7 @@ class Gui(wx.Frame):
 
         for i, monitor_button in enumerate(monitor_buttons):
             device_sizer = wx.BoxSizer(wx.HORIZONTAL)
-            monitors_sizer.Add(device_sizer, 1, wx.LEFT, 80)
+            monitors_sizer.Add(device_sizer, 1, wx.ALIGN_CENTRE, 110)
             self.device_text = wx.StaticText(
                 controlwin1, wx.ID_ANY, devices[i][0]
             )
@@ -291,6 +309,8 @@ class Gui(wx.Frame):
 
         self.SetSizeHints(200, 200)
         self.SetSizer(main_sizer)
+
+        side_sizer.AddSpacer(35)
 
         controlwin2 = wx.ScrolledWindow(
             self,
@@ -334,19 +354,26 @@ class Gui(wx.Frame):
 
         for i, switch_button in enumerate(switch_buttons):
             single_switch_sizer = wx.BoxSizer(wx.HORIZONTAL)
-            switches_sizer.Add(single_switch_sizer, 1, wx.LEFT, 80)
+            switches_sizer.Add(single_switch_sizer, 1, wx.ALIGN_CENTRE, 110)
             self.switch_text = wx.StaticText(
                 controlwin2, wx.ID_ANY, switches[i][0]
             )
             single_switch_sizer.Add(self.switch_text, 1, wx.ALL, 10)
             single_switch_sizer.Add(switch_button, 1, wx.ALL, 10)
 
-        side_sizer.Add(buttons_sizer, 1, wx.LEFT, 100)
+        side_sizer.AddSpacer(35)
+        side_sizer.Add(buttons_sizer, 1, wx.ALIGN_CENTRE, 130)
         buttons_sizer.Add(self.run_button, 1, wx.LEFT, 10)
         buttons_sizer.Add(self.cont_button, 1, wx.LEFT, 10)
 
     def on_menu(self, event):
-        """TODO."""
+        """Handle menu events.
+
+        If Open button is selected, file dialog opens
+        to select a .txt description file.
+        If Help button is selected, web browser is
+        opened to GitHub readme.
+        """
         if event.GetId() == self.OpenID:
             openFileDialog = wx.FileDialog(
                 self,
@@ -366,15 +393,18 @@ class Gui(wx.Frame):
             webbrowser.open("https://github.com/WeixuanZ/logsim#readme")
 
     def on_run_button(self, event):
-        """TODO."""
+        """Handle event when user presses run button."""
         pass
 
     def on_cont_button(self, event):
-        """TODO."""
+        """Handle event when user presses continue button."""
         pass
 
     def on_toggle_button(self, event):
-        """TODO."""
+        """Handle event when user presses a button to toggle switch value.
+
+        Text on button changes between On/Off depending on state.
+        """
         obj = event.GetEventObject()
         if obj.GetValue():
             obj.SetLabel("On")
@@ -382,7 +412,11 @@ class Gui(wx.Frame):
             obj.SetLabel("Off")
 
     def on_monitor_button(self, event):
-        """TODO."""
+        """Handle event when user pressed a button to toggle monitor state of output.
+
+        If output is being monitored, button says 'Remove'.
+        If output is not being monitored, button says 'Add'.
+        """
         obj = event.GetEventObject()
         if obj.GetValue():
             obj.SetLabel("Remove")
