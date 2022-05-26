@@ -173,10 +173,10 @@ class Parser:
                 if not self.skip_to_end_of_line():
                     # unexpected end of file
                     return success
+                self.get_next()
             if self.syntax_valid:
                 (device_names, gate_type, parameter) = device
                 self.add_devices(device_names, gate_type, parameter)
-            self.get_next()
         return True
 
     def parse_devices_statement(self):
@@ -479,7 +479,6 @@ class Parser:
         if connection_statement and self.current_symbol.type in [
             OperatorType.SEMICOLON,
             OperatorType.CONNECT,
-            OperatorType.COMMA,
         ]:
             # out_pin = device_name
             return True, ("out", device_name, None)
@@ -556,7 +555,8 @@ class Parser:
         if pins is None:
             return True
 
-        # TODO set pins to monitor and check validity
+        if self.syntax_valid:
+            self.add_monitors(pins)
         return True
 
     def parse_monitor_statement(self):
@@ -698,6 +698,11 @@ class Parser:
             else:
                 self.throw_error(SemanticErrors.UndefinedInPin)
 
+    def add_monitors(self, pins):
+        """Add monitors pins."""
+        # TODO if input pin find its connected output and monitor that one
+        pass
+
     def parse_network(self):
         """Parse the circuit definition file."""
         # For now just return True, so that userint and gui can run in the
@@ -721,7 +726,7 @@ class Parser:
             # syntax error in DEVICES block
             if not self.skip_to_block(KeywordType.MONITORS):
                 return False
-
+        # TODO check all inputs connected
         success = self.parse_monitors_block()
         if success is None or not success:
             return False

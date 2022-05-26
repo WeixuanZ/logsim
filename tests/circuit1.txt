@@ -3,7 +3,7 @@ DEVICES:
 	B = XOR ;
 	C = NAND<3> ;
 	SW1 = SWITCH<0> ;
-	SW1 = SWITCH<1> ;
+	SW2 = SWITCH<1> ;
 
 CONNECTIONS:
 	SW1 - A.I1 ;
