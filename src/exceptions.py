@@ -42,10 +42,9 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
 
     def __repr__(self):
         """Customised repr of error objects."""
-        return (
-            f"{self.__class__.__qualname__}: {self.message}"
-            + f" - {self.description}"
-            if self.description is not None
+        return f"{self.__class__.__qualname__}: {self.message}" + (
+            f" - {self.description}"
+            if self.description is not None and self.description != ""
             else ""
         )
 
@@ -57,7 +56,7 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
         error_line = scanner.get_line_by_lineno(self.symbol.lineno)
         cursor_line = list(
             map(
-                lambda c: " " if not c.isspace() or c == "\n" else c,
+                lambda c: " " if not c.isspace() or c in ("\n", "\r") else c,
                 error_line,
             )
         )
@@ -67,7 +66,7 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
         cursor_line = "".join(cursor_line)
 
         return (
-            f"Line {self.symbol.lineno}: "
+            f"Line {self.symbol.lineno + 1}: "
             + self.__repr__()
             + "\n"
             + error_line
