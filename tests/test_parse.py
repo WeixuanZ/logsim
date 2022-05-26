@@ -4,7 +4,6 @@ from typing import Union
 from parse import Parser
 from devices import Devices
 from scanner import Symbol
-from network import Network
 from names import Names
 from symbol_types import OperatorType, DeviceType
 from exceptions import SyntaxErrors, SemanticErrors
@@ -38,9 +37,8 @@ def make_parser(statement):
     names.lookup(statement)
     devices = Devices(names)
     scanner = MockScanner(names, statement)
-    network = Network(names, devices)
 
-    return Parser(names, devices, network, None, scanner)
+    return Parser(names, devices, None, None, scanner)
 
 
 @pytest.mark.parametrize(
@@ -690,70 +688,35 @@ def test_parse_monitors_block_errors(
                 ",",
                 "B",
                 "=",
-                "XOR",
-                ";",
-                "CONNECTIONS",
-                ":",
-                "A",
-                "-",
-                "B",
-                ".",
-                "I1",
-                ";",
-            ],
-            True,
-        ),
-        (
-            [
-                "DEVICES",
-                ":",
-                "A",
-                ",",
-                "B",
-                "=",
                 "SWITCH",
                 "<",
                 "0",
                 ">",
                 ";",
-                "CONNECTIONS",
-                ":",
-                "A",
-                "-",
-                "B",
-                ";",
-                "MONITORS",
-                ":",
-                "A",
-                ",",
-                "B",
-                ".",
-                "I1",
-                ";",
-            ],
-            True,
-        ),
-        (
-            [
-                "DEVICES",
-                ":",
-                "A",
-                ",",
-                "B",
+                "C",
                 "=",
-                "XOR",
+                "AND",
                 "<",
-                "0",
+                "2",
                 ">",
                 ";",
                 "CONNECTIONS",
                 ":",
                 "A",
                 "-",
-                "B",
+                "C",
+                ".",
+                "I1",
                 ";",
-                "MONITORS",
+                "B",
+                "-",
+                "C",
+                ".",
+                "I2",
+                ";" "MONITORS",
                 ":",
+                "A",
+                ";",
             ],
             True,
         ),

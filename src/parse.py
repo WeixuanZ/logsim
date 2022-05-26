@@ -759,7 +759,7 @@ class Parser:
                 return False
 
         # check if all inputs are connected
-        if not self.network.check_network():
+        if self.network is not None and not self.network.check_network():
             self.throw_error(SemanticErrors.FloatingInput)
             self.syntax_valid = False
 
