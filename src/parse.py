@@ -62,17 +62,18 @@ class Parser:
 
         # initialize by getting first symbol from scanner
         self.current_symbol = scanner.get_symbol()
+        self.previous_symbol = None
 
         # build the network while this is True, then just parse for errors
         self.syntax_valid = True
 
         # initialize errors
-        self.errors = Errors()
+        self.errors = Errors(names, scanner)
 
     def throw_error(self, error_type, description=None):
         """Add error with optional description to the list."""
         error = error_type(description)
-        error.symbol = self.current_symbol
+        error.symbol = self.previous_symbol
         self.errors.add_error(error)
 
     def get_next(self):
@@ -81,6 +82,11 @@ class Parser:
         Return: False if there is end of file,
                 True if new symbol was successfully retrieved
         """
+        self.previous_symbol = (
+            self.current_symbol
+            if self.current_symbol is not None
+            else self.previous_symbol
+        )
         self.current_symbol = self.scanner.get_symbol()
         # check for end of file
         if self.current_symbol is None:
@@ -732,9 +738,6 @@ class Parser:
 
     def parse_network(self):
         """Parse the circuit definition file."""
-        # For now just return True, so that userint and gui can run in the
-        # skeleton code. When complete, should return False when there are
-        # errors in the circuit definition file.
         # TODO check for semantics and empty devices/connections
         success = self.parse_device_block()
         if success is None:
@@ -768,5 +771,4 @@ class Parser:
             self.syntax_valid = False
             return False
 
-        print(self.syntax_valid)
         return self.syntax_valid

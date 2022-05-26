@@ -12,6 +12,11 @@ SyntaxErrors
 SPHINX-IGNORE
 """
 
+from typing import Union
+
+from names import Names
+from scanner import Symbol, Scanner
+
 
 class ParseBaseExceptionMeta(type):
     """Metaclass create ParseBaseException classes.
@@ -33,16 +38,41 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
     def __init__(self, description=None):
         """Initialize the exception instance."""
         self.description = description if description is not None else ""
+        self.symbol: Union[Symbol, None] = None
 
     def __repr__(self):
         """Customised repr of error objects."""
         return (
-            f"{self.__class__.__name__}: {self.message} - {self.description}"
+            f"{self.__class__.__qualname__}: {self.message}"
+            + f" - {self.description}"
+            if self.description is not None
+            else ""
         )
 
-    def explain(self):
-        """TODO."""
-        pass
+    def explain(self, names: Names, scanner: Scanner) -> str:
+        """Return an explanation of the error."""
+        if self.symbol is None:
+            return self.__repr__()
+
+        error_line = scanner.get_line_by_lineno(self.symbol.lineno)
+        cursor_line = list(
+            map(
+                lambda c: " " if not c.isspace() or c == "\n" else c,
+                error_line,
+            )
+        )
+        cursor_line[
+            int(self.symbol.colno) + len(names.get_name_string(self.symbol.id))
+        ] = "^"
+        cursor_line = "".join(cursor_line)
+
+        return (
+            f"Line {self.symbol.lineno}: "
+            + self.__repr__()
+            + "\n"
+            + error_line
+            + cursor_line
+        )
 
 
 class SyntaxErrors:
@@ -127,19 +157,34 @@ class Errors:
 
     Methods
     -------
-    TODO.
+    add_error(self, error):
+        Add an error to the error list.
+    print_error_messages(self):
+        Pretty print all error messages.
     """
 
-    def __init__(self):
+    def __init__(self, names: Names, scanner: Scanner):
         """Initialise Errors class."""
         self.error_counter = 0
         self.error_list = []
+        self.names = names
+        self.scanner = scanner
 
-    def add_error(self, error):
-        """Add an error to the existing list."""
+    def add_error(self, error: ParseBaseException) -> None:
+        """Add an error to the error list."""
         self.error_counter += 1
         self.error_list.append(error)
 
-    def print_error_message(self, error):
-        """TODO."""
-        pass
+    def print_error_messages(self) -> None:
+        """Pretty print all error messages."""
+        print(
+            "\033[91m"
+            + f"{self.error_counter} Errors\n\n"
+            + "\n".join(
+                map(
+                    lambda error: error.explain(self.names, self.scanner),
+                    self.error_list,
+                )
+            )
+            + "\033[91m"
+        )

@@ -57,13 +57,13 @@ def main(arg_list):
         elif option == "-c":  # use the command line user interface
             scanner = Scanner(path, names)
             parser = Parser(names, devices, network, monitors, scanner)
-            if parser.parse_network():
-                if parser.errors.error_counter > 0:
-                    print(parser.errors.error_list)
-                    return
-                # Initialise an instance of the userint.UserInterface() class
-                userint = UserInterface(names, devices, network, monitors)
-                userint.command_interface()
+            parser.parse_network()
+            if parser.errors.error_counter > 0:
+                parser.errors.print_error_messages()
+                return
+            # Initialise an instance of the userint.UserInterface() class
+            userint = UserInterface(names, devices, network, monitors)
+            userint.command_interface()
 
     if not options:  # no option given, use the graphical user interface
 
