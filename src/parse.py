@@ -98,10 +98,13 @@ class Parser:
 
         Return: False if there was unexpected end of file
                 True if moved to end of line
+                None if found the next block, i.e.
         """
         if self.current_symbol is None:
             return False
         while self.current_symbol.type != OperatorType.SEMICOLON:
+            if self.current_symbol.type in KeywordType:
+                return None
             if not self.get_next():
                 return False
         return True
@@ -159,7 +162,11 @@ class Parser:
             return None
         if not outcome:
             self.syntax_valid = False
-            if not self.skip_to_end_of_line():
+            outcome = self.skip_to_end_of_line()
+            if outcome is None:
+                # reached another block
+                return False
+            elif not outcome:
                 # there was end of file
                 self.throw_error(SyntaxErrors.NoDevices, "Empty DEVICES block")
                 return None
@@ -176,7 +183,10 @@ class Parser:
             success, device = self.parse_devices_statement()
             if success is None or not success:
                 self.syntax_valid = False
-                if not self.skip_to_end_of_line():
+                outcome = self.skip_to_end_of_line()
+                if outcome is None:
+                    return False
+                elif not outcome:
                     # unexpected end of file
                     return success
                 self.get_next()
@@ -362,7 +372,10 @@ class Parser:
             )
             return None
         if not outcome:
-            if not self.skip_to_end_of_line():
+            out = self.skip_to_end_of_line()
+            if out is None:
+                return False
+            elif not out:
                 # there was end of file
                 self.throw_error(
                     SyntaxErrors.NoConnections, "Empty CONNECTIONS block"
@@ -376,11 +389,13 @@ class Parser:
         ):
             outcome = self.parse_connection_statement()
             if outcome is None or not outcome:
-                if not self.skip_to_end_of_line():
+                out = self.skip_to_end_of_line()
+                if out is None:
+                    return False
+                elif not out:
                     # there was end of file
                     return None
                 self.get_next()
-
         # end of file possible here
         return True
 
