@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>exceptions module &mdash; logsim  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="names module" href="names.html" />
+    <link rel="prev" title="symbol_types module" href="symbol_types.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> logsim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="symbol_types.html">symbol_types module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">exceptions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="names.html">names module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scanner.html">scanner module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parse.html">parser module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitors.html">monitors module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devices.html">devices module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">network module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">gui module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">logsim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>exceptions module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/exceptions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-exceptions">
+<span id="exceptions-module"></span><h1>exceptions module<a class="headerlink" href="#module-exceptions" title="Permalink to this headline"></a></h1>
+<p>Error handling.</p>
+<p>Used in the Logic Simulator project. Mainly used by the parser.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.Errors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">Errors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scanner.html#scanner.Scanner" title="scanner.Scanner"><span class="pre">scanner.Scanner</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.Errors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Collect and handle errors found while parsing circuit descriptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameters.</strong> (<em>No</em>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">add_error(self,</span> <span class="pre">error):</span></span></dt>
+<dd><p>Add an error to the error list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">print_error_messages(self):</span></span></dt>
+<dd><p>Pretty print all error messages.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exceptions.Errors.add_error">
+<span class="sig-name descname"><span class="pre">add_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><span class="pre">exceptions.ParseBaseException</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#exceptions.Errors.add_error" title="Permalink to this definition"></a></dt>
+<dd><p>Add an error to the error list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exceptions.Errors.print_error_messages">
+<span class="sig-name descname"><span class="pre">print_error_messages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#exceptions.Errors.print_error_messages" title="Permalink to this definition"></a></dt>
+<dd><p>Pretty print all error messages.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.ParseBaseException">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">ParseBaseException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.ParseBaseException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base parse exception.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="exceptions.ParseBaseException.explain">
+<span class="sig-name descname"><span class="pre">explain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scanner.html#scanner.Scanner" title="scanner.Scanner"><span class="pre">scanner.Scanner</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#exceptions.ParseBaseException.explain" title="Permalink to this definition"></a></dt>
+<dd><p>Return an explanation of the error.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.ParseBaseException.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Base</span> <span class="pre">parse</span> <span class="pre">exception'</span></em><a class="headerlink" href="#exceptions.ParseBaseException.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.ParseBaseExceptionMeta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">ParseBaseExceptionMeta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.ParseBaseExceptionMeta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></p>
+<p>Metaclass create ParseBaseException classes.</p>
+<p>This allows default message to be defined using the doc string, simplify
+the code.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">SemanticErrors</span></span><a class="headerlink" href="#exceptions.SemanticErrors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Different types of semantic errors.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.ConnectInToIn">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ConnectInToIn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.ConnectInToIn" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Attempting to connect input pin to input pin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.ConnectInToIn.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Attempting</span> <span class="pre">to</span> <span class="pre">connect</span> <span class="pre">input</span> <span class="pre">pin</span> <span class="pre">to</span> <span class="pre">input</span> <span class="pre">pin'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.ConnectInToIn.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.ConnectInToIn.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.ConnectInToIn.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.ConnectOutToOut">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ConnectOutToOut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.ConnectOutToOut" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Attempting to connect output pin to output pin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.ConnectOutToOut.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Attempting</span> <span class="pre">to</span> <span class="pre">connect</span> <span class="pre">output</span> <span class="pre">pin</span> <span class="pre">to</span> <span class="pre">output</span> <span class="pre">pin'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.ConnectOutToOut.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.ConnectOutToOut.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.ConnectOutToOut.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.FloatingInput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FloatingInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.FloatingInput" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Floating input.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.FloatingInput.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Floating</span> <span class="pre">input'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.FloatingInput.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.FloatingInput.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.FloatingInput.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.InvalidAndParam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InvalidAndParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.InvalidAndParam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Invalid number of inputs for the gate.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.InvalidAndParam.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Invalid</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">inputs</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">gate'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.InvalidAndParam.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.InvalidAndParam.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.InvalidAndParam.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.InvalidClockParam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InvalidClockParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.InvalidClockParam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Invalid clock period.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.InvalidClockParam.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Invalid</span> <span class="pre">clock</span> <span class="pre">period'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.InvalidClockParam.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.InvalidClockParam.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.InvalidClockParam.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MonitorInputPin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MonitorInputPin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.MonitorInputPin" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Attempting to monitor an input pin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MonitorInputPin.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Attempting</span> <span class="pre">to</span> <span class="pre">monitor</span> <span class="pre">an</span> <span class="pre">input</span> <span class="pre">pin'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.MonitorInputPin.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MonitorInputPin.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MonitorInputPin.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MonitorSamePin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MonitorSamePin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.MonitorSamePin" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Warning: duplicate monitor pin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MonitorSamePin.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Warning:</span> <span class="pre">duplicate</span> <span class="pre">monitor</span> <span class="pre">pin'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.MonitorSamePin.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MonitorSamePin.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MonitorSamePin.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MultipleConnections">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleConnections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.MultipleConnections" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Attempting to connect multiple pins to a single pin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MultipleConnections.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Attempting</span> <span class="pre">to</span> <span class="pre">connect</span> <span class="pre">multiple</span> <span class="pre">pins</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">pin'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.MultipleConnections.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.MultipleConnections.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MultipleConnections.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.NameClash">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NameClash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.NameClash" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>NameClash.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.NameClash.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NameClash'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.NameClash.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.NameClash.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.NameClash.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedDevice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UndefinedDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedDevice" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Undefined device name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedDevice.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Undefined</span> <span class="pre">device</span> <span class="pre">name'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedDevice.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedDevice.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedDevice.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedInPin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UndefinedInPin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedInPin" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Undefined input pin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedInPin.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Undefined</span> <span class="pre">input</span> <span class="pre">pin'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedInPin.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedInPin.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedInPin.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedOutPin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UndefinedOutPin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedOutPin" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Undefined output pin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedOutPin.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Undefined</span> <span class="pre">output</span> <span class="pre">pin'</span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedOutPin.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedOutPin.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedOutPin.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">SyntaxErrors</span></span><a class="headerlink" href="#exceptions.SyntaxErrors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Different types of syntax errors.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.InvalidSwitchParam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InvalidSwitchParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.InvalidSwitchParam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Invalid parameter for SWITCH device.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.InvalidSwitchParam.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Invalid</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">SWITCH</span> <span class="pre">device'</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.InvalidSwitchParam.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.InvalidSwitchParam.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.InvalidSwitchParam.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.MissingParam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MissingParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.MissingParam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Missing parameter for device type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.MissingParam.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Missing</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">device</span> <span class="pre">type'</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.MissingParam.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.MissingParam.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.MissingParam.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.MissingSemicolon">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MissingSemicolon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.MissingSemicolon" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Missing ‘;’ at the end of statement.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.MissingSemicolon.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&quot;Missing</span> <span class="pre">';'</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">end</span> <span class="pre">of</span> <span class="pre">statement&quot;</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.MissingSemicolon.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.MissingSemicolon.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.MissingSemicolon.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoConnections">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NoConnections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.NoConnections" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>No connections found.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoConnections.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'No</span> <span class="pre">connections</span> <span class="pre">found'</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoConnections.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoConnections.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoConnections.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoDevices">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NoDevices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.NoDevices" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>No devices found.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoDevices.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'No</span> <span class="pre">devices</span> <span class="pre">found'</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoDevices.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoDevices.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoDevices.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoMonitors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NoMonitors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.NoMonitors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>No monitor pins found.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoMonitors.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'No</span> <span class="pre">monitor</span> <span class="pre">pins</span> <span class="pre">found'</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoMonitors.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoMonitors.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoMonitors.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedEOF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UnexpectedEOF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedEOF" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Unexpected end of file.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedEOF.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Unexpected</span> <span class="pre">end</span> <span class="pre">of</span> <span class="pre">file'</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedEOF.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedEOF.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedEOF.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedParam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UnexpectedParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedParam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Unexpected parameter for device type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedParam.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Unexpected</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">device</span> <span class="pre">type'</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedParam.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedParam.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedParam.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedToken">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UnexpectedToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedToken" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.ParseBaseException</span></code></a></p>
+<p>Unexpected token.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedToken.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Unexpected</span> <span class="pre">token'</span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedToken.message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedToken.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedToken.symbol" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="symbol_types.html" class="btn btn-neutral float-left" title="symbol_types module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="names.html" class="btn btn-neutral float-right" title="names module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, JS Bhoot, V Njaradi, W Zhang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

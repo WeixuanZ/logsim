@@ -1,7 +1,7 @@
-custom_types module
+symbol_types module
 ===================
 
-.. automodule:: custom_types
+.. automodule:: symbol_types
    :members:
    :undoc-members:
    :show-inheritance:

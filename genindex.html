@@ -36,7 +36,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="custom_types.html">custom_types module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbol_types.html">symbol_types module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">exceptions module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="names.html">names module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scanner.html">scanner module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parse.html">parser module</a></li>
@@ -90,6 +91,7 @@
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#X"><strong>X</strong></a>
@@ -98,18 +100,26 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="parse.html#parse.Parser.add_connection">add_connection() (parse.Parser method)</a>
+</li>
       <li><a href="devices.html#devices.Devices.add_device">add_device() (devices.Devices method)</a>
 </li>
-      <li><a href="devices.html#devices.Devices.add_input">add_input() (devices.Devices method)</a>
+      <li><a href="parse.html#parse.Parser.add_devices">add_devices() (parse.Parser method)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.Errors.add_error">add_error() (exceptions.Errors method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="devices.html#devices.Devices.add_input">add_input() (devices.Devices method)</a>
+</li>
+      <li><a href="parse.html#parse.Parser.add_monitors">add_monitors() (parse.Parser method)</a>
+</li>
       <li><a href="devices.html#devices.Devices.add_output">add_output() (devices.Devices method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.DeviceType.AND">AND (custom_types.DeviceType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DeviceType.AND">AND (symbol_types.DeviceType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.AND">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.AND">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -128,57 +138,50 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="network.html#network.Network.check_network">check_network() (network.Network method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.DTypeInputType.CLEAR">CLEAR (custom_types.DTypeInputType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DTypeInputType.CLEAR">CLEAR (symbol_types.DTypeInputType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.CLEAR">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.CLEAR">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.DTypeInputType.CLK">CLK (custom_types.DTypeInputType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DTypeInputType.CLK">CLK (symbol_types.DTypeInputType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.CLK">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.CLK">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.DeviceType.CLOCK">CLOCK (custom_types.DeviceType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DeviceType.CLOCK">CLOCK (symbol_types.DeviceType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.CLOCK">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.CLOCK">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
       <li><a href="devices.html#devices.Devices.cold_startup">cold_startup() (devices.Devices method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.OperatorType.COLON">COLON (custom_types.OperatorType attribute)</a>
-
-      <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.COLON">(custom_types.ReservedSymbolType attribute)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.OperatorType.COMMA">COMMA (custom_types.OperatorType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.OperatorType.COLON">COLON (symbol_types.OperatorType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.COMMA">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.COLON">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.OperatorType.CONNECT">CONNECT (custom_types.OperatorType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.OperatorType.COMMA">COMMA (symbol_types.OperatorType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.CONNECT">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.COMMA">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.KeywordType.CONNECTIONS">CONNECTIONS (custom_types.KeywordType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.OperatorType.CONNECT">CONNECT (symbol_types.OperatorType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.CONNECTIONS">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.CONNECT">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li>
-    custom_types
+      <li><a href="symbol_types.html#symbol_types.KeywordType.CONNECTIONS">CONNECTIONS (symbol_types.KeywordType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#module-custom_types">module</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.CONNECTIONS">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -187,16 +190,16 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.DeviceType.D_TYPE">D_TYPE (custom_types.DeviceType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DeviceType.D_TYPE">D_TYPE (symbol_types.DeviceType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.D_TYPE">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.D_TYPE">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.DTypeInputType.DATA">DATA (custom_types.DTypeInputType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DTypeInputType.DATA">DATA (symbol_types.DTypeInputType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.DATA">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.DATA">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
       <li><a href="devices.html#devices.Device">Device (class in devices)</a>
@@ -212,25 +215,25 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.KeywordType.DEVICES">DEVICES (custom_types.KeywordType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.KeywordType.DEVICES">DEVICES (symbol_types.KeywordType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.DEVICES">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.DEVICES">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.DeviceType">DeviceType (class in custom_types)</a>
+      <li><a href="symbol_types.html#symbol_types.DeviceType">DeviceType (class in symbol_types)</a>
 </li>
       <li><a href="monitors.html#monitors.Monitors.display_signals">display_signals() (monitors.Monitors method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.OperatorType.DOT">DOT (custom_types.OperatorType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.OperatorType.DOT">DOT (symbol_types.OperatorType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.DOT">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.DOT">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.DTypeInputType">DTypeInputType (class in custom_types)</a>
+      <li><a href="symbol_types.html#symbol_types.DTypeInputType">DTypeInputType (class in symbol_types)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.DTypeOutputType">DTypeOutputType (class in custom_types)</a>
+      <li><a href="symbol_types.html#symbol_types.DTypeOutputType">DTypeOutputType (class in symbol_types)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -238,18 +241,21 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.OperatorType.EQUAL">EQUAL (custom_types.OperatorType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.OperatorType.EQUAL">EQUAL (symbol_types.OperatorType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.EQUAL">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.EQUAL">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.Error">Error (class in custom_types)</a>
+      <li><a href="exceptions.html#exceptions.Errors">Errors (class in exceptions)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.ErrorCode">ErrorCode (class in custom_types)</a>
+      <li>
+    exceptions
+
+      <ul>
+        <li><a href="exceptions.html#module-exceptions">module</a>
 </li>
-      <li><a href="custom_types.html#custom_types.Errors">Errors (class in custom_types)</a>
-</li>
+      </ul></li>
       <li><a href="network.html#network.Network.execute_clock">execute_clock() (network.Network method)</a>
 </li>
   </ul></td>
@@ -262,9 +268,11 @@
 </li>
       <li><a href="network.html#network.Network.execute_switch">execute_switch() (network.Network method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.ExtendedEnum">ExtendedEnum (class in custom_types)</a>
+      <li><a href="exceptions.html#exceptions.ParseBaseException.explain">explain() (exceptions.ParseBaseException method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.ExternalSymbolType">ExternalSymbolType (class in custom_types)</a>
+      <li><a href="symbol_types.html#symbol_types.ExtendedEnum">ExtendedEnum (class in symbol_types)</a>
+</li>
+      <li><a href="symbol_types.html#symbol_types.ExternalSymbolType">ExternalSymbolType (class in symbol_types)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -302,6 +310,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="parse.html#parse.Parser.get_next">get_next() (parse.Parser method)</a>
+</li>
       <li><a href="scanner.html#scanner.Scanner.get_next_character">get_next_character() (scanner.Scanner method)</a>
 </li>
       <li><a href="scanner.html#scanner.Scanner.get_next_chunk">get_next_chunk() (scanner.Scanner method)</a>
@@ -328,7 +338,7 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.ExternalSymbolType.IDENTIFIER">IDENTIFIER (custom_types.ExternalSymbolType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.ExternalSymbolType.IDENTIFIER">IDENTIFIER (symbol_types.ExternalSymbolType attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -340,7 +350,7 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.KeywordType">KeywordType (class in custom_types)</a>
+      <li><a href="symbol_types.html#symbol_types.KeywordType">KeywordType (class in symbol_types)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -348,10 +358,10 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.OperatorType.LEFT_ANGLE">LEFT_ANGLE (custom_types.OperatorType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.OperatorType.LEFT_ANGLE">LEFT_ANGLE (symbol_types.OperatorType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.LEFT_ANGLE">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.LEFT_ANGLE">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -380,15 +390,63 @@
 </li>
       <li><a href="devices.html#devices.Devices.make_switch">make_switch() (devices.Devices method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.ReservedSymbolTypeMeta.mappings">mappings (custom_types.ReservedSymbolTypeMeta property)</a>
+      <li><a href="symbol_types.html#symbol_types.ReservedSymbolTypeMeta.mappings">mappings (symbol_types.ReservedSymbolTypeMeta property)</a>
 </li>
+      <li><a href="exceptions.html#exceptions.ParseBaseException.message">message (exceptions.ParseBaseException attribute)</a>
+
+      <ul>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.ConnectInToIn.message">(exceptions.SemanticErrors.ConnectInToIn attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.ConnectOutToOut.message">(exceptions.SemanticErrors.ConnectOutToOut attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.FloatingInput.message">(exceptions.SemanticErrors.FloatingInput attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.InvalidAndParam.message">(exceptions.SemanticErrors.InvalidAndParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.InvalidClockParam.message">(exceptions.SemanticErrors.InvalidClockParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.MonitorInputPin.message">(exceptions.SemanticErrors.MonitorInputPin attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.MonitorSamePin.message">(exceptions.SemanticErrors.MonitorSamePin attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.MultipleConnections.message">(exceptions.SemanticErrors.MultipleConnections attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.NameClash.message">(exceptions.SemanticErrors.NameClash attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedDevice.message">(exceptions.SemanticErrors.UndefinedDevice attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedInPin.message">(exceptions.SemanticErrors.UndefinedInPin attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedOutPin.message">(exceptions.SemanticErrors.UndefinedOutPin attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.InvalidSwitchParam.message">(exceptions.SyntaxErrors.InvalidSwitchParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.MissingParam.message">(exceptions.SyntaxErrors.MissingParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.MissingSemicolon.message">(exceptions.SyntaxErrors.MissingSemicolon attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.NoConnections.message">(exceptions.SyntaxErrors.NoConnections attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.NoDevices.message">(exceptions.SyntaxErrors.NoDevices attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.NoMonitors.message">(exceptions.SyntaxErrors.NoMonitors attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedEOF.message">(exceptions.SyntaxErrors.UnexpectedEOF attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedParam.message">(exceptions.SyntaxErrors.UnexpectedParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedToken.message">(exceptions.SyntaxErrors.UnexpectedToken attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
       <ul>
-        <li><a href="custom_types.html#module-custom_types">custom_types</a>
-</li>
         <li><a href="devices.html#module-devices">devices</a>
+</li>
+        <li><a href="exceptions.html#module-exceptions">exceptions</a>
 </li>
         <li><a href="monitors.html#module-monitors">monitors</a>
 </li>
@@ -400,9 +458,9 @@
 </li>
         <li><a href="scanner.html#module-scanner">scanner</a>
 </li>
+        <li><a href="symbol_types.html#module-symbol_types">symbol_types</a>
+</li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     monitors
 
@@ -412,10 +470,10 @@
       </ul></li>
       <li><a href="monitors.html#monitors.Monitors">Monitors (class in monitors)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.KeywordType.MONITORS">MONITORS (custom_types.KeywordType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.KeywordType.MONITORS">MONITORS (symbol_types.KeywordType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.MONITORS">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.MONITORS">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
       <li><a href="scanner.html#scanner.Scanner.move_pointer_absolute">move_pointer_absolute() (scanner.Scanner method)</a>
@@ -443,10 +501,10 @@
       </ul></li>
       <li><a href="names.html#names.Names">Names (class in names)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.DeviceType.NAND">NAND (custom_types.DeviceType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DeviceType.NAND">NAND (symbol_types.DeviceType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.NAND">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.NAND">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -460,13 +518,13 @@
       </ul></li>
       <li><a href="network.html#network.Network">Network (class in network)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.DeviceType.NOR">NOR (custom_types.DeviceType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DeviceType.NOR">NOR (symbol_types.DeviceType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.NOR">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.NOR">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="custom_types.html#custom_types.ExternalSymbolType.NUMBERS">NUMBERS (custom_types.ExternalSymbolType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.ExternalSymbolType.NUMBERS">NUMBERS (symbol_types.ExternalSymbolType attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -474,14 +532,14 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.OperatorType">OperatorType (class in custom_types)</a>
+      <li><a href="symbol_types.html#symbol_types.OperatorType">OperatorType (class in symbol_types)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.DeviceType.OR">OR (custom_types.DeviceType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DeviceType.OR">OR (symbol_types.DeviceType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.OR">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.OR">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -497,12 +555,32 @@
         <li><a href="parse.html#module-parse">module</a>
 </li>
       </ul></li>
-      <li><a href="parse.html#parse.Parser.parse_network">parse_network() (parse.Parser method)</a>
+      <li><a href="parse.html#parse.Parser.parse_connection_block">parse_connection_block() (parse.Parser method)</a>
 </li>
-      <li><a href="parse.html#parse.Parser">Parser (class in parse)</a>
+      <li><a href="parse.html#parse.Parser.parse_connection_statement">parse_connection_statement() (parse.Parser method)</a>
+</li>
+      <li><a href="parse.html#parse.Parser.parse_device_block">parse_device_block() (parse.Parser method)</a>
+</li>
+      <li><a href="parse.html#parse.Parser.parse_device_type">parse_device_type() (parse.Parser method)</a>
+</li>
+      <li><a href="parse.html#parse.Parser.parse_devices_statement">parse_devices_statement() (parse.Parser method)</a>
+</li>
+      <li><a href="parse.html#parse.Parser.parse_monitor_statement">parse_monitor_statement() (parse.Parser method)</a>
+</li>
+      <li><a href="parse.html#parse.Parser.parse_monitors_block">parse_monitors_block() (parse.Parser method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="parse.html#parse.Parser.parse_network">parse_network() (parse.Parser method)</a>
+</li>
+      <li><a href="parse.html#parse.Parser.parse_pin">parse_pin() (parse.Parser method)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.ParseBaseException">ParseBaseException (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.ParseBaseExceptionMeta">ParseBaseExceptionMeta (class in exceptions)</a>
+</li>
+      <li><a href="parse.html#parse.Parser">Parser (class in parse)</a>
+</li>
       <li><a href="scanner.html#scanner.Scanner.pointer">pointer (scanner.Scanner property)</a>
 </li>
       <li><a href="scanner.html#scanner.Scanner.pointer_colno">pointer_colno (scanner.Scanner property)</a>
@@ -511,24 +589,26 @@
 </li>
       <li><a href="scanner.html#scanner.Scanner.pointer_pos">pointer_pos (scanner.Scanner property)</a>
 </li>
+      <li><a href="exceptions.html#exceptions.Errors.print_error_messages">print_error_messages() (exceptions.Errors method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.DTypeOutputType.Q">Q (custom_types.DTypeOutputType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DTypeOutputType.Q">Q (symbol_types.DTypeOutputType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.Q">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.Q">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.DTypeOutputType.QBAR">QBAR (custom_types.DTypeOutputType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DTypeOutputType.QBAR">QBAR (symbol_types.DTypeOutputType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.QBAR">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.QBAR">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
       <li><a href="names.html#names.Names.query">query() (names.Names method)</a>
@@ -545,18 +625,18 @@
 </li>
       <li><a href="monitors.html#monitors.Monitors.remove_monitor">remove_monitor() (monitors.Monitors method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.ReservedSymbolType">ReservedSymbolType (class in custom_types)</a>
+      <li><a href="symbol_types.html#symbol_types.ReservedSymbolType">ReservedSymbolType (class in symbol_types)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.ReservedSymbolTypeMeta">ReservedSymbolTypeMeta (class in custom_types)</a>
+      <li><a href="symbol_types.html#symbol_types.ReservedSymbolTypeMeta">ReservedSymbolTypeMeta (class in symbol_types)</a>
 </li>
       <li><a href="monitors.html#monitors.Monitors.reset_monitors">reset_monitors() (monitors.Monitors method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.OperatorType.RIGHT_ANGLE">RIGHT_ANGLE (custom_types.OperatorType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.OperatorType.RIGHT_ANGLE">RIGHT_ANGLE (symbol_types.OperatorType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.RIGHT_ANGLE">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.RIGHT_ANGLE">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -576,35 +656,140 @@
 </li>
       <li><a href="scanner.html#scanner.Scanner.EOF">Scanner.EOF (class in scanner)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.SemanticErrors">SemanticErrors (class in custom_types)</a>
+      <li><a href="exceptions.html#exceptions.SemanticErrors">SemanticErrors (class in exceptions)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.OperatorType.SEMICOLON">SEMICOLON (custom_types.OperatorType attribute)</a>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.ConnectInToIn">SemanticErrors.ConnectInToIn (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.ConnectOutToOut">SemanticErrors.ConnectOutToOut (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.FloatingInput">SemanticErrors.FloatingInput (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.InvalidAndParam">SemanticErrors.InvalidAndParam (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.InvalidClockParam">SemanticErrors.InvalidClockParam (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.MonitorInputPin">SemanticErrors.MonitorInputPin (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.MonitorSamePin">SemanticErrors.MonitorSamePin (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.MultipleConnections">SemanticErrors.MultipleConnections (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.NameClash">SemanticErrors.NameClash (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedDevice">SemanticErrors.UndefinedDevice (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedInPin">SemanticErrors.UndefinedInPin (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedOutPin">SemanticErrors.UndefinedOutPin (class in exceptions)</a>
+</li>
+      <li><a href="symbol_types.html#symbol_types.OperatorType.SEMICOLON">SEMICOLON (symbol_types.OperatorType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.SEMICOLON">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.SEMICOLON">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.DTypeInputType.SET">SET (custom_types.DTypeInputType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DTypeInputType.SET">SET (symbol_types.DTypeInputType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.SET">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.SET">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
       <li><a href="devices.html#devices.Devices.set_switch">set_switch() (devices.Devices method)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.DeviceType.SWITCH">SWITCH (custom_types.DeviceType attribute)</a>
+      <li><a href="parse.html#parse.Parser.skip_to_block">skip_to_block() (parse.Parser method)</a>
+</li>
+      <li><a href="parse.html#parse.Parser.skip_to_end_of_line">skip_to_end_of_line() (parse.Parser method)</a>
+</li>
+      <li><a href="symbol_types.html#symbol_types.DeviceType.SWITCH">SWITCH (symbol_types.DeviceType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.SWITCH">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.SWITCH">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
       <li><a href="scanner.html#scanner.Symbol">Symbol (class in scanner)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.ReservedSymbolType.symbol_contexts">symbol_contexts (custom_types.ReservedSymbolType attribute)</a>, <a href="custom_types.html#id0">[1]</a>
+      <li><a href="exceptions.html#exceptions.SemanticErrors.ConnectInToIn.symbol">symbol (exceptions.SemanticErrors.ConnectInToIn attribute)</a>
+
+      <ul>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.ConnectOutToOut.symbol">(exceptions.SemanticErrors.ConnectOutToOut attribute)</a>
 </li>
-      <li><a href="custom_types.html#custom_types.SyntaxErrors">SyntaxErrors (class in custom_types)</a>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.FloatingInput.symbol">(exceptions.SemanticErrors.FloatingInput attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.InvalidAndParam.symbol">(exceptions.SemanticErrors.InvalidAndParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.InvalidClockParam.symbol">(exceptions.SemanticErrors.InvalidClockParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.MonitorInputPin.symbol">(exceptions.SemanticErrors.MonitorInputPin attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.MonitorSamePin.symbol">(exceptions.SemanticErrors.MonitorSamePin attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.MultipleConnections.symbol">(exceptions.SemanticErrors.MultipleConnections attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.NameClash.symbol">(exceptions.SemanticErrors.NameClash attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedDevice.symbol">(exceptions.SemanticErrors.UndefinedDevice attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedInPin.symbol">(exceptions.SemanticErrors.UndefinedInPin attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SemanticErrors.UndefinedOutPin.symbol">(exceptions.SemanticErrors.UndefinedOutPin attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.InvalidSwitchParam.symbol">(exceptions.SyntaxErrors.InvalidSwitchParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.MissingParam.symbol">(exceptions.SyntaxErrors.MissingParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.MissingSemicolon.symbol">(exceptions.SyntaxErrors.MissingSemicolon attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.NoConnections.symbol">(exceptions.SyntaxErrors.NoConnections attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.NoDevices.symbol">(exceptions.SyntaxErrors.NoDevices attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.NoMonitors.symbol">(exceptions.SyntaxErrors.NoMonitors attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedEOF.symbol">(exceptions.SyntaxErrors.UnexpectedEOF attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedParam.symbol">(exceptions.SyntaxErrors.UnexpectedParam attribute)</a>
+</li>
+        <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedToken.symbol">(exceptions.SyntaxErrors.UnexpectedToken attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="symbol_types.html#id0">symbol_contexts (symbol_types.ReservedSymbolType attribute)</a>, <a href="symbol_types.html#symbol_types.ReservedSymbolType.symbol_contexts">[1]</a>
+</li>
+      <li>
+    symbol_types
+
+      <ul>
+        <li><a href="symbol_types.html#module-symbol_types">module</a>
+</li>
+      </ul></li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors">SyntaxErrors (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.InvalidSwitchParam">SyntaxErrors.InvalidSwitchParam (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.MissingParam">SyntaxErrors.MissingParam (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.MissingSemicolon">SyntaxErrors.MissingSemicolon (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.NoConnections">SyntaxErrors.NoConnections (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.NoDevices">SyntaxErrors.NoDevices (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.NoMonitors">SyntaxErrors.NoMonitors (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedEOF">SyntaxErrors.UnexpectedEOF (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedParam">SyntaxErrors.UnexpectedParam (class in exceptions)</a>
+</li>
+      <li><a href="exceptions.html#exceptions.SyntaxErrors.UnexpectedToken">SyntaxErrors.UnexpectedToken (class in exceptions)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="parse.html#parse.Parser.throw_error">throw_error() (parse.Parser method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -626,10 +811,10 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.ExtendedEnum.values">values() (custom_types.ExtendedEnum class method)</a>
+      <li><a href="symbol_types.html#symbol_types.ExtendedEnum.values">values() (symbol_types.ExtendedEnum class method)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolTypeMeta.values">(custom_types.ReservedSymbolTypeMeta method)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolTypeMeta.values">(symbol_types.ReservedSymbolTypeMeta method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -638,10 +823,10 @@
 <h2 id="X">X</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="custom_types.html#custom_types.DeviceType.XOR">XOR (custom_types.DeviceType attribute)</a>
+      <li><a href="symbol_types.html#symbol_types.DeviceType.XOR">XOR (symbol_types.DeviceType attribute)</a>
 
       <ul>
-        <li><a href="custom_types.html#custom_types.ReservedSymbolType.XOR">(custom_types.ReservedSymbolType attribute)</a>
+        <li><a href="symbol_types.html#symbol_types.ReservedSymbolType.XOR">(symbol_types.ReservedSymbolType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
