@@ -111,6 +111,12 @@ class SemanticErrors:
     class InvalidClockParam(ParseBaseException):
         """Invalid clock period."""
 
+    class MonitorInputPin(ParseBaseException):
+        """Attempting to monitor an input pin."""
+
+    class MonitorSamePin(ParseBaseException):
+        """Warning: duplicate monitor pin."""
+
 
 class Errors:
     """Collect and handle errors found while parsing circuit descriptions.

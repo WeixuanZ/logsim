@@ -77,3 +77,11 @@ def test_parse_definition_file(parser):
     (id, out) = parser.network.get_connected_output(dev_id, in2)
     assert id == device_list[1].device_id
     assert out is None
+
+    # check monitors
+
+    monitor_dict = parser.monitors.monitors_dictionary
+    assert len(monitor_dict) == 1
+    (device_id, pin_id) = list(monitor_dict.keys())[0]
+    assert device_id == parser.names.query("A")
+    assert pin_id is None

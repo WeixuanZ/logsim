@@ -700,8 +700,35 @@ class Parser:
 
     def add_monitors(self, pins):
         """Add monitors pins."""
-        # TODO if input pin find its connected output and monitor that one
-        pass
+        for pin in pins:
+            (out, device_name, pin_name) = pin
+            if out == "in":
+                self.throw_error(SemanticErrors.MonitorInputPin)
+                self.syntax_valid = False
+                return
+
+            device_id = self.names.query(device_name)
+            if pin_name is not None:
+                pin_id = self.names.query(pin_name)
+            else:
+                pin_id = None
+
+            if self.monitors is not None:
+                error = self.monitors.make_monitor(device_id, pin_id)
+                if error == self.monitors.NO_ERROR:
+                    continue
+                if error == self.monitors.MONITOR_PRESENT:
+                    # this is just a warning
+                    self.throw_error(SemanticErrors.MonitorSamePin)
+                    continue
+
+                self.syntax_valid = False
+                if error == self.monitors.NOT_OUTPUT:
+                    self.throw_error(SemanticErrors.MonitorInputPin)
+                if error == self.monitors.MONITOR_PRESENT:
+                    self.throw_error(SemanticErrors.MonitorSamePin)
+                if error == self.network.DEVICE_ABSENT:
+                    self.throw_error(SemanticErrors.UndefinedDevice)
 
     def parse_network(self):
         """Parse the circuit definition file."""
@@ -712,23 +739,34 @@ class Parser:
         success = self.parse_device_block()
         if success is None:
             # there was end of file
+            self.syntax_valid = False
             return False
         elif not success:
             # syntax error in DEVICES block
+            self.syntax_valid = False
             if not self.skip_to_block(KeywordType.CONNECTIONS):
                 return False
 
         success = self.parse_connection_block()
         if success is None:
             # there was unexpected end of file
+            self.syntax_valid = False
             return False
         elif not success:
             # syntax error in DEVICES block
+            self.syntax_valid = False
             if not self.skip_to_block(KeywordType.MONITORS):
                 return False
-        # TODO check all inputs connected
+
+        # check if all inputs are connected
+        if not self.network.check_network():
+            self.throw_error(SemanticErrors.FloatingInput)
+            self.syntax_valid = False
+
         success = self.parse_monitors_block()
         if success is None or not success:
+            self.syntax_valid = False
             return False
 
-        return True
+        print(self.syntax_valid)
+        return self.syntax_valid
