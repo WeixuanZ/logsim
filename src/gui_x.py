@@ -283,16 +283,37 @@ class Gui(wx.Frame):
         controlwin2.SetSizer(switches_sizer)
         controlwin2.SetScrollRate(10, 10)
         controlwin2.SetAutoLayout(True)
-        for switch in ["switch1", "switch2", "switch3", "switch4"]:
+
+        switches = [
+            ["switch1", True],
+            ["switch2", True],
+            ["switch3", False],
+            ["switch4", True],
+        ]
+        switch_buttons = []
+        for i, switch in enumerate(switches):
+
+            if switch[1]:
+                label = "On"
+                value = True
+            else:
+                label = "Off"
+                value = False
+
+            switch_buttons.append(
+                wx.ToggleButton(controlwin2, wx.ID_ANY, label=label)
+            )
+            switch_buttons[i].SetValue(value)
+            switch_buttons[i].Bind(wx.EVT_TOGGLEBUTTON, self.on_toggle_button)
+
+        for i, switch_button in enumerate(switch_buttons):
             single_switch_sizer = wx.BoxSizer(wx.HORIZONTAL)
             switches_sizer.Add(single_switch_sizer, 1, wx.LEFT, 80)
-            self.switch_text = wx.StaticText(controlwin2, wx.ID_ANY, switch)
-            self.toggle_button = wx.ToggleButton(
-                controlwin2, wx.ID_ANY, "Toggle"
+            self.switch_text = wx.StaticText(
+                controlwin2, wx.ID_ANY, switches[i][0]
             )
-            self.toggle_button.Bind(wx.EVT_TOGGLEBUTTON, self.on_toggle_button)
             single_switch_sizer.Add(self.switch_text, 1, wx.ALL, 10)
-            single_switch_sizer.Add(self.toggle_button, 1, wx.ALL, 10)
+            single_switch_sizer.Add(switch_button, 1, wx.ALL, 10)
 
         side_sizer.Add(buttons_sizer, 1, wx.LEFT, 100)
         buttons_sizer.Add(self.run_button, 1, wx.LEFT, 10)
@@ -332,10 +353,11 @@ class Gui(wx.Frame):
 
     def on_toggle_button(self, event):
         """TODO."""
-        if self.toggle_button.GetValue() is True:
-            self.toggle_button.SetLabel("On")
+        obj = event.GetEventObject()
+        if obj.GetValue():
+            obj.SetLabel("On")
         else:
-            self.toggle_button.SetLabel("Off")
+            obj.SetLabel("Off")
 
 
 app = wx.App()
