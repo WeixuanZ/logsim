@@ -6,22 +6,17 @@ use this module either directly or indirectly.
 SPHINX-IGNORE
 Classes
 -------
-DTypeInputType - D-type flip-flop inputs.
-DTypeOutputType - D-type flip-flop outputs.
-DeviceType - Supported devices.
-Error
-ErrorCode
-Errors
-ExtendedEnum - Subclass of default Enum with add values method.
-ExternalSymbolType - User-defined symbol types.
-KeywordType - Language builtin keywords, used to initiate blocks.
-OperatorType - Operators defined in the logic definition language.
-ReservedSymbolType -
-    All built-in symbol types in the language, which are reserved.
-ReservedSymbolTypeMeta -
-    Metaclass that create classes acting as wrapper around Enums.
-SemanticErrors
-SyntaxErrors
+DTypeInputType         - D-type flip-flop inputs.
+DTypeOutputType        - D-type flip-flop outputs.
+DeviceType             - Supported devices.
+ExtendedEnum           - Subclass of default Enum with add values method.
+ExternalSymbolType     - User-defined symbol types.
+KeywordType            - Language builtin keywords, used to initiate blocks.
+OperatorType           - Operators defined in the logic definition language.
+ReservedSymbolType     - All built-in symbol types in the language, which are
+                         reserved.
+ReservedSymbolTypeMeta - Metaclass that create classes acting as wrapper around
+                         Enums.
 SPHINX-IGNORE
 """
 
@@ -172,33 +167,3 @@ class ExternalSymbolType(ExtendedEnum):
     NUMBERS = "NUMBERS"  # string of digits
     # User defined names (for devices) and pins (e.g. I1)
     IDENTIFIER = "IDENTIFIER"
-
-
-class ErrorCode(Enum):
-    """TODO."""
-
-    pass
-
-
-class Error:
-    """TODO."""
-
-    pass
-
-
-class SyntaxErrors(Error):
-    """TODO."""
-
-    pass
-
-
-class SemanticErrors(Error):
-    """TODO."""
-
-    pass
-
-
-class Errors(Error):
-    """TODO."""
-
-    pass

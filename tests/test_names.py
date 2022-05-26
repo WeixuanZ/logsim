@@ -1,7 +1,7 @@
 """Test the names module."""
 import pytest
 
-from custom_types import (
+from symbol_types import (
     ReservedSymbolTypeMeta,
     ExtendedEnum,
     ExternalSymbolType,

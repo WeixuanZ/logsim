@@ -1,0 +1,18 @@
+DEVICES:
+	A = AND<2> ;  // this is a comment
+	B = XOR ;
+	C = NAND<3> ;
+	SW1 = SWITCH<0> ;
+	SW2 = SWITCH<1> ;
+
+CONNECTIONS:
+	SW1 - A.I1 ;
+	SW1 - B.I1 ;
+	SW1 - C.I2 ;
+	SW2 - A.I2 ;
+	SW2 - B.I2 ;
+	A - C.I1 ;
+	B - C.I3 ;
+
+MONITORS:
+	A, C ;

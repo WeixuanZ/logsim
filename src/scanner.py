@@ -18,7 +18,7 @@ import logging
 import mmap
 
 from names import Names
-from custom_types import ReservedSymbolType, ExternalSymbolType
+from symbol_types import ReservedSymbolType, ExternalSymbolType
 
 
 class Symbol:

@@ -15,10 +15,10 @@ import sys
 
 import wx
 
-# from names import Names
-# from devices import Devices
-# from network import Network
-# from monitors import Monitors
+from names import Names
+from devices import Devices
+from network import Network
+from monitors import Monitors
 from scanner import Scanner
 from parse import Parser
 from userint import UserInterface
@@ -45,14 +45,10 @@ def main(arg_list):
         sys.exit()
 
     # Initialise instances of the four inner simulator classes
-    # names = Names()
-    # devices = Devices(names)
-    # network = Network(names, devices)
-    # monitors = Monitors(names, devices, network)
-    names = None
-    devices = None
-    network = None
-    monitors = None
+    names = Names()
+    devices = Devices(names)
+    network = Network(names, devices)
+    monitors = Monitors(names, devices, network)
 
     for option, path in options:
         if option == "-h":  # print the usage message
@@ -61,10 +57,13 @@ def main(arg_list):
         elif option == "-c":  # use the command line user interface
             scanner = Scanner(path, names)
             parser = Parser(names, devices, network, monitors, scanner)
-            if parser.parse_network():
-                # Initialise an instance of the userint.UserInterface() class
-                userint = UserInterface(names, devices, network, monitors)
-                userint.command_interface()
+            parser.parse_network()
+            if parser.errors.error_counter > 0:
+                parser.errors.print_error_messages()
+                return
+            # Initialise an instance of the userint.UserInterface() class
+            userint = UserInterface(names, devices, network, monitors)
+            userint.command_interface()
 
     if not options:  # no option given, use the graphical user interface
 

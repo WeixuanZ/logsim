@@ -1,6 +1,6 @@
 """Test the custom_types module."""
 
-from custom_types import ExtendedEnum, ReservedSymbolTypeMeta
+from symbol_types import ExtendedEnum, ReservedSymbolTypeMeta
 
 
 # mock reserved symbols
