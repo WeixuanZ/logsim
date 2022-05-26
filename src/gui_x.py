@@ -251,14 +251,40 @@ class Gui(wx.Frame):
         controlwin1.SetSizer(monitors_sizer)
         controlwin1.SetScrollRate(10, 10)
         controlwin1.SetAutoLayout(True)
-        for device in ["A", "B", "C", "D", "E", "F"]:
+
+        devices = [
+            ["A", True],
+            ["B", False],
+            ["C", False],
+            ["D", True],
+            ["E", True],
+            ["F", True],
+        ]
+        monitor_buttons = []
+
+        for i, device in enumerate(devices):
+            if device[1]:
+                label = "Remove"
+                value = True
+            else:
+                label = "Add"
+                value = False
+            monitor_buttons.append(
+                wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
+            )
+            monitor_buttons[i].SetValue(value)
+            monitor_buttons[i].Bind(
+                wx.EVT_TOGGLEBUTTON, self.on_monitor_button
+            )
+
+        for i, monitor_button in enumerate(monitor_buttons):
             device_sizer = wx.BoxSizer(wx.HORIZONTAL)
             monitors_sizer.Add(device_sizer, 1, wx.LEFT, 80)
-            self.device_text = wx.StaticText(controlwin1, wx.ID_ANY, device)
-            self.delete_button = wx.Button(controlwin1, wx.ID_ANY, "Delete")
-            self.delete_button.Bind(wx.EVT_BUTTON, self.on_delete_button)
+            self.device_text = wx.StaticText(
+                controlwin1, wx.ID_ANY, devices[i][0]
+            )
             device_sizer.Add(self.device_text, 1, wx.ALL, 10)
-            device_sizer.Add(self.delete_button, 1, wx.ALL, 10)
+            device_sizer.Add(monitor_button, 1, wx.ALL, 10)
 
         cycle_sizer.Add(self.cycles_text, 1, wx.LEFT, 20)
         cycle_sizer.Add(self.cycles, 1, wx.LEFT, 20)
@@ -347,10 +373,6 @@ class Gui(wx.Frame):
         """TODO."""
         pass
 
-    def on_delete_button(self, event):
-        """TODO."""
-        pass
-
     def on_toggle_button(self, event):
         """TODO."""
         obj = event.GetEventObject()
@@ -358,6 +380,14 @@ class Gui(wx.Frame):
             obj.SetLabel("On")
         else:
             obj.SetLabel("Off")
+
+    def on_monitor_button(self, event):
+        """TODO."""
+        obj = event.GetEventObject()
+        if obj.GetValue():
+            obj.SetLabel("Remove")
+        else:
+            obj.SetLabel("Add")
 
 
 app = wx.App()
