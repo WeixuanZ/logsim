@@ -213,7 +213,7 @@ class Gui(wx.Frame):
             self, wx.ID_ANY, "Continue"
         )  # Continue button
         self.cycles = wx.SpinCtrl(
-            self, wx.ID_ANY, "10", size=(60, 30)
+            self, wx.ID_ANY, "10", size=(60, 30), name="#cycles"
         )  # Number selected to specify #cycles
         self.cycles_text = wx.StaticText(
             self, wx.ID_ANY, "Cycles"
@@ -260,7 +260,7 @@ class Gui(wx.Frame):
 
         # Add Text 'Monitors' above box containing monitors.
         # Currently causes massive gap!
-        # Put them together into another sizer?
+        # Put them together into another vertical sizer?
         # side_sizer.Add(wx.StaticText(self, wx.ID_ANY, 'Monitors'),
         # 1, wx.LEFT, 10)
         # side_sizer.AddSpacer(-100)
@@ -280,12 +280,19 @@ class Gui(wx.Frame):
         ]
         monitor_buttons = []
 
+        # Loop over devices, creating button for each
         for i, device in enumerate(devices):
-            if device[1]:
-                label = "Remove"
+            if device[
+                1
+            ]:  # Initial state of button depends on initial device state
+                label = (
+                    "Remove"  # If being monitored, button removes as monitor.
+                )
                 value = True
             else:
-                label = "Add"
+                label = (
+                    "Add"  # If not being monitored, button adds as monitor.
+                )
                 value = False
             monitor_buttons.append(
                 wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
@@ -295,8 +302,13 @@ class Gui(wx.Frame):
                 wx.EVT_TOGGLEBUTTON, self.on_monitor_button
             )
 
+        # Iterate over list of buttons, adding each
+        # to scrollable sizer for monitors.
         for i, monitor_button in enumerate(monitor_buttons):
-            device_sizer = wx.BoxSizer(wx.HORIZONTAL)
+            device_sizer = wx.BoxSizer(
+                wx.HORIZONTAL
+            )  # Sizer for single device containing text
+            # and one button horizontally
             monitors_sizer.Add(device_sizer, 1, wx.ALIGN_CENTRE, 110)
             self.device_text = wx.StaticText(
                 controlwin1, wx.ID_ANY, devices[i][0]
@@ -304,14 +316,13 @@ class Gui(wx.Frame):
             device_sizer.Add(self.device_text, 1, wx.ALL, 10)
             device_sizer.Add(monitor_button, 1, wx.ALL, 10)
 
+        # Add text and cycle number selector to sizer.
         cycle_sizer.Add(self.cycles_text, 1, wx.LEFT, 20)
         cycle_sizer.Add(self.cycles, 1, wx.LEFT, 20)
 
-        self.SetSizeHints(200, 200)
-        self.SetSizer(main_sizer)
+        side_sizer.AddSpacer(35)  # Vertical space between elements
 
-        side_sizer.AddSpacer(35)
-
+        # Scrollable window for switches
         controlwin2 = wx.ScrolledWindow(
             self,
             -1,
@@ -337,21 +348,24 @@ class Gui(wx.Frame):
             ["switch4", True],
         ]
         switch_buttons = []
-        for i, switch in enumerate(switches):
 
-            if switch[1]:
+        # Iterate over switches, creating button for each and appending to list
+        for i, switch in enumerate(switches):
+            if switch[1]:  # Initial value + label of switch
+                # depends on initial state of switch
                 label = "On"
                 value = True
             else:
                 label = "Off"
                 value = False
-
             switch_buttons.append(
                 wx.ToggleButton(controlwin2, wx.ID_ANY, label=label)
             )
             switch_buttons[i].SetValue(value)
             switch_buttons[i].Bind(wx.EVT_TOGGLEBUTTON, self.on_toggle_button)
 
+        # Iterate over list of buttons for switches,
+        # adding each to respective sizer.
         for i, switch_button in enumerate(switch_buttons):
             single_switch_sizer = wx.BoxSizer(wx.HORIZONTAL)
             switches_sizer.Add(single_switch_sizer, 1, wx.ALIGN_CENTRE, 110)
@@ -361,10 +375,15 @@ class Gui(wx.Frame):
             single_switch_sizer.Add(self.switch_text, 1, wx.ALL, 10)
             single_switch_sizer.Add(switch_button, 1, wx.ALL, 10)
 
-        side_sizer.AddSpacer(35)
+        side_sizer.AddSpacer(35)  # Add vertical space
+        # Add run + continue buttons at bottom
         side_sizer.Add(buttons_sizer, 1, wx.ALIGN_CENTRE, 130)
         buttons_sizer.Add(self.run_button, 1, wx.LEFT, 10)
         buttons_sizer.Add(self.cont_button, 1, wx.LEFT, 10)
+
+        # Show everything.
+        self.SetSizeHints(200, 200)
+        self.SetSizer(main_sizer)
 
     def on_menu(self, event):
         """Handle menu events.
@@ -394,7 +413,9 @@ class Gui(wx.Frame):
 
     def on_run_button(self, event):
         """Handle event when user presses run button."""
-        pass
+        tmp = wx.FindWindowByName("#cycles")
+        no_cycles = tmp.GetValue()
+        print(no_cycles)
 
     def on_cont_button(self, event):
         """Handle event when user presses continue button."""
