@@ -5,14 +5,16 @@ Used in the Logic Simulator project. Mainly used by the parser.
 SPHINX-IGNORE
 Classes
 -------
-Error
-Errors
-SemanticErrors
-SyntaxErrors
+ParseBaseExceptionMeta - Metaclass create ParseBaseException classes.
+ParseBaseException - Base parse exception.
+SyntaxErrors - Different types of syntax errors.
+SemanticErrors - Different types of semantic errors.
+Errors - Collect and handle errors found while parsing circuit descriptions.
 SPHINX-IGNORE
 """
-
+import inspect
 from typing import Union
+from itertools import takewhile, starmap
 
 from names import Names
 from scanner import Symbol, Scanner
@@ -39,6 +41,7 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
         """Initialize the exception instance."""
         self.description = description if description is not None else ""
         self.symbol: Union[Symbol, None] = None
+        self.depth = 0
 
     def __repr__(self):
         """Customised repr of error objects."""
@@ -48,12 +51,13 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
             else ""
         )
 
-    def explain(self, names: Names, scanner: Scanner) -> str:
+    def explain(self, names: Names, scanner: Scanner, show_depth=True) -> str:
         """Return an explanation of the error."""
         if self.symbol is None:
-            return self.__repr__()
+            return self.__repr__() + "\n"
 
         error_line = scanner.get_line_by_lineno(self.symbol.lineno)
+        # use this long way to deal with tabs
         cursor_line = list(
             map(
                 lambda c: " " if not c.isspace() or c in ("\n", "\r") else c,
@@ -66,11 +70,18 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
         cursor_line = "".join(cursor_line)
 
         return (
-            f"Line {self.symbol.lineno + 1}: "
+            ("  " * self.depth if show_depth else "")
+            + (f"Line {self.symbol.lineno + 1}: " if self.depth > 0 else "")
             + self.__repr__()
             + "\n"
-            + error_line
-            + cursor_line
+            + (
+                ("  " * self.depth if show_depth else "")
+                + error_line
+                + ("  " * self.depth if show_depth else "")
+                + cursor_line
+                if self.depth > 0
+                else ""
+            )
         )
 
 
@@ -169,20 +180,53 @@ class Errors:
         self.names = names
         self.scanner = scanner
 
-    def add_error(self, error: ParseBaseException) -> None:
+    def add_error(
+        self,
+        error: ParseBaseException,
+        parse_entry_func_name="parse_network",
+        base_depth=2,
+    ) -> None:
         """Add an error to the error list."""
+        # get the caller function stack depth from parse entry point
+        error.depth = (
+            sum(
+                1
+                for _ in takewhile(
+                    lambda frame: frame.function != parse_entry_func_name,
+                    inspect.stack(),
+                )
+            )
+            - base_depth
+        )
+
         self.error_counter += 1
         self.error_list.append(error)
 
     def print_error_messages(self) -> None:
         """Pretty print all error messages."""
+        # sort errors by depth if on the same line
+        sorted_error_list = sorted(
+            self.error_list,
+            key=lambda e: (
+                e.symbol.lineno if e.symbol is not None else 0,
+                e.depth,
+            ),
+        )
+        show_depth_list = [False] + [
+            getattr(sorted_error_list[i].symbol, "lineno", 0)
+            == getattr(sorted_error_list[i - 1].symbol, "lineno", None)
+            for i in range(1, len(sorted_error_list))
+        ]
+
         print(
             "\033[91m"
             + f"{self.error_counter} Errors\n\n"
             + "\n".join(
-                map(
-                    lambda error: error.explain(self.names, self.scanner),
-                    self.error_list,
+                starmap(
+                    lambda error, show_depth: error.explain(
+                        self.names, self.scanner, show_depth=show_depth
+                    ),
+                    zip(sorted_error_list, show_depth_list),
                 )
             )
             + "\033[91m"
