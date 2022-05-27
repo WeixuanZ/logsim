@@ -16,6 +16,7 @@ from operator import methodcaller
 from itertools import accumulate, dropwhile, starmap
 import logging
 import mmap
+import os
 
 from names import Names
 from symbol_types import ReservedSymbolType, ExternalSymbolType
@@ -155,6 +156,9 @@ class Scanner:
     LINE_COMMENT_IDENTIFIER = "//"
     BLOCK_COMMENT_IDENTIFIERS = ("/*", "*/")
 
+    _reserved_symbol_values_set = set(ReservedSymbolType.values())
+    _valid_char_not_comment_set = _reserved_symbol_values_set | {"_"}
+
     def __init__(self, path: str, names: Names):
         """Open specified file and initialise reserved words and IDs."""
         self.path = path
@@ -165,12 +169,22 @@ class Scanner:
         self._pointer_pos = 0
         self._line_lengths = []
 
+        # mmap cannot open empty file, add a new line if file empty
+        filesize = os.path.getsize(path)
+        if filesize == 0:
+            with open(self.path, "r+") as file_obj:
+                file_obj.write("\n")
+
         # using memory mapping to improve performance
         with open(self.path, "rb", buffering=0) as file_obj:
             self._file_obj = mmap.mmap(
                 file_obj.fileno(), length=0, access=mmap.ACCESS_READ
             )
-            self._file_obj.madvise(mmap.MADV_SEQUENTIAL)
+
+            try:
+                self._file_obj.madvise(mmap.MADV_SEQUENTIAL)
+            except AttributeError:
+                pass
 
         while True:
             line = self._file_obj.readline()
@@ -555,11 +569,25 @@ class Scanner:
         elif current_character.isdigit():  # number
             symbol_string = self.get_next_number()
 
-        elif current_character in ReservedSymbolType.values():  # operator
+        elif (
+            current_character in Scanner._reserved_symbol_values_set
+        ):  # operator
             symbol_string = self.get_next_character()
 
         else:  # not a valid character
-            self.move_pointer_relative(1)
+            # not just use self.move_pointer_relative(1) to prevent reaching
+            # recursion depth limit
+            if current_character in (
+                Scanner.LINE_COMMENT_IDENTIFIER[0],
+                Scanner.BLOCK_COMMENT_IDENTIFIERS[0][0],
+            ):
+                self.move_pointer_relative(1)
+            else:
+                # use set to speed up predicate test
+                self.move_pointer_onto_next_character(
+                    predicate=lambda c: c.isalnum()
+                    or c in Scanner._valid_char_not_comment_set
+                )
             return self.get_symbol()
 
         [symbol_id] = self.names.lookup([symbol_string])
