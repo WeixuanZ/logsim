@@ -66,10 +66,9 @@ def main(arg_list):
             userint.command_interface()
 
     if not options:  # no option given, use the graphical user interface
-        file_opened = False
+        path = None
 
         if len(arguments) == 1:  # wrong number of arguments
-            file_opened = True
             [path] = arguments
             scanner = Scanner(path, names)
             parser = Parser(names, devices, network, monitors, scanner)
@@ -79,9 +78,7 @@ def main(arg_list):
                 return
 
         app = wx.App()
-        gui = Gui(
-            "Logic Simulator", file_opened, names, devices, network, monitors
-        )
+        gui = Gui("Logic Simulator", path, names, devices, network, monitors)
         gui.Show(True)
         app.MainLoop()
 

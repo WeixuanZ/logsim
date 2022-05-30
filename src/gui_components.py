@@ -716,3 +716,17 @@ class Console(wx.TextCtrl):
     def write(self, string):
         """Write string to console."""
         self.WriteText(string)
+
+
+class StatusBar(wx.StatusBar):
+    """Status bar."""
+
+    def __init__(self, parent):
+        """Initialize the component."""
+        super().__init__(parent)
+        self.SetFieldsCount(2)
+        self.SetStatusWidths((-4, -1))
+
+    def push_cycle_count(self, cycle_completed: int):
+        """Push the current cycle count to status bar."""
+        self.SetStatusText(f"Cycles completed: {cycle_completed}", i=1)

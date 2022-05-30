@@ -7,6 +7,7 @@ Classes:
 --------
 Gui - configures the main window and all the widgets.
 """
+from typing import Union
 import wx
 
 from gui_components import (
@@ -17,6 +18,7 @@ from gui_components import (
     SwitchWidget,
     ButtonsWidget,
     Console,
+    StatusBar,
 )
 
 from names import Names
@@ -53,7 +55,7 @@ class Gui(wx.Frame):
     def __init__(
         self,
         title: str,
-        file_opened: bool,
+        path: Union[None, str],
         names: Names,
         devices: Devices,
         network: Network,
@@ -70,7 +72,14 @@ class Gui(wx.Frame):
         # Logo/icon
         self.SetIcon(wx.Icon("./src/logicgate.png"))
 
-        # Configure widgets
+        # Menu bar and status bar
+        self.MenuBar = MenuBar(
+            self, file_opened=path is not None, on_file=self.handle_file_load
+        )
+        self.StatusBar = StatusBar(self)
+        if path is not None:
+            self.StatusBar.PushStatusText(path)
+
         # Configure sizers for layout
         self.main_sizer = wx.BoxSizer(
             wx.HORIZONTAL
@@ -92,22 +101,20 @@ class Gui(wx.Frame):
         self.main_sizer.Add(self.canvas, 2, wx.EXPAND | wx.ALL, 5)
         # main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
 
-        self._build_side_sizer(file_opened=file_opened)
+        # Widgets
+        self._build_side_sizer()
 
         # Show everything.
         self.SetSizeHints(200, 200)
         self.SetSizer(self.main_sizer)
 
-    def _build_side_sizer(self, file_opened: bool):
+    def _build_side_sizer(self):
         """Build right-hand plane, containing all controls."""
         self.side_sizer = wx.BoxSizer(wx.VERTICAL)
 
         # Components
         # load console first to show errors using file load
         self.Console = Console(self)
-        self.MenuBar = MenuBar(
-            self, file_opened=file_opened, on_file=self.handle_file_load
-        )
         self.CyclesWidget = CyclesWidget(self)
         self.MonitorWidget = MonitorWidget(
             self,
@@ -172,8 +179,10 @@ class Gui(wx.Frame):
             parser.errors.print_error_messages()
 
         self.main_sizer.Hide(self.side_sizer)
-        self._build_side_sizer(True)
+        self._build_side_sizer()
         self.Layout()
+
+        self.StatusBar.PushStatusText(path)
 
     def handle_run_btn_click(self, event):
         """Handle event when user presses run button."""
@@ -184,6 +193,7 @@ class Gui(wx.Frame):
         self.devices.cold_startup()
         if self.run_network(cycles):
             self.cycles_completed[0] = cycles
+            self.StatusBar.push_cycle_count(self.cycles_completed[0])
 
     def handle_cont_btn_click(self, event):
         """Handle event when user presses continue button."""
@@ -191,6 +201,7 @@ class Gui(wx.Frame):
         if self.run_network(cycles):
             self.cycles_completed[0] += cycles
             self.canvas.cycles += cycles
+            self.StatusBar.push_cycle_count(self.cycles_completed[0])
         print(
             " ".join(
                 [
