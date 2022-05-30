@@ -6,6 +6,11 @@ import wx.glcanvas as wxcanvas
 from OpenGL import GL, GLUT
 import webbrowser
 
+# from names import Names
+# from devices import Device, Devices
+# from monitors import Monitors
+# from network import Network
+
 
 class Canvas(wxcanvas.GLCanvas):
     """TODO."""
@@ -181,7 +186,7 @@ class Gui(wx.Frame):
     OpenID = 998
     HelpID = 110
 
-    def __init__(self, title):
+    def __init__(self, title, names, devices, network, monitors):
         """Initialise widgets and layout."""
         super().__init__(parent=None, title=title, size=(1000, 800))
         # wx.Font.AddPrivateFont('./fonts/Geomanist-Regular.ttf')
@@ -189,6 +194,8 @@ class Gui(wx.Frame):
         # self.header_font = wx.Font(25, wx.)
         OpenID = 998
         HelpID = 110
+        self.devices = devices
+        self.names = names
 
         # Configure file menu
         fileMenu = wx.Menu()
@@ -270,51 +277,50 @@ class Gui(wx.Frame):
         controlwin1.SetScrollRate(10, 10)
         controlwin1.SetAutoLayout(True)
 
-        devices = [
-            ["A", True],
-            ["B", False],
-            ["C", False],
-            ["D", True],
-            ["E", True],
-            ["F", True],
-        ]
-        monitor_buttons = []
-
+        self.monitor_buttons = []
         # Loop over devices, creating button for each
-        for i, device in enumerate(devices):
-            if device[
-                1
-            ]:  # Initial state of button depends on initial device state
-                label = (
-                    "Remove"  # If being monitored, button removes as monitor.
-                )
-                value = True
-            else:
-                label = (
-                    "Add"  # If not being monitored, button adds as monitor.
-                )
-                value = False
-            monitor_buttons.append(
+        for i, device in enumerate(self.devices.devices_list):
+            # if device[
+            #    1
+            # ]:  # Initial state of button depends on initial device state
+            #    label = (
+            #        "Remove"  # If being monitored, button removes as monitor.
+            #    )
+            #    value = True
+            # else:
+            #    label = (
+            #        "Add"  # If not being monitored, button adds as monitor.
+            #    )
+            #    value = False
+            label = "Test"
+            self.monitor_buttons.append(
                 wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
             )
-            monitor_buttons[i].SetValue(value)
-            monitor_buttons[i].Bind(
+            # monitor_buttons[i].SetValue(value)
+            self.monitor_buttons[i].Bind(
                 wx.EVT_TOGGLEBUTTON, self.on_monitor_button
             )
 
         # Iterate over list of buttons, adding each
         # to scrollable sizer for monitors.
-        for i, monitor_button in enumerate(monitor_buttons):
+        for i, monitor_button in enumerate(self.monitor_buttons):
+            device = self.devices.devices_list[i]
+            device_id = device.device_id
+            device_name = self.names.get_name_string(device_id)
             device_sizer = wx.BoxSizer(
                 wx.HORIZONTAL
             )  # Sizer for single device containing text
             # and one button horizontally
             monitors_sizer.Add(device_sizer, 1, wx.ALIGN_CENTRE, 110)
             self.device_text = wx.StaticText(
-                controlwin1, wx.ID_ANY, devices[i][0]
+                controlwin1, wx.ID_ANY, device_name
             )
             device_sizer.Add(self.device_text, 1, wx.ALL, 10)
             device_sizer.Add(monitor_button, 1, wx.ALL, 10)
+
+        self.monitor_buttons_id = []
+        for i in self.monitor_buttons:
+            self.monitor_buttons_id.append(i.GetId())
 
         # Add text and cycle number selector to sizer.
         cycle_sizer.Add(self.cycles_text, 1, wx.LEFT, 20)
@@ -439,13 +445,16 @@ class Gui(wx.Frame):
         If output is not being monitored, button says 'Add'.
         """
         obj = event.GetEventObject()
+        id = event.GetId()
+        # print(id)
+        print(self.monitor_buttons_id.index(id))
         if obj.GetValue():
             obj.SetLabel("Remove")
         else:
             obj.SetLabel("Add")
 
 
-app = wx.App()
-gui = Gui("Logic Simulator")
-gui.Show(True)
-app.MainLoop()
+# app = wx.App()
+# gui = Gui("Logic Simulator")
+# gui.Show(True)
+# app.MainLoop()
