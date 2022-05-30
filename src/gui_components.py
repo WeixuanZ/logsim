@@ -3,7 +3,7 @@
 Canvas - handles all canvas drawing operations.
 """
 import sys
-from typing import Callable
+from typing import Callable, Union
 
 import webbrowser
 import wx
@@ -211,13 +211,18 @@ class Canvas(wxcanvas.GLCanvas):
 
 
 class MenuBar(wx.MenuBar):
-    """TODO."""
+    """Menu bar component.
+
+    Handles file load and help.
+    """
 
     OpenID = 998
     HelpID = 110
 
-    def __init__(self, parent: wx.Frame):
+    def __init__(self, parent: wx.Frame, file_opened: bool, on_file: Callable):
         """Initialize the widget."""
+        self.on_file = on_file
+
         super().__init__()
         fileMenu = wx.Menu()
         fileMenu.Append(self.OpenID, "&Open")
@@ -228,7 +233,10 @@ class MenuBar(wx.MenuBar):
 
         parent.SetMenuBar(self)
 
-    def on_menu(self, event):
+        if not file_opened:
+            self.handle_file_open()
+
+    def on_menu(self, event) -> None:
         """Handle menu events.
 
         If Open button is selected, file dialog opens
@@ -237,22 +245,40 @@ class MenuBar(wx.MenuBar):
         opened to GitHub readme.
         """
         if event.GetId() == self.OpenID:
-            openFileDialog = wx.FileDialog(
-                self,
-                "Open Logic Description File",
-                "",
-                "",
-                wildcard="TXT files (*.txt)|*.txt",
-                style=wx.FD_OPEN + wx.FD_FILE_MUST_EXIST,
-            )
-            if openFileDialog.ShowModal() == wx.ID_CANCEL:
-                print("The user cancelled")
-                return  # User closed file dialog
-            print(
-                "File chosen=", openFileDialog.GetPath()
-            )  # If file is selected, obtain path of file, for reading.
+            self.handle_file_open()
+
         if event.GetId() == self.HelpID:
             webbrowser.open("https://github.com/WeixuanZ/logsim#readme")
+
+    def open_file_dialog(self) -> Union[None, str]:
+        """Open the file dialog.
+
+        Returns
+        -------
+            path: Union[None, str]
+                Returns None if user cancels
+        """
+        openFileDialog = wx.FileDialog(
+            self,
+            message="Open Logic Description File",
+            wildcard="TXT files (*.txt)|*.txt",
+            style=wx.FD_OPEN + wx.FD_FILE_MUST_EXIST,
+        )
+        if openFileDialog.ShowModal() == wx.ID_CANCEL:
+            print("The user cancelled")
+            return  # User closed file dialog
+
+        path = openFileDialog.GetPath()
+        print("File chosen=", path)
+        return path
+
+    def handle_file_open(self) -> None:
+        """Call callback function if file selected."""
+        path = self.open_file_dialog()
+        if path is None:
+            return
+
+        self.on_file(path)
 
 
 class CyclesWidget(wx.BoxSizer):
@@ -448,7 +474,7 @@ class MonitorWidget(wx.ScrolledWindow):
 class SwitchWidget(wx.ScrolledWindow):
     """Scrollable window for switches."""
 
-    def __init__(self, parent: wx.Window, names, devices):
+    def __init__(self, parent: wx.Window, names: Names, devices: Devices):
         """Initialize the widget."""
         super().__init__(
             parent,
@@ -521,7 +547,7 @@ class SwitchWidget(wx.ScrolledWindow):
 
 
 class ButtonsWidget(wx.BoxSizer):
-    """TODO."""
+    """Widget containing the control buttons."""
 
     def __init__(
         self, parent: wx.Window, on_run: Callable, on_continue: Callable
@@ -543,10 +569,17 @@ class ButtonsWidget(wx.BoxSizer):
 
 
 class Console(wx.TextCtrl):
-    """Console component."""
+    """Console component.
+
+    The console redirects from stdout.
+    """
 
     def __init__(self, parent: wx.Window):
-        """Initialize the component."""
+        """Initialize the component.
+
+        Redirection only happens after initialization, so load this component
+        before code that throws errors.
+        """
         super().__init__(
             parent,
             -1,

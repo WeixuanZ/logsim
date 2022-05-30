@@ -23,6 +23,8 @@ from names import Names
 from devices import Devices
 from monitors import Monitors
 from network import Network
+from scanner import Scanner
+from parse import Parser
 
 
 class Gui(wx.Frame):
@@ -44,6 +46,7 @@ class Gui(wx.Frame):
     def __init__(
         self,
         title: str,
+        file_opened: bool,
         names: Names,
         devices: Devices,
         network: Network,
@@ -60,7 +63,12 @@ class Gui(wx.Frame):
         self.monitors = monitors
         self.cycles_completed = 0
 
-        self.MenuBar = MenuBar(self)
+        # Components
+        # load console first to show errors using file load
+        self.Console = Console(self)
+        self.MenuBar = MenuBar(
+            self, file_opened=file_opened, on_file=self.handle_file_load
+        )
         self.CyclesWidget = CyclesWidget(self)
         self.MonitorWidget = MonitorWidget(
             self,
@@ -76,7 +84,6 @@ class Gui(wx.Frame):
             on_run=self.handle_run_btn_click,
             on_continue=self.handle_cont_btn_click,
         )
-        self.Console = Console(self)
 
         # Configure widgets
         self.scrollable_canvas = wx.ScrolledCanvas(self, wx.ID_ANY)
@@ -128,6 +135,21 @@ class Gui(wx.Frame):
         self.SetSizeHints(200, 200)
         self.SetSizer(main_sizer)
 
+    def handle_file_load(self, path: str):
+        """Handle file load, parse and build the network."""
+        self.names = Names()
+        self.devices = Devices(self.names)
+        self.network = Network(self.names, self.devices)
+        self.monitors = Monitors(self.names, self.devices, self.network)
+
+        scanner = Scanner(path, self.names)
+        parser = Parser(
+            self.names, self.devices, self.network, self.monitors, scanner
+        )
+        parser.parse_network()
+        if parser.errors.error_counter > 0:
+            parser.errors.print_error_messages()
+
     def handle_run_btn_click(self, event):
         """Handle event when user presses run button."""
         cycles = self.CyclesWidget.GetValue()
@@ -137,21 +159,6 @@ class Gui(wx.Frame):
         self.devices.cold_startup()
         if self.run_network(cycles):
             self.cycles_completed = cycles
-
-    def run_network(self, cycles):
-        """Run the network for the specified number of simulation cycles.
-
-        Return True if successful.
-        """
-        for _ in range(cycles):
-            if self.network.execute_network():
-                self.monitors.record_signals()
-            else:
-                print("Error! Network oscillating.")
-                return False
-        # TODO display signals
-        self.monitors.display_signals()
-        return True
 
     def handle_cont_btn_click(self, event):
         """Handle event when user presses continue button."""
@@ -169,3 +176,18 @@ class Gui(wx.Frame):
                 ]
             )
         )
+
+    def run_network(self, cycles):
+        """Run the network for the specified number of simulation cycles.
+
+        Return True if successful.
+        """
+        for _ in range(cycles):
+            if self.network.execute_network():
+                self.monitors.record_signals()
+            else:
+                print("Error! Network oscillating.")
+                return False
+        # TODO display signals
+        self.monitors.display_signals()
+        return True
