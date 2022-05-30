@@ -48,7 +48,7 @@ class Canvas(wxcanvas.GLCanvas):
     """
 
     def __init__(self, parent, id, pos, size, devices, network, monitors):
-        """TODO."""
+        """Initialise canvas for displaying monitor signals."""
         super().__init__(
             parent,
             -1,
@@ -104,8 +104,10 @@ class Canvas(wxcanvas.GLCanvas):
 
     def render(self):
         """Handle all drawing operations."""
+        # Initialise
         self.SetCurrent(self.context)
         size = self.GetClientSize()
+        # Five preset colours for signal lines
         line_colours = [
             [0.85, 0.16, 0.69],
             [0.07, 0.81, 0.86],
@@ -122,14 +124,19 @@ class Canvas(wxcanvas.GLCanvas):
         GL.glClearColor(0.2, 0.2, 0.2, 0.2)  # dark gray default background
         GL.glClear(GL.GL_COLOR_BUFFER_BIT)
 
+        # If there are signals to display
+        # Only if run/continue have been pressed
+        # AND at least 1 monitor has been selected
         if len(self.signals) > 0:
             for i in range(
                 len(self.signals[0][-1])
             ):  # Create vertical lines for time steps
-                GL.glColor3f(1, 1, 1)
+                GL.glColor3f(1, 1, 1)  # White text
+                # X-axis labels (time)
                 self.render_text(
                     str(i), 125 + i * self.scale_x, size.height - 30
                 )
+                # Generate vertical grid lines
                 GL.glColor3f(0.6, 0.6, 0.6)  # light grey grid lines
                 GL.glLineWidth(0.25)
                 GL.glBegin(GL.GL_LINES)
@@ -141,7 +148,7 @@ class Canvas(wxcanvas.GLCanvas):
                 GL.glEnd()
             # Draw signals
             for i, signal in enumerate(self.signals, 1):
-                colour_index = i % 5
+                # Draw two horizontal gridlines for each signal
                 GL.glColor3f(0.6, 0.6, 0.6)
                 GL.glLineWidth(0.25)
                 GL.glBegin(GL.GL_LINES)
@@ -149,7 +156,10 @@ class Canvas(wxcanvas.GLCanvas):
                     130, size.height - 2 * i * self.scale_y
                 )  # Horizontal line at value of 0
                 GL.glVertex2f(
-                    130 + len(self.signals[0][-1] * 50),
+                    130
+                    + len(
+                        self.signals[0][-1] * 50
+                    ),  # length of lines depends on number of cycles
                     size.height - 2 * i * self.scale_y,
                 )
                 GL.glVertex2f(
@@ -161,19 +171,24 @@ class Canvas(wxcanvas.GLCanvas):
                 )
                 GL.glEnd()
 
+                # Cycle through five colours for signal lines
+                colour_index = i % 5
                 GL.glColor3f(
-                    line_colours[colour_index][0],
-                    line_colours[colour_index][1],
-                    line_colours[colour_index][2],
+                    line_colours[colour_index][0],  # Red value
+                    line_colours[colour_index][1],  # Green value
+                    line_colours[colour_index][2],  # Blue value
                 )
                 GL.glLineWidth(3)
+                # Draw signal line
                 self.draw_signal(
                     signal[-1], (130, size.height - 2 * i * self.scale_y)
                 )
                 GL.glClearColor(1, 1, 1, 0)
+                # Write out name of device (and pin)
                 self.render_text(
                     signal[0], 20, size.height - 2 * i * self.scale_y + 20
                 )
+                # Y-axis labels: 1 and 0, for each monitored device
                 self.render_text(
                     "1", 110, size.height - 2 * i * self.scale_y + 46
                 )
@@ -228,6 +243,7 @@ class Canvas(wxcanvas.GLCanvas):
             self.last_mouse_y = event.GetY()
 
         if event.Dragging():
+            # If user drags on canvas, canvas pans.
             self.pan_x += event.GetX() - self.last_mouse_x
             self.pan_y -= event.GetY() - self.last_mouse_y
             self.last_mouse_x = event.GetX()
@@ -235,6 +251,7 @@ class Canvas(wxcanvas.GLCanvas):
             self.init = False
 
         if event.GetWheelRotation() < 0:
+            # Zoom on wheel rotation
             self.zoom *= 1.0 + (
                 event.GetWheelRotation() / (20 * event.GetWheelDelta())
             )
@@ -244,6 +261,7 @@ class Canvas(wxcanvas.GLCanvas):
             self.init = False
 
         if event.GetWheelRotation() > 0:
+            # Zoom opposite direction
             self.zoom /= 1.0 - (
                 event.GetWheelRotation() / (20 * event.GetWheelDelta())
             )
@@ -372,7 +390,11 @@ class CyclesWidget(wx.BoxSizer):
 
 
 class MonitorWidget(wx.ScrolledWindow):
-    """TODO."""
+    """Scrolled window for monitors.
+
+    All devices are listed, with a button
+    for each to toggle monitoring.
+    """
 
     def __init__(
         self,

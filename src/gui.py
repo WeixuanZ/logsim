@@ -40,7 +40,14 @@ class Gui(wx.Frame):
 
     Methods
     -------
-    TODO
+    handle_file_load(self, path):
+        Handle file load, parse and build the network.
+    handle_run_btn_click(self, event):
+        Handle event when user presses run button.
+    handle_cont_btn_click(self, event):
+        Handle event when user presses continue button.
+    run_network(self, cycles):
+        Run the network for the specified number of simulation cycles.
     """
 
     def __init__(
@@ -54,14 +61,15 @@ class Gui(wx.Frame):
     ):
         """Initialise widgets and layout."""
         super().__init__(parent=None, title=title, size=(1000, 800))
-        # wx.Font.AddPrivateFont('./fonts/Geomanist-Regular.ttf')
-        # self.SetBackgroundColour((20, 17, 17))
-        # self.header_font = wx.Font(25, wx.)
         self.devices = devices
         self.names = names
         self.network = network
         self.monitors = monitors
         self.cycles_completed = [0]  # use list to force pass by reference
+        self.Maximize(True)
+
+        # Logo/icon
+        self.SetIcon(wx.Icon("./src/logicgate.png"))
 
         # Components
         # load console first to show errors using file load
@@ -86,19 +94,12 @@ class Gui(wx.Frame):
         )
 
         # Configure widgets
-        # self.scrollable_canvas = wx.ScrolledCanvas(self, wx.ID_ANY)
-        # Scrollable canvas to display monitored signals
-        # self.scrollable_canvas.SetSizeHints(500, 500)
-        # self.scrollable_canvas.ShowScrollbars(
-        #    wx.SHOW_SB_DEFAULT, wx.SHOW_SB_DEFAULT
-        # )
-        # self.scrollable_canvas.SetScrollbars(33, 33, 15, 10)
-
         # Configure sizers for layout
         main_sizer = wx.BoxSizer(wx.HORIZONTAL)  # Sizer containing everything
         # Right-hand plane, containing all controls
         side_sizer = wx.BoxSizer(wx.VERTICAL)
 
+        # Canvas for showing monitor signals
         self.canvas = Canvas(
             self,
             wx.ID_ANY,
@@ -116,20 +117,32 @@ class Gui(wx.Frame):
         main_sizer.Add(side_sizer, 1, wx.ALL, 5)
 
         # Add vertical space at top of right hand side
-        side_sizer.AddSpacer(30)
+        side_sizer.AddSpacer(15)
         side_sizer.Add(self.CyclesWidget, 1, wx.ALIGN_CENTRE, 130)
+        side_sizer.Add(
+            wx.StaticText(self, wx.ID_ANY, "Monitors"), 1, wx.LEFT, 10
+        )
+        side_sizer.AddSpacer(-25)
         side_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)
 
         # Vertical space between elements
-        side_sizer.AddSpacer(35)
+        side_sizer.AddSpacer(15)
+        side_sizer.Add(
+            wx.StaticText(self, wx.ID_ANY, "Switches"), 1, wx.LEFT, 10
+        )
+        side_sizer.AddSpacer(-25)
         side_sizer.Add(self.SwitchWidget, 1, wx.EXPAND | wx.ALL, 10)
 
         # Add vertical space
-        side_sizer.AddSpacer(35)
+        side_sizer.AddSpacer(15)
         # Add run + continue buttons at bottom
         side_sizer.Add(self.ButtonsWidget, 1, wx.ALIGN_CENTRE, 130)
 
-        side_sizer.AddSpacer(35)
+        side_sizer.AddSpacer(15)
+        side_sizer.Add(
+            wx.StaticText(self, wx.ID_ANY, "Console"), 1, wx.LEFT, 10
+        )
+        side_sizer.AddSpacer(-25)
         side_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 10)
 
         # Show everything.
