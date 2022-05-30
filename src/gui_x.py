@@ -283,34 +283,57 @@ class Gui(wx.Frame):
 
         self.monitor_dict = {}
         self.monitor_buttons = []
+        self.initial_monitors_lst = []
+        self.initial_monitor_pins = []
+
+        for i in range(len(self.monitors.monitors_dictionary)):
+            self.initial_monitors_lst.append(
+                list(self.monitors.monitors_dictionary.keys())[i][0]
+            )
+            pin = list(self.monitors.monitors_dictionary.keys())[i][1]
+            if pin is not None:
+                self.initial_monitor_pins.append(pin)
+
         # Loop over devices, creating button for each
         i = 0
         for device in self.devices.devices_list:
-            label = "Test"
+            # label = "Test"
             if device.device_kind == devices.D_TYPE:
-                self.monitor_buttons.append(
-                    wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
-                )
-                self.monitor_dict[self.monitor_buttons[i].GetId()] = [
-                    device,
-                    devices.Q_ID,
-                ]
-                self.monitor_buttons[i].Bind(
-                    wx.EVT_TOGGLEBUTTON, self.on_monitor_button
-                )
-                i += 1
-                self.monitor_buttons.append(
-                    wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
-                )
-                self.monitor_dict[self.monitor_buttons[i].GetId()] = [
-                    device,
-                    devices.QBAR_ID,
-                ]
-                self.monitor_buttons[i].Bind(
-                    wx.EVT_TOGGLEBUTTON, self.on_monitor_button
-                )
-                i += 1
+                for pin in list(device.outputs.keys()):
+                    if device.device_id in self.initial_monitors_lst:
+                        if pin in self.initial_monitor_pins:
+                            label = "Remove"
+                            value = True
+                        else:
+                            label = "Add"
+                            value = False
+                    else:
+                        label = "Add"
+                        value = False
+
+                    self.monitor_buttons.append(
+                        wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
+                    )
+                    if names.get_name_string(pin) == "Q":
+                        info = devices.Q_ID
+                    else:
+                        info = devices.QBAR_ID
+                    self.monitor_dict[self.monitor_buttons[i].GetId()] = [
+                        device,
+                        info,
+                    ]
+                    self.monitor_buttons[i].Bind(
+                        wx.EVT_TOGGLEBUTTON, self.on_monitor_button
+                    )
+                    self.monitor_buttons[i].SetValue(value)
+                    i += 1
             else:
+                if device.device_id in self.initial_monitors_lst:
+                    label = "Remove"
+                    value = True
+                else:
+                    label = "Add"
+                    value = False
                 self.monitor_buttons.append(
                     wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
                 )
@@ -318,31 +341,11 @@ class Gui(wx.Frame):
                     device,
                     None,
                 ]
+                self.monitor_buttons[i].SetValue(value)
                 self.monitor_buttons[i].Bind(
                     wx.EVT_TOGGLEBUTTON, self.on_monitor_button
                 )
                 i += 1
-            # if device[
-            #    1
-            # ]:  # Initial state of button depends on initial device state
-            #    label = (
-            #        "Remove"  # If being monitored, button removes as monitor.
-            #    )
-            #    value = True
-            # else:
-            #    label = (
-            #        "Add"  # If not being monitored, button adds as monitor.
-            #    )
-            #    value = False
-            # label = "Test"
-            # self.monitor_buttons.append(
-            #    wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
-            # )
-            # self.monitor_dict[self.monitor_buttons[i].GetId()] = [device, ]
-            # monitor_buttons[i].SetValue(value)
-            # self.monitor_buttons[i].Bind(
-            #    wx.EVT_TOGGLEBUTTON, self.on_monitor_button
-            # )
 
         # Iterate over list of buttons, adding each
         # to scrollable sizer for monitors.
@@ -354,9 +357,9 @@ class Gui(wx.Frame):
             if device_info is None:
                 device_name = self.names.get_name_string(device_id)
             elif device_info is devices.Q_ID:
-                device_name = self.names.get_name_string(device_id) + " Q"
+                device_name = self.names.get_name_string(device_id) + ".Q"
             elif device_info is devices.QBAR_ID:
-                device_name = self.names.get_name_string(device_id) + " Q-Bar"
+                device_name = self.names.get_name_string(device_id) + " .QBAR"
             device_sizer = wx.BoxSizer(
                 wx.HORIZONTAL
             )  # Sizer for single device containing text
