@@ -462,7 +462,9 @@ class MonitorWidget(wx.ScrolledWindow):
                         value = False
 
                     self.monitor_buttons.append(
-                        wx.ToggleButton(self, wx.ID_ANY, label=label)
+                        wx.ToggleButton(
+                            self, wx.ID_ANY, label=label, size=(130, 30)
+                        )
                     )
                     if self.names.get_name_string(pin) == "Q":
                         info = self.devices.Q_ID
@@ -485,7 +487,9 @@ class MonitorWidget(wx.ScrolledWindow):
                     label = "Add"
                     value = False
                 self.monitor_buttons.append(
-                    wx.ToggleButton(self, wx.ID_ANY, label=label)
+                    wx.ToggleButton(
+                        self, wx.ID_ANY, label=label, size=(130, 30)
+                    )
                 )
                 self.monitor_dict[self.monitor_buttons[i].GetId()] = [
                     device,
@@ -510,12 +514,17 @@ class MonitorWidget(wx.ScrolledWindow):
                 device_name = self.names.get_name_string(device_id) + ".Q"
             elif device_info is self.devices.QBAR_ID:
                 device_name = self.names.get_name_string(device_id) + " .QBAR"
-
+            device_name = (
+                device_name
+                + " <"
+                + self.names.get_name_string(device.device_kind)
+                + ">"
+            )
             device_sizer = wx.BoxSizer(
                 wx.HORIZONTAL
             )  # Sizer for single device containing text
             # and one button horizontally
-            monitors_sizer.Add(device_sizer, 1, wx.ALIGN_CENTRE, 110)
+            monitors_sizer.Add(device_sizer, 1, wx.ALIGN_CENTRE, 70)
             self.device_text = wx.StaticText(self, wx.ID_ANY, device_name)
             device_sizer.Add(self.device_text, 1, wx.ALL, 10)
             device_sizer.Add(monitor_button, 1, wx.ALL, 10)
@@ -607,7 +616,9 @@ class SwitchWidget(wx.ScrolledWindow):
             else:
                 label = "Off"
                 value = False
-            switch_button = wx.ToggleButton(self, wx.ID_ANY, label=label)
+            switch_button = wx.ToggleButton(
+                self, wx.ID_ANY, label=label, size=(130, 30)
+            )
             switch_button.SetValue(value)
             switch_button.Bind(wx.EVT_TOGGLEBUTTON, self.on_toggle_button)
 
@@ -652,9 +663,11 @@ class ButtonsWidget(wx.BoxSizer):
         super().__init__(wx.HORIZONTAL)
 
         # Run button
-        self.run_button = wx.Button(parent, wx.ID_ANY, "Run")
+        self.run_button = wx.Button(parent, wx.ID_ANY, "Run", size=(100, 30))
         # Continue button
-        self.cont_button = wx.Button(parent, wx.ID_ANY, "Continue")
+        self.cont_button = wx.Button(
+            parent, wx.ID_ANY, "Continue", size=(100, 30)
+        )
 
         # Bind events to widgets
         self.run_button.Bind(wx.EVT_BUTTON, on_run)

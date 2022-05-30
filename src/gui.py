@@ -60,7 +60,7 @@ class Gui(wx.Frame):
         monitors: Monitors,
     ):
         """Initialise widgets and layout."""
-        super().__init__(parent=None, title=title, size=(1000, 800))
+        super().__init__(parent=None, title=title, size=(1200, 800))
         self.devices = devices
         self.names = names
         self.network = network
@@ -112,7 +112,7 @@ class Gui(wx.Frame):
         self.canvas.SetSizeHints(500, 500)
 
         # Add scrollable canvas to left hand side
-        main_sizer.Add(self.canvas, 3, wx.EXPAND | wx.ALL, 5)
+        main_sizer.Add(self.canvas, 2, wx.EXPAND | wx.ALL, 5)
         # main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
         main_sizer.Add(side_sizer, 1, wx.ALL, 5)
 
