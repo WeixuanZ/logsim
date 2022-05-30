@@ -80,14 +80,14 @@ class Canvas(wxcanvas.GLCanvas):
 
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE, self.on_size)
-        # self.Bind(wx.EVT_MOUSE_EVENTS, self.on_mouse)
+        self.Bind(wx.EVT_MOUSE_EVENTS, self.on_mouse)
 
     def init_gl(self):
         """Configure and initialise OpenGL context."""
         size = self.GetClientSize()
         self.SetCurrent(self.context)
         GL.glDrawBuffer(GL.GL_BACK)
-        GL.glClearColor(1, 1, 1, 1)
+        GL.glClearColor(0.2, 0.2, 0.2, 0.2)
         GL.glViewport(0, 0, size.width, size.height)
         GL.glMatrixMode(GL.GL_PROJECTION)
         GL.glLoadIdentity()
@@ -107,48 +107,32 @@ class Canvas(wxcanvas.GLCanvas):
             self.init = True
 
         # Clear everything
+        GL.glClearColor(0.2, 0.2, 0.2, 0.2)
         GL.glClear(GL.GL_COLOR_BUFFER_BIT)
 
         if len(self.signals) > 0:
             for i in range(len(self.signals[0][-1])):
                 GL.glColor3f(0, 0, 0)
                 self.render_text(
-                    str(i), 100 + i * self.scale_x, self.size.height - 30
+                    str(i), 20 + i * self.scale_x, size.height - 30
                 )
-                GL.glColor3f(0.8, 0.8, 0.8)
-                GL.glLineWidth(1)
+                GL.glColor3f(0.6, 0.6, 0.6)
+                GL.glLineWidth(0.25)
                 GL.glBegin(GL.GL_LINES)
-                GL.glVertex2f(100 + i * self.scale_x, self.size.height - 40)
-                GL.glVertex2f(100 + i * self.scale_x, 0)
+                GL.glVertex2f(20 + i * self.scale_x, size.height - 40)
+                GL.glVertex2f(20 + i * self.scale_x, 0)
                 GL.glEnd()
             # Draw signals
-            num = 1
-            for signal in self.signals:
-                GL.glColor3f(signal[1][0], signal[1][1], signal[1][2])
+            for i, signal in enumerate(self.signals, 1):
+                GL.glColor3f(0, 0, 1)
                 GL.glLineWidth(3)
                 self.draw_signal(
-                    signal[-1], (100, size.height - 2 * num * self.scale_y)
+                    signal[-1], (20, size.height - 2 * i * self.scale_y)
                 )
                 GL.glClearColor(1, 1, 1, 0)
                 self.render_text(
-                    signal[0], 50, size.height - 2 * num * self.scale_y
+                    signal[0], 10, size.height - 2 * i * self.scale_y
                 )
-                num += 1
-        else:
-            GL.glColor3f(0.0, 0.0, 1.0)  # signal trace is blue
-            GL.glBegin(GL.GL_LINE_STRIP)
-            for i in range(10):
-                x = (i * 20) + 10
-                x_next = (i * 20) + 30
-                if i % 2 == 0:
-                    y = 75
-                else:
-                    y = 100
-                GL.glVertex2f(x, y)
-                GL.glVertex2f(x_next, y)
-            GL.glEnd()
-        # We have been drawing to the back buffer, flush the graphics pipeline
-        # and swap the back buffer to the front
         GL.glFlush()
         self.SwapBuffers()
 
@@ -171,7 +155,7 @@ class Canvas(wxcanvas.GLCanvas):
 
     def render_text(self, text, x_pos, y_pos):
         """Handle text drawing operations."""
-        GL.glColor3f(0.0, 0.0, 0.0)  # text is black
+        GL.glColor3f(1, 1, 1)  # text is black
         GL.glRasterPos2f(x_pos, y_pos)
         font = GLUT.GLUT_BITMAP_HELVETICA_12  # noqa
 
@@ -184,8 +168,44 @@ class Canvas(wxcanvas.GLCanvas):
                     font, ord(character)
                 )  # ord() converts character into Unicode code value
 
-    # def on_mouse(self, event):
-    # """Handle mouse events."""
+    def on_mouse(self, event):
+        """Handle mouse events."""
+        # Calculate object coordinates of the mouse position
+        size = self.GetClientSize()
+        ox = (event.GetX() - self.pan_x) / self.zoom
+        oy = (size.height - event.GetY() - self.pan_y) / self.zoom
+        old_zoom = self.zoom
+
+        if event.ButtonDown():
+            self.last_mouse_x = event.GetX()
+            self.last_mouse_y = event.GetY()
+
+        if event.Dragging():
+            self.pan_x += event.GetX() - self.last_mouse_x
+            self.pan_y -= event.GetY() - self.last_mouse_y
+            self.last_mouse_x = event.GetX()
+            self.last_mouse_y = event.GetY()
+            self.init = False
+
+        if event.GetWheelRotation() < 0:
+            self.zoom *= 1.0 + (
+                event.GetWheelRotation() / (20 * event.GetWheelDelta())
+            )
+            # Adjust pan so as to zoom around the mouse position
+            self.pan_x -= (self.zoom - old_zoom) * ox
+            self.pan_y -= (self.zoom - old_zoom) * oy
+            self.init = False
+
+        if event.GetWheelRotation() > 0:
+            self.zoom /= 1.0 - (
+                event.GetWheelRotation() / (20 * event.GetWheelDelta())
+            )
+            # Adjust pan so as to zoom around the mouse position
+            self.pan_x -= (self.zoom - old_zoom) * ox
+            self.pan_y -= (self.zoom - old_zoom) * oy
+            self.init = False
+
+        self.Refresh()  # triggers the paint event
 
     def draw_signal(self, signal, offset):
         """Draw line for a given signal."""
@@ -351,7 +371,6 @@ class MonitorWidget(wx.ScrolledWindow):
         # Loop over devices, creating button for each
         i = 0
         for device in self.devices.devices_list:
-            # label = "Test"
             if device.device_kind == self.devices.D_TYPE:
                 for pin in list(device.outputs.keys()):
                     if device.device_id in self.initial_monitors_lst:

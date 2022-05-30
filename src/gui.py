@@ -86,13 +86,13 @@ class Gui(wx.Frame):
         )
 
         # Configure widgets
-        self.scrollable_canvas = wx.ScrolledCanvas(self, wx.ID_ANY)
+        # self.scrollable_canvas = wx.ScrolledCanvas(self, wx.ID_ANY)
         # Scrollable canvas to display monitored signals
-        self.scrollable_canvas.SetSizeHints(500, 500)
-        self.scrollable_canvas.ShowScrollbars(
-            wx.SHOW_SB_DEFAULT, wx.SHOW_SB_DEFAULT
-        )
-        self.scrollable_canvas.SetScrollbars(20, 20, 15, 10)
+        # self.scrollable_canvas.SetSizeHints(500, 500)
+        # self.scrollable_canvas.ShowScrollbars(
+        #    wx.SHOW_SB_DEFAULT, wx.SHOW_SB_DEFAULT
+        # )
+        # self.scrollable_canvas.SetScrollbars(33, 33, 15, 10)
 
         # Configure sizers for layout
         main_sizer = wx.BoxSizer(wx.HORIZONTAL)  # Sizer containing everything
@@ -100,10 +100,10 @@ class Gui(wx.Frame):
         side_sizer = wx.BoxSizer(wx.VERTICAL)
 
         self.canvas = Canvas(
-            self.scrollable_canvas,
+            self,
             wx.ID_ANY,
             (10, 10),
-            wx.Size(300, 200),
+            wx.Size(300, 300),
             self.devices,
             self.network,
             self.monitors,
@@ -111,7 +111,8 @@ class Gui(wx.Frame):
         self.canvas.SetSizeHints(500, 500)
 
         # Add scrollable canvas to left hand side
-        main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
+        main_sizer.Add(self.canvas, 3, wx.EXPAND | wx.ALL, 5)
+        # main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
         main_sizer.Add(side_sizer, 1, wx.ALL, 5)
 
         # Add vertical space at top of right hand side
@@ -182,12 +183,19 @@ class Gui(wx.Frame):
 
         Return True if successful.
         """
+        self.canvas.signals = []
         for _ in range(cycles):
             if self.network.execute_network():
                 self.monitors.record_signals()
             else:
                 print("Error! Network oscillating.")
                 return False
-        # TODO display signals
-        self.monitors.display_signals()
+        # self.monitors.display_signals()
+        for (
+            device_id,
+            pin_id,
+        ), value in self.monitors.monitors_dictionary.items():
+            signal_name = self.devices.get_signal_name(device_id, pin_id)
+            self.canvas.signals.append([signal_name, value])
+        self.canvas.render()
         return True
