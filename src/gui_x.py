@@ -8,6 +8,7 @@ import webbrowser
 
 # from names import Names
 # from devices import Device, Devices
+
 # from monitors import Monitors
 # from network import Network
 
@@ -196,6 +197,8 @@ class Gui(wx.Frame):
         HelpID = 110
         self.devices = devices
         self.names = names
+        self.network = network
+        self.monitors = monitors
 
         # Configure file menu
         fileMenu = wx.Menu()
@@ -220,7 +223,7 @@ class Gui(wx.Frame):
             self, wx.ID_ANY, "Continue"
         )  # Continue button
         self.cycles = wx.SpinCtrl(
-            self, wx.ID_ANY, "10", size=(60, 30), name="#cycles"
+            self, wx.ID_ANY, "10", size=(60, 30), min=1, name="#cycles"
         )  # Number selected to specify #cycles
         self.cycles_text = wx.StaticText(
             self, wx.ID_ANY, "Cycles"
@@ -277,9 +280,47 @@ class Gui(wx.Frame):
         controlwin1.SetScrollRate(10, 10)
         controlwin1.SetAutoLayout(True)
 
+        self.monitor_dict = {}
         self.monitor_buttons = []
         # Loop over devices, creating button for each
-        for i, device in enumerate(self.devices.devices_list):
+        i = 0
+        for device in self.devices.devices_list:
+            label = "Test"
+            if device.device_kind == devices.D_TYPE:
+                self.monitor_buttons.append(
+                    wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
+                )
+                self.monitor_dict[self.monitor_buttons[i].GetId()] = [
+                    device,
+                    devices.Q_ID,
+                ]
+                self.monitor_buttons[i].Bind(
+                    wx.EVT_TOGGLEBUTTON, self.on_monitor_button
+                )
+                i += 1
+                self.monitor_buttons.append(
+                    wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
+                )
+                self.monitor_dict[self.monitor_buttons[i].GetId()] = [
+                    device,
+                    devices.QBAR_ID,
+                ]
+                self.monitor_buttons[i].Bind(
+                    wx.EVT_TOGGLEBUTTON, self.on_monitor_button
+                )
+                i += 1
+            else:
+                self.monitor_buttons.append(
+                    wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
+                )
+                self.monitor_dict[self.monitor_buttons[i].GetId()] = [
+                    device,
+                    None,
+                ]
+                self.monitor_buttons[i].Bind(
+                    wx.EVT_TOGGLEBUTTON, self.on_monitor_button
+                )
+                i += 1
             # if device[
             #    1
             # ]:  # Initial state of button depends on initial device state
@@ -292,21 +333,29 @@ class Gui(wx.Frame):
             #        "Add"  # If not being monitored, button adds as monitor.
             #    )
             #    value = False
-            label = "Test"
-            self.monitor_buttons.append(
-                wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
-            )
+            # label = "Test"
+            # self.monitor_buttons.append(
+            #    wx.ToggleButton(controlwin1, wx.ID_ANY, label=label)
+            # )
+            # self.monitor_dict[self.monitor_buttons[i].GetId()] = [device, ]
             # monitor_buttons[i].SetValue(value)
-            self.monitor_buttons[i].Bind(
-                wx.EVT_TOGGLEBUTTON, self.on_monitor_button
-            )
+            # self.monitor_buttons[i].Bind(
+            #    wx.EVT_TOGGLEBUTTON, self.on_monitor_button
+            # )
 
         # Iterate over list of buttons, adding each
         # to scrollable sizer for monitors.
         for i, monitor_button in enumerate(self.monitor_buttons):
-            device = self.devices.devices_list[i]
+            button_id = monitor_button.GetId()
+            device = self.monitor_dict[button_id][0]
+            device_info = self.monitor_dict[button_id][1]
             device_id = device.device_id
-            device_name = self.names.get_name_string(device_id)
+            if device_info is None:
+                device_name = self.names.get_name_string(device_id)
+            elif device_info is devices.Q_ID:
+                device_name = self.names.get_name_string(device_id) + " Q"
+            elif device_info is devices.QBAR_ID:
+                device_name = self.names.get_name_string(device_id) + " Q-Bar"
             device_sizer = wx.BoxSizer(
                 wx.HORIZONTAL
             )  # Sizer for single device containing text
@@ -318,6 +367,9 @@ class Gui(wx.Frame):
             device_sizer.Add(self.device_text, 1, wx.ALL, 10)
             device_sizer.Add(monitor_button, 1, wx.ALL, 10)
 
+        # Create a list of ids for each monitor button
+        # so that we can find out which button was pressed
+        # and edit the corresponding device (to be monitored or not)
         self.monitor_buttons_id = []
         for i in self.monitor_buttons:
             self.monitor_buttons_id.append(i.GetId())
@@ -446,7 +498,7 @@ class Gui(wx.Frame):
         """
         obj = event.GetEventObject()
         id = event.GetId()
-        # print(id)
+        # print(self.)
         print(self.monitor_buttons_id.index(id))
         if obj.GetValue():
             obj.SetLabel("Remove")
