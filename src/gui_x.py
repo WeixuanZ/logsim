@@ -433,7 +433,7 @@ class Gui(wx.Frame):
             obj.SetLabel("Off")
 
     def on_monitor_button(self, event):
-        """Handle event when user pressed a button to toggle monitor state of output.
+        """Handle event when user presses a button to toggle monitor state of output.
 
         If output is being monitored, button says 'Remove'.
         If output is not being monitored, button says 'Add'.
