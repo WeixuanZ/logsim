@@ -325,7 +325,7 @@ class MonitorWidget(wx.ScrolledWindow):
         i = 0
         for device in self.devices.devices_list:
             # label = "Test"
-            if device.device_kind == devices.D_TYPE:
+            if device.device_kind == self.devices.D_TYPE:
                 for pin in list(device.outputs.keys()):
                     if device.device_id in self.initial_monitors_lst:
                         if pin in self.initial_monitor_pins:
@@ -341,10 +341,10 @@ class MonitorWidget(wx.ScrolledWindow):
                     self.monitor_buttons.append(
                         wx.ToggleButton(self, wx.ID_ANY, label=label)
                     )
-                    if names.get_name_string(pin) == "Q":
-                        info = devices.Q_ID
+                    if self.names.get_name_string(pin) == "Q":
+                        info = self.devices.Q_ID
                     else:
-                        info = devices.QBAR_ID
+                        info = self.devices.QBAR_ID
                     self.monitor_dict[self.monitor_buttons[i].GetId()] = [
                         device,
                         info,
@@ -383,10 +383,11 @@ class MonitorWidget(wx.ScrolledWindow):
             device_id = device.device_id
             if device_info is None:
                 device_name = self.names.get_name_string(device_id)
-            elif device_info is devices.Q_ID:
+            elif device_info is self.devices.Q_ID:
                 device_name = self.names.get_name_string(device_id) + ".Q"
-            elif device_info is devices.QBAR_ID:
+            elif device_info is self.devices.QBAR_ID:
                 device_name = self.names.get_name_string(device_id) + " .QBAR"
+
             device_sizer = wx.BoxSizer(
                 wx.HORIZONTAL
             )  # Sizer for single device containing text
@@ -446,7 +447,7 @@ class MonitorWidget(wx.ScrolledWindow):
 class SwitchWidget(wx.ScrolledWindow):
     """Scrollable window for switches."""
 
-    def __init__(self, parent: wx.Window, devices):
+    def __init__(self, parent: wx.Window, names, devices):
         """Initialize the widget."""
         super().__init__(
             parent,
@@ -460,19 +461,23 @@ class SwitchWidget(wx.ScrolledWindow):
         self.SetScrollRate(10, 10)
         self.SetAutoLayout(True)
 
+        self.names = names
         self.devices = devices
 
-        # FIXME
-        switches = [
-            ["switch1", True],
-            ["switch2", True],
-            ["switch3", False],
-            ["switch4", True],
-        ]
-        switch_buttons = []
+        switches_id_val = list(
+            map(
+                lambda device: (device.device_id, device.switch_state),
+                filter(
+                    lambda device: device.device_kind == self.devices.SWITCH,
+                    self.devices.devices_list,
+                ),
+            )
+        )
 
+        switch_buttons = []
+        self.switch_btn_id_to_device_id = dict()
         # Iterate over switches, creating button for each and appending to list
-        for i, switch in enumerate(switches):
+        for i, switch in enumerate(switches_id_val):
             if switch[1]:  # Initial value + label of switch
                 # depends on initial state of switch
                 label = "On"
@@ -480,18 +485,21 @@ class SwitchWidget(wx.ScrolledWindow):
             else:
                 label = "Off"
                 value = False
-            switch_buttons.append(
-                wx.ToggleButton(self, wx.ID_ANY, label=label)
-            )
-            switch_buttons[i].SetValue(value)
-            switch_buttons[i].Bind(wx.EVT_TOGGLEBUTTON, self.on_toggle_button)
+            switch_button = wx.ToggleButton(self, wx.ID_ANY, label=label)
+            switch_button.SetValue(value)
+            switch_button.Bind(wx.EVT_TOGGLEBUTTON, self.on_toggle_button)
+
+            self.switch_btn_id_to_device_id[switch_button.GetId()] = switch[0]
+            switch_buttons.append(switch_button)
 
         # Iterate over list of buttons for switches,
         # adding each to respective sizer.
         for i, switch_button in enumerate(switch_buttons):
             single_switch_sizer = wx.BoxSizer(wx.HORIZONTAL)
             switches_sizer.Add(single_switch_sizer, 1, wx.ALIGN_CENTRE, 110)
-            self.switch_text = wx.StaticText(self, wx.ID_ANY, switches[i][0])
+            self.switch_text = wx.StaticText(
+                self, wx.ID_ANY, names.get_name_string(switches_id_val[i][0])
+            )
             single_switch_sizer.Add(self.switch_text, 1, wx.ALL, 10)
             single_switch_sizer.Add(switch_button, 1, wx.ALL, 10)
 
@@ -502,10 +510,7 @@ class SwitchWidget(wx.ScrolledWindow):
         """
         obj = event.GetEventObject()
         button_id = obj.GetId()
-        index = self.monitor_buttons_id.index(button_id)  # FIXME
-        device = self.devices.devices_list[index]
-        switch_id = device.device_id
-        # TODO change to use dictionary
+        switch_id = self.switch_btn_id_to_device_id[button_id]
         if obj.GetValue():
             switch_state = 1
             obj.SetLabel("On")
