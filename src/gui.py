@@ -66,10 +66,41 @@ class Gui(wx.Frame):
         self.network = network
         self.monitors = monitors
         self.cycles_completed = [0]  # use list to force pass by reference
-        self.Maximize(True)
 
         # Logo/icon
         self.SetIcon(wx.Icon("./src/logicgate.png"))
+
+        # Configure widgets
+        # Configure sizers for layout
+        self.main_sizer = wx.BoxSizer(
+            wx.HORIZONTAL
+        )  # Sizer containing everything
+
+        # Canvas for showing monitor signals
+        self.canvas = Canvas(
+            self,
+            wx.ID_ANY,
+            (10, 10),
+            wx.Size(300, 300),
+            self.devices,
+            self.network,
+            self.monitors,
+        )
+        self.canvas.SetSizeHints(500, 500)
+
+        # Add scrollable canvas to left-hand side
+        self.main_sizer.Add(self.canvas, 2, wx.EXPAND | wx.ALL, 5)
+        # main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
+
+        self._build_side_sizer(file_opened=file_opened)
+
+        # Show everything.
+        self.SetSizeHints(200, 200)
+        self.SetSizer(self.main_sizer)
+
+    def _build_side_sizer(self, file_opened: bool):
+        """Build right-hand plane, containing all controls."""
+        self.side_sizer = wx.BoxSizer(wx.VERTICAL)
 
         # Components
         # load console first to show errors using file load
@@ -93,61 +124,36 @@ class Gui(wx.Frame):
             on_continue=self.handle_cont_btn_click,
         )
 
-        # Configure widgets
-        # Configure sizers for layout
-        main_sizer = wx.BoxSizer(wx.HORIZONTAL)  # Sizer containing everything
-        # Right-hand plane, containing all controls
-        side_sizer = wx.BoxSizer(wx.VERTICAL)
-
-        # Canvas for showing monitor signals
-        self.canvas = Canvas(
-            self,
-            wx.ID_ANY,
-            (10, 10),
-            wx.Size(300, 300),
-            self.devices,
-            self.network,
-            self.monitors,
-        )
-        self.canvas.SetSizeHints(500, 500)
-
-        # Add scrollable canvas to left hand side
-        main_sizer.Add(self.canvas, 2, wx.EXPAND | wx.ALL, 5)
-        # main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
-        main_sizer.Add(side_sizer, 1, wx.ALL, 5)
-
-        # Add vertical space at top of right hand side
-        side_sizer.AddSpacer(15)
-        side_sizer.Add(self.CyclesWidget, 1, wx.ALIGN_CENTRE, 130)
-        side_sizer.Add(
+        # Add vertical space at top of right-hand side
+        self.side_sizer.AddSpacer(15)
+        self.side_sizer.Add(self.CyclesWidget, 1, wx.ALIGN_CENTRE, 130)
+        self.side_sizer.Add(
             wx.StaticText(self, wx.ID_ANY, "Monitors"), 1, wx.LEFT, 10
         )
-        side_sizer.AddSpacer(-25)
-        side_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)
+        self.side_sizer.AddSpacer(-25)
+        self.side_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)
 
         # Vertical space between elements
-        side_sizer.AddSpacer(15)
-        side_sizer.Add(
+        self.side_sizer.AddSpacer(15)
+        self.side_sizer.Add(
             wx.StaticText(self, wx.ID_ANY, "Switches"), 1, wx.LEFT, 10
         )
-        side_sizer.AddSpacer(-25)
-        side_sizer.Add(self.SwitchWidget, 1, wx.EXPAND | wx.ALL, 10)
+        self.side_sizer.AddSpacer(-25)
+        self.side_sizer.Add(self.SwitchWidget, 1, wx.EXPAND | wx.ALL, 10)
 
         # Add vertical space
-        side_sizer.AddSpacer(15)
+        self.side_sizer.AddSpacer(15)
         # Add run + continue buttons at bottom
-        side_sizer.Add(self.ButtonsWidget, 1, wx.ALIGN_CENTRE, 130)
+        self.side_sizer.Add(self.ButtonsWidget, 1, wx.ALIGN_CENTRE, 130)
 
-        side_sizer.AddSpacer(15)
-        side_sizer.Add(
+        self.side_sizer.AddSpacer(15)
+        self.side_sizer.Add(
             wx.StaticText(self, wx.ID_ANY, "Console"), 1, wx.LEFT, 10
         )
-        side_sizer.AddSpacer(-25)
-        side_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 10)
+        self.side_sizer.AddSpacer(-25)
+        self.side_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 10)
 
-        # Show everything.
-        self.SetSizeHints(200, 200)
-        self.SetSizer(main_sizer)
+        self.main_sizer.Add(self.side_sizer, 1, wx.ALL, 5)
 
     def handle_file_load(self, path: str):
         """Handle file load, parse and build the network."""
@@ -163,6 +169,10 @@ class Gui(wx.Frame):
         parser.parse_network()
         if parser.errors.error_counter > 0:
             parser.errors.print_error_messages()
+
+        self.main_sizer.Hide(self.side_sizer)
+        self._build_side_sizer(True)
+        self.Layout()
 
     def handle_run_btn_click(self, event):
         """Handle event when user presses run button."""
