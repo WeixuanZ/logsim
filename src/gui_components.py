@@ -310,7 +310,7 @@ class MonitorWidget(wx.ScrolledWindow):
     def __init__(
         self,
         parent,
-        cycles_completed,
+        cycles_completed: list,
         names: Names,
         devices: Devices,
         network: Network,
@@ -455,7 +455,7 @@ class MonitorWidget(wx.ScrolledWindow):
         """Set the specified monitor."""
         if self.monitors is not None:
             monitor_error = self.monitors.make_monitor(
-                device, port, self.cycles_completed
+                device, port, self.cycles_completed[0]
             )
             if monitor_error == self.monitors.NO_ERROR:
                 print("Successfully made monitor.")

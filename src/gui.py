@@ -61,7 +61,7 @@ class Gui(wx.Frame):
         self.names = names
         self.network = network
         self.monitors = monitors
-        self.cycles_completed = 0
+        self.cycles_completed = [0]  # use list to force pass by reference
 
         # Components
         # load console first to show errors using file load
@@ -158,13 +158,13 @@ class Gui(wx.Frame):
         print("".join(["Running for ", str(cycles), " cycles"]))
         self.devices.cold_startup()
         if self.run_network(cycles):
-            self.cycles_completed = cycles
+            self.cycles_completed[0] = cycles
 
     def handle_cont_btn_click(self, event):
         """Handle event when user presses continue button."""
         cycles = self.CyclesWidget.GetValue()
         if self.run_network(cycles):
-            self.cycles_completed += cycles
+            self.cycles_completed[0] += cycles
         print(
             " ".join(
                 [
@@ -172,7 +172,7 @@ class Gui(wx.Frame):
                     str(cycles),
                     "cycles.",
                     "Total:",
-                    str(self.cycles_completed),
+                    str(self.cycles_completed[0]),
                 ]
             )
         )
