@@ -73,6 +73,8 @@ class Canvas(wxcanvas.GLCanvas):
         self.scale_x = 50
         self.scale_y = 50
 
+        self.cycles = 0
+
         self.devices = devices
         self.network = network
         self.monitors = monitors
@@ -278,15 +280,21 @@ class Canvas(wxcanvas.GLCanvas):
         GL.glBegin(GL.GL_LINE_STRIP)
         for i in range(len(signal)):
             sig_val = signal[i]
-            if sig_val == 1:
+            if sig_val != 0:
+                if sig_val != 1:
+                    sig_val = 0.5
+            if sig_val == 0:
                 GL.glVertex2f(offset[0] + i * self.scale_x, offset[1])
-            else:
+            elif sig_val == 1:
                 GL.glVertex2f(
                     offset[0] + i * self.scale_x, offset[1] + self.scale_y
                 )
 
             try:
-                next_val = (1 - signal[i + 1]) * self.scale_y
+                if signal[i + 1] != 0:
+                    if signal[i + 1] != 1:
+                        signal[i + 1] = 0.5
+                next_val = (signal[i + 1]) * self.scale_y
                 GL.glVertex2f(
                     offset[0] + i * self.scale_x, offset[1] + next_val
                 )

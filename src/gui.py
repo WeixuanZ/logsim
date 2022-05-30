@@ -179,6 +179,7 @@ class Gui(wx.Frame):
         cycles = self.CyclesWidget.GetValue()
         if self.run_network(cycles):
             self.cycles_completed[0] += cycles
+            self.canvas.cycles += cycles
         print(
             " ".join(
                 [
@@ -210,5 +211,6 @@ class Gui(wx.Frame):
         ), value in self.monitors.monitors_dictionary.items():
             signal_name = self.devices.get_signal_name(device_id, pin_id)
             self.canvas.signals.append([signal_name, value])
+        self.canvas.cycles = cycles
         self.canvas.render()
         return True
