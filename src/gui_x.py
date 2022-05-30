@@ -199,6 +199,7 @@ class Gui(wx.Frame):
         self.names = names
         self.network = network
         self.monitors = monitors
+        self.cycles_completed = 0
 
         # Configure file menu
         fileMenu = wx.Menu()
@@ -472,12 +473,58 @@ class Gui(wx.Frame):
     def on_run_button(self, event):
         """Handle event when user presses run button."""
         tmp = wx.FindWindowByName("#cycles")
-        no_cycles = tmp.GetValue()
-        print(no_cycles)
+        cycles = tmp.GetValue()
+
+        self.monitors.reset_monitors()
+        print("".join(["Running for ", str(cycles), " cycles"]))
+        self.devices.cold_startup()
+        if self.run_network(cycles):
+            self.cycles_completed += cycles
+
+    def run_network(self, cycles):
+        """Run the network for the specified number of simulation cycles.
+
+        Return True if successful.
+        """
+        for _ in range(cycles):
+            if self.network.execute_network():
+                self.monitors.record_signals()
+            else:
+                print("Error! Network oscillating.")
+                return False
+        # TODO display signals
+        self.monitors.display_signals()
+        return True
+
+    def run_command(self):
+        """Run the simulation from scratch."""
+        self.cycles_completed = 0
+        cycles = self.read_number(0, None)
+
+        if cycles is not None:  # if the number of cycles provided is valid
+            self.monitors.reset_monitors()
+            print("".join(["Running for ", str(cycles), " cycles"]))
+            self.devices.cold_startup()
+            if self.run_network(cycles):
+                self.cycles_completed += cycles
 
     def on_cont_button(self, event):
         """Handle event when user presses continue button."""
-        pass
+        tmp = wx.FindWindowByName("#cycles")
+        cycles = tmp.GetValue()
+        if self.run_network(cycles):
+            self.cycles_completed += cycles
+        print(
+            " ".join(
+                [
+                    "Continuing for",
+                    str(cycles),
+                    "cycles.",
+                    "Total:",
+                    str(self.cycles_completed),
+                ]
+            )
+        )
 
     def on_toggle_button(self, event):
         """Handle event when user presses a button to toggle switch value.
@@ -485,10 +532,21 @@ class Gui(wx.Frame):
         Text on button changes between On/Off depending on state.
         """
         obj = event.GetEventObject()
+        button_id = obj.GetId()
+        index = self.monitor_buttons_id.index(button_id)
+        device = self.devices.devices_list[index]
+        switch_id = device.device_id
+        # TODO change to use dictionary
         if obj.GetValue():
+            switch_state = 1
             obj.SetLabel("On")
         else:
+            switch_state = 0
             obj.SetLabel("Off")
+        if self.devices.set_switch(switch_id, switch_state):
+            print("Successfully set switch.")
+        else:
+            print("Error! Invalid switch.")
 
     def on_monitor_button(self, event):
         """Handle event when user presses a button to toggle monitor state of output.
@@ -497,13 +555,37 @@ class Gui(wx.Frame):
         If output is not being monitored, button says 'Add'.
         """
         obj = event.GetEventObject()
-        id = event.GetId()
-        # print(self.)
-        print(self.monitor_buttons_id.index(id))
+        button_id = obj.GetId()
+        device = self.monitor_dict[button_id]
+        device_id = device[0].device_id
+        pin = device[1]
         if obj.GetValue():
+            # monitor device
+            self.monitor_command(device_id, pin)
             obj.SetLabel("Remove")
         else:
+            # stop monitoring device
+            self.zap_command(device_id, pin)
             obj.SetLabel("Add")
+
+    def monitor_command(self, device, port):
+        """Set the specified monitor."""
+        if self.monitors is not None:
+            monitor_error = self.monitors.make_monitor(
+                device, port, self.cycles_completed
+            )
+            if monitor_error == self.monitors.NO_ERROR:
+                print("Successfully made monitor.")
+            else:
+                print("Error! Could not make monitor.")
+
+    def zap_command(self, device_id, pin):
+        """Remove the specified monitor."""
+        if self.monitors is not None:
+            if self.monitors.remove_monitor(device_id, pin):
+                print("Successfully zapped monitor")
+            else:
+                print("Error! Could not zap monitor.")
 
 
 # app = wx.App()
