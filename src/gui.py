@@ -16,6 +16,7 @@ from gui_components import (
     MonitorWidget,
     SwitchWidget,
     ButtonsWidget,
+    Console,
 )
 
 from names import Names
@@ -75,6 +76,7 @@ class Gui(wx.Frame):
             on_run=self.handle_run_btn_click,
             on_continue=self.handle_cont_btn_click,
         )
+        self.Console = Console(self)
 
         # Configure widgets
         self.scrollable_canvas = wx.ScrolledCanvas(self, wx.ID_ANY)
@@ -107,21 +109,20 @@ class Gui(wx.Frame):
 
         # Add vertical space at top of right hand side
         side_sizer.AddSpacer(30)
-
         side_sizer.Add(self.CyclesWidget, 1, wx.ALIGN_CENTRE, 130)
-
         side_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)
 
         # Vertical space between elements
         side_sizer.AddSpacer(35)
-
         side_sizer.Add(self.SwitchWidget, 1, wx.EXPAND | wx.ALL, 10)
 
         # Add vertical space
         side_sizer.AddSpacer(35)
-
         # Add run + continue buttons at bottom
         side_sizer.Add(self.ButtonsWidget, 1, wx.ALIGN_CENTRE, 130)
+
+        side_sizer.AddSpacer(35)
+        side_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 10)
 
         # Show everything.
         self.SetSizeHints(200, 200)

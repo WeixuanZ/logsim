@@ -2,6 +2,7 @@
 
 Canvas - handles all canvas drawing operations.
 """
+import sys
 from typing import Callable
 
 import webbrowser
@@ -474,7 +475,6 @@ class SwitchWidget(wx.ScrolledWindow):
             )
         )
 
-        switch_buttons = []
         self.switch_btn_id_to_device_id = dict()
         # Iterate over switches, creating button for each and appending to list
         for i, switch in enumerate(switches_id_val):
@@ -489,19 +489,16 @@ class SwitchWidget(wx.ScrolledWindow):
             switch_button.SetValue(value)
             switch_button.Bind(wx.EVT_TOGGLEBUTTON, self.on_toggle_button)
 
-            self.switch_btn_id_to_device_id[switch_button.GetId()] = switch[0]
-            switch_buttons.append(switch_button)
-
-        # Iterate over list of buttons for switches,
-        # adding each to respective sizer.
-        for i, switch_button in enumerate(switch_buttons):
             single_switch_sizer = wx.BoxSizer(wx.HORIZONTAL)
-            switches_sizer.Add(single_switch_sizer, 1, wx.ALIGN_CENTRE, 110)
-            self.switch_text = wx.StaticText(
+            switch_text = wx.StaticText(
                 self, wx.ID_ANY, names.get_name_string(switches_id_val[i][0])
             )
-            single_switch_sizer.Add(self.switch_text, 1, wx.ALL, 10)
+            single_switch_sizer.Add(switch_text, 1, wx.ALL, 10)
             single_switch_sizer.Add(switch_button, 1, wx.ALL, 10)
+
+            switches_sizer.Add(single_switch_sizer, 1, wx.ALIGN_CENTRE, 110)
+
+            self.switch_btn_id_to_device_id[switch_button.GetId()] = switch[0]
 
     def on_toggle_button(self, event):
         """Handle event when user presses a button to toggle switch value.
@@ -543,3 +540,21 @@ class ButtonsWidget(wx.BoxSizer):
 
         self.Add(self.run_button, 1, wx.LEFT, 10)
         self.Add(self.cont_button, 1, wx.LEFT, 10)
+
+
+class Console(wx.TextCtrl):
+    """Console component."""
+
+    def __init__(self, parent: wx.Window):
+        """Initialize the component."""
+        super().__init__(
+            parent,
+            -1,
+            size=(200, 100),
+            style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL,
+        )
+        sys.stdout = self
+
+    def write(self, string):
+        """Write string to console."""
+        self.WriteText(string)
