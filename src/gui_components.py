@@ -76,7 +76,12 @@ class Canvas(wxcanvas.GLCanvas):
         self.devices = devices
         self.network = network
         self.monitors = monitors
-        self.signals = []
+        self.signals = (
+            []
+        )  # list of lists, where the sublists are [signal_name, value]
+        # for single output devices, signal_name is device_name.
+        # for double output devices (d-type),
+        # signal_name is device_name + '.Q' or '.QBAR'
 
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE, self.on_size)
@@ -101,37 +106,79 @@ class Canvas(wxcanvas.GLCanvas):
         """Handle all drawing operations."""
         self.SetCurrent(self.context)
         size = self.GetClientSize()
+        line_colours = [
+            [0.85, 0.16, 0.69],
+            [0.07, 0.81, 0.86],
+            [0.90, 0.58, 0],
+            [0.24, 0.89, 0.09],
+            [0.56, 0.09, 1],
+        ]
         if not self.init:
             # Configure the viewport, modelview and projection matrices
             self.init_gl()
             self.init = True
 
         # Clear everything
-        GL.glClearColor(0.2, 0.2, 0.2, 0.2)
+        GL.glClearColor(0.2, 0.2, 0.2, 0.2)  # dark gray default background
         GL.glClear(GL.GL_COLOR_BUFFER_BIT)
 
         if len(self.signals) > 0:
-            for i in range(len(self.signals[0][-1])):
-                GL.glColor3f(0, 0, 0)
+            for i in range(
+                len(self.signals[0][-1])
+            ):  # Create vertical lines for time steps
+                GL.glColor3f(1, 1, 1)
                 self.render_text(
-                    str(i), 20 + i * self.scale_x, size.height - 30
+                    str(i), 125 + i * self.scale_x, size.height - 30
                 )
-                GL.glColor3f(0.6, 0.6, 0.6)
+                GL.glColor3f(0.6, 0.6, 0.6)  # light grey grid lines
                 GL.glLineWidth(0.25)
                 GL.glBegin(GL.GL_LINES)
-                GL.glVertex2f(20 + i * self.scale_x, size.height - 40)
-                GL.glVertex2f(20 + i * self.scale_x, 0)
+                GL.glVertex2f(130 + i * self.scale_x, size.height - 40)
+                GL.glVertex2f(
+                    130 + i * self.scale_x,
+                    size.height - len(self.signals) * 115,
+                )  # Lines extend depending on number of monitors
                 GL.glEnd()
             # Draw signals
             for i, signal in enumerate(self.signals, 1):
-                GL.glColor3f(0, 0, 1)
+                colour_index = i % 5
+                GL.glColor3f(0.6, 0.6, 0.6)
+                GL.glLineWidth(0.25)
+                GL.glBegin(GL.GL_LINES)
+                GL.glVertex2f(
+                    130, size.height - 2 * i * self.scale_y
+                )  # Horizontal line at value of 0
+                GL.glVertex2f(
+                    130 + len(self.signals[0][-1] * 50),
+                    size.height - 2 * i * self.scale_y,
+                )
+                GL.glVertex2f(
+                    130, size.height - 2 * i * self.scale_y + self.scale_y
+                )  # Horizontal line at value of 1
+                GL.glVertex2f(
+                    130 + len(self.signals[0][-1] * 50),
+                    size.height - 2 * i * self.scale_y + self.scale_y,
+                )
+                GL.glEnd()
+
+                GL.glColor3f(
+                    line_colours[colour_index][0],
+                    line_colours[colour_index][1],
+                    line_colours[colour_index][2],
+                )
                 GL.glLineWidth(3)
                 self.draw_signal(
-                    signal[-1], (20, size.height - 2 * i * self.scale_y)
+                    signal[-1], (130, size.height - 2 * i * self.scale_y)
                 )
                 GL.glClearColor(1, 1, 1, 0)
                 self.render_text(
-                    signal[0], 10, size.height - 2 * i * self.scale_y
+                    signal[0], 20, size.height - 2 * i * self.scale_y + 20
+                )
+                self.render_text(
+                    "1", 110, size.height - 2 * i * self.scale_y + 46
+                )
+                self.render_text(
+                    "0", 110, size.height - 2 * i * self.scale_y - 3
                 )
         GL.glFlush()
         self.SwapBuffers()
@@ -155,7 +202,7 @@ class Canvas(wxcanvas.GLCanvas):
 
     def render_text(self, text, x_pos, y_pos):
         """Handle text drawing operations."""
-        GL.glColor3f(1, 1, 1)  # text is black
+        GL.glColor3f(1, 1, 1)  # text is white
         GL.glRasterPos2f(x_pos, y_pos)
         font = GLUT.GLUT_BITMAP_HELVETICA_12  # noqa
 
