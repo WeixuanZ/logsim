@@ -161,6 +161,7 @@ class Gui(wx.Frame):
         self.devices = Devices(self.names)
         self.network = Network(self.names, self.devices)
         self.monitors = Monitors(self.names, self.devices, self.network)
+        self.cycles_completed[0] = 0
 
         scanner = Scanner(path, self.names)
         parser = Parser(
