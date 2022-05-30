@@ -556,14 +556,18 @@ class MonitorWidget(wx.ScrolledWindow):
             self.zap_command(device_id, pin)
             obj.SetLabel("Add")
 
-    def monitor_command(self, device, port):
+    def monitor_command(self, device_id, port):
         """Set the specified monitor."""
         if self.monitors is not None:
             monitor_error = self.monitors.make_monitor(
-                device, port, self.cycles_completed[0]
+                device_id, port, self.cycles_completed[0]
             )
             if monitor_error == self.monitors.NO_ERROR:
-                print("Successfully made monitor.")
+                print(
+                    "Successfully made "
+                    + self.names.get_name_string(device_id)
+                    + " a monitor."
+                )
             else:
                 print("Error! Could not make monitor.")
 
@@ -571,7 +575,11 @@ class MonitorWidget(wx.ScrolledWindow):
         """Remove the specified monitor."""
         if self.monitors is not None:
             if self.monitors.remove_monitor(device_id, pin):
-                print("Successfully zapped monitor")
+                print(
+                    "Successfully zapped monitor "
+                    + self.names.get_name_string(device_id)
+                    + "."
+                )
             else:
                 print("Error! Could not zap monitor.")
 
@@ -643,12 +651,20 @@ class SwitchWidget(wx.ScrolledWindow):
         switch_id = self.switch_btn_id_to_device_id[button_id]
         if obj.GetValue():
             switch_state = 1
-            obj.SetLabel("On")
+            label = "On"
+            obj.SetLabel(label)
         else:
             switch_state = 0
-            obj.SetLabel("Off")
+            label = "Off"
+            obj.SetLabel(label)
         if self.devices.set_switch(switch_id, switch_state):
-            print("Successfully set switch.")
+            print(
+                "Successfully set "
+                + self.names.get_name_string(switch_id)
+                + " "
+                + label.lower()
+                + "."
+            )
         else:
             print("Error! Invalid switch.")
 
