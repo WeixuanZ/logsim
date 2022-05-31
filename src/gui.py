@@ -75,17 +75,6 @@ class Gui(wx.Frame):
         # Sizer containing everything
         self.main_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
-        # load console first to show errors during file load
-        self.Console = Console(self)
-
-        # Menu bar and status bar
-        self.MenuBar = MenuBar(
-            self, file_opened=path is not None, on_file=self.handle_file_load
-        )
-        self.StatusBar = StatusBar(self)
-        if path is not None:
-            self.StatusBar.PushStatusText(path)
-
         # Canvas for showing monitor signals
         self.canvas = Canvas(
             self,
@@ -110,11 +99,22 @@ class Gui(wx.Frame):
         self.SetSizeHints(200, 200)
         self.SetSizer(self.main_sizer)
 
+        # Menu bar and status bar
+        self.StatusBar = StatusBar(self)
+        if path is not None:
+            self.StatusBar.PushStatusText(path)
+        # important: load menu bar last, after side sizer
+        self.MenuBar = MenuBar(
+            self, file_opened=path is not None, on_file=self.handle_file_load
+        )
+
     def _build_side_sizer(self):
         """Build right-hand plane, containing all controls."""
         self.side_sizer = wx.BoxSizer(wx.VERTICAL)
 
         # Components
+        # load console first to show errors during file load
+        self.Console = Console(self)
         self.CyclesWidget = CyclesWidget(self)
         self.MonitorWidget = MonitorWidget(
             self,
