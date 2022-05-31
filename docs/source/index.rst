@@ -19,6 +19,7 @@ Logic Simulator Documnetation
    devices
    network
    gui
+   gui_components
 
 
 Indices and tables

@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 DISPLAY := :0.0
 DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-.PHONY: install test lint install-docs-dependencies build
+.PHONY: test lint build install-docs-dependencies build-docker
 
 test:
 	pytest tests/
@@ -13,14 +13,17 @@ lint:
 	pycodestyle src/
 	pydocstyle src/
 
+build:
+	pyinstaller -F -w -n logsim --add-data "src/logicgate.png:." src/logsim.py
+
 install-docs-dependencies:
 	pip install -r requirements_docs.txt
 
 docs: install-docs-dependencies
 	cd docs && make html
 
-build:
+build-docker:
 	docker build -t logsim:latest .
 
-run: build
+run-docker: build-docker
 	docker run --rm -e DISPLAY=$(DISPLAY) -e FILE=$(FILE) logsim
