@@ -3,9 +3,11 @@
 Used in the Logic Simulator project to enable the user to run the simulation
 or adjust the network properties.
 
+SPHINX-IGNORE
 Classes:
 --------
 Gui - configures the main window and all the widgets.
+SPHINX-IGNORE
 """
 from pathlib import Path
 from typing import Union
@@ -38,11 +40,18 @@ class Gui(wx.Frame):
 
     Parameters
     ----------
-    title:
-        title of the window.
+    title: str
+        Title of the window.
+    path: Union[None, str]
+        The path to the loaded file, is None if no file is loaded
+    names: Names
+    devices: Devices
+    network: Network
+    monitors: Monitors
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     handle_file_load(self, path):
         Handle file load, parse and build the network.
     handle_run_btn_click(self, event):
@@ -51,6 +60,7 @@ class Gui(wx.Frame):
         Handle event when user presses continue button.
     run_network(self, cycles):
         Run the network for the specified number of simulation cycles.
+    SPHINX-IGNORE
     """
 
     def __init__(
@@ -243,33 +253,3 @@ class Gui(wx.Frame):
         self.canvas.cycles = cycles
         self.canvas.render()
         return True
-
-    def open_file_dialog(self) -> Union[None, str]:
-        """Open the file dialog.
-
-        Returns
-        -------
-            path: Union[None, str]
-                Returns None if user cancels
-        """
-        openFileDialog = wx.FileDialog(
-            self,
-            message="Open Logic Description File",
-            wildcard="TXT files (*.txt)|*.txt",
-            style=wx.FD_OPEN + wx.FD_FILE_MUST_EXIST,
-        )
-        if openFileDialog.ShowModal() == wx.ID_CANCEL:
-            print("The user cancelled")
-            return  # User closed file dialog
-
-        path = openFileDialog.GetPath()
-        print("File chosen=", path)
-        return path
-
-    def handle_file_open(self) -> None:
-        """Call callback function if file selected."""
-        path = self.open_file_dialog()
-        if path is None:
-            return
-
-        self.on_file(path)

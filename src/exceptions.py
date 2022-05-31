@@ -30,12 +30,31 @@ class ParseBaseExceptionMeta(type):
     def __init__(cls, classname, bases, dictionary):
         """Initialize the class object."""
         if msg := dictionary.get("__doc__"):
-            cls.message = msg[:-1]
+            cls.message = msg.partition("\n")[0][:-1]
         super().__init__(classname, bases, dictionary)
 
 
 class ParseBaseException(metaclass=ParseBaseExceptionMeta):
-    """Base parse exception."""
+    """Base parse exception.
+
+    Parameter
+    ---------
+    description: Union[None, str]
+        Error description
+
+    Attributes
+    ----------
+    symbol: Union[Symbol, None]
+        The symbol associated with the error
+    depth: int
+        The stack depth where the error is thrown
+
+    SPHINX-IGNORE
+    Public Methods
+    --------------
+    explain(self, names, scanner, show_depth=True):
+        Return an explanation of the error
+    """
 
     def __init__(self, description=None):
         """Initialize the exception instance."""
@@ -52,7 +71,11 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
         )
 
     def explain(self, names: Names, scanner: Scanner, show_depth=True) -> str:
-        """Return an explanation of the error."""
+        """Return an explanation of the error.
+
+        If show_depth is True, the error message will be indented according
+        to the stack depth of the function that throws the error.
+        """
         if self.symbol is None:
             return self.__repr__() + "\n"
 
@@ -163,14 +186,17 @@ class Errors:
 
     Parameters
     ----------
-    No parameters.
+    names: Names
+    scanner: Scanner
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     add_error(self, error):
         Add an error to the error list.
     print_error_messages(self):
         Pretty print all error messages.
+    SPHINX-IGNORE
     """
 
     def __init__(self, names: Names, scanner: Scanner):
@@ -186,7 +212,18 @@ class Errors:
         parse_entry_func_name="parse_network",
         base_depth=2,
     ) -> None:
-        """Add an error to the error list."""
+        """Add an error to the error list.
+
+        Parameters
+        ----------
+        error: ParseBaseException
+            The error instance
+        parse_entry_func_name: str
+            The name of the top level parse function
+        base_depth:
+            Extra stack depth added on top of the top level parse function,
+            by error handling functions.
+        """
         # get the caller function stack depth from parse entry point
         error.depth = (
             sum(

@@ -10,7 +10,6 @@ Scanner - reads definition file and translates characters into symbols.
 Symbol - encapsulates a symbol and stores its properties.
 SPHINX-IGNORE
 """
-
 from typing import Union, Tuple, Type, Callable
 from operator import methodcaller
 from itertools import accumulate, dropwhile, starmap
@@ -336,11 +335,10 @@ class Scanner:
         if self._pointer_pos > self._file_content_length - 1:
             return Scanner.EOF
 
-        chunk = self._file_obj[
-            self._pointer_pos : min(
-                self._pointer_pos + n, self._file_content_length
-            )
-        ].decode(self.encoding)
+        chunk_end_pos = min(self._pointer_pos + n, self._file_content_length)
+        chunk = self._file_obj[self._pointer_pos : chunk_end_pos].decode(
+            self.encoding
+        )
 
         if reset_pointer:
             self.move_pointer_absolute(old_pos)
@@ -350,9 +348,7 @@ class Scanner:
                     "End of file reached, subsequent reads will return EOF "
                     "if pointer position is not reset."
                 )
-            self.move_pointer_absolute(
-                min(self._file_content_length, self._pointer_pos + n)
-            )
+            self.move_pointer_absolute(chunk_end_pos)
         return chunk
 
     def get_line_by_lineno(self, lineno: int) -> str:

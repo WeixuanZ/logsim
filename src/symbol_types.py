@@ -19,7 +19,6 @@ ReservedSymbolTypeMeta - Metaclass that create classes acting as wrapper around
                          Enums.
 SPHINX-IGNORE
 """
-
 from types import MappingProxyType
 from enum import Enum
 from operator import attrgetter, methodcaller
@@ -92,6 +91,20 @@ class ReservedSymbolTypeMeta(type):
     to the original Enum entry, enabling correct comparison.
 
     Class created have an interface similar to that of the standard Enum.
+
+    SPHINX-IGNORE
+    Attributes
+    ----------
+    __members__:
+        Property that returns a mapping between type name and type.
+    mappings:
+        Property that returns a mapping between type value and type.
+
+    Public Methods
+    --------------
+    values(cls):
+        Return all the type values.
+    SPHINX-IGNORE
     """
 
     def __new__(mcs, classname, bases, dictionary):

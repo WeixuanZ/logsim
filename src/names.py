@@ -31,6 +31,11 @@ class Names:
     ----------
     No parameters.
 
+    Attributes
+    ----------
+    error_code_count: int
+        Number of unique error code already assigned.
+
     Public Methods
     --------------
     unique_error_codes(self, num_error_codes: int):

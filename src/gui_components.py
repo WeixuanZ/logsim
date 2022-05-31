@@ -1,5 +1,6 @@
-"""Create componenets of the GUI for implementation later.
+"""Components of the GUI.
 
+SPHINX-IGNORE
 Classes:
 --------
 Canvas - Handle all drawing operations.
@@ -10,6 +11,7 @@ SwitchWidget - Scrollable window for switches.
 ButtonsWidget - Widget containing the control buttons.
 Console - Console component that redirects stdout to gui.
 StatusBar - Status bar to display cycle count.
+SPHINX-IGNORE
 """
 import sys
 from typing import Callable, Union
@@ -48,8 +50,9 @@ class Canvas(wxcanvas.GLCanvas):
     monitors:
         instance of the monitors.Monitors() class.
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     init_gl(self):
         Configures the OpenGL context.
     render(self, text):
@@ -62,6 +65,7 @@ class Canvas(wxcanvas.GLCanvas):
         Handles mouse events.
     render_text(self, text, x_pos, y_pos):
         Handles text drawing operations.
+    SPHINX-IGNORE
     """
 
     def __init__(self, parent, id, pos, size, devices, network, monitors):
@@ -338,21 +342,23 @@ class MenuBar(wx.MenuBar):
 
     Parameters
     ----------
-    parent:
+    parent: wx.Frame
         parent window
-    file_opened:
-        TODO
-    on_file:
+    file_opened: bool
+        whether there is a file loaded, if not a file dialogue will appear
+    on_file: Callback
         function to load new logic description files
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     on_menu(self, event):
         Handle menu events.
     open_file_dialog(self):
         Open the file dialog.
     handle_file_open(self):
         Call callback function if file selected.
+    SPHINX-IGNORE
     """
 
     OpenID = 998
@@ -377,10 +383,9 @@ class MenuBar(wx.MenuBar):
     def on_menu(self, event) -> None:
         """Handle menu events.
 
-        If Open button is selected, file dialog opens
-        to select a .txt description file.
-        If Help button is selected, web browser is
-        opened to GitHub readme.
+        If Open button is selected, file dialog opens to select
+        a .txt description file.
+        If Help button is selected, web browser is opened to GitHub readme.
         """
         if event.GetId() == self.OpenID:
             self.handle_file_open()
@@ -393,8 +398,8 @@ class MenuBar(wx.MenuBar):
 
         Returns
         -------
-            path: Union[None, str]
-                Returns None if user cancels
+        path: Union[None, str]
+            Returns None if user cancels
         """
         openFileDialog = wx.FileDialog(
             self,
@@ -427,10 +432,12 @@ class CyclesWidget(wx.BoxSizer):
     parent:
         parent window
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     GetValue(self):
         Get the current cycle selector value.
+    SPHINX-IGNORE
     """
 
     def __init__(self, parent: wx.Window):
@@ -474,14 +481,16 @@ class MonitorWidget(wx.ScrolledWindow):
     monitors:
         instance of the monitors.Monitors() class.
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     on_monitor_button(self, event):
         Handle toggle monitor state of output.
     monitor_command(self, device_id, port):
         Set the specified monitor.
     zap_command(self, device_id, pin):
         Remove the specified monitor.
+    SPHINX-IGNORE
     """
 
     def __init__(
@@ -676,10 +685,12 @@ class SwitchWidget(wx.ScrolledWindow):
     devices:
         instance of the devices.Devices() class.
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     on_toggle_button(self, event):
         Handle event when user presses a button to toggle switch value.
+    SPHINX-IGNORE
     """
 
     def __init__(self, parent: wx.Window, names: Names, devices: Devices):
@@ -808,10 +819,12 @@ class Console(wx.TextCtrl):
     parent:
         parent window.
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     write(self, string):
         Write string to console.
+    SPHINX-IGNORE
     """
 
     def __init__(self, parent: wx.Window):
@@ -841,10 +854,12 @@ class StatusBar(wx.StatusBar):
     parent:
         parent window.
 
-    Methods
-    -------
+    SPHINX-IGNORE
+    Public Methods
+    --------------
     push_cycle_count(self, cycle_completed: int):
         Push the current cycle count to status bar.
+    SPHINX-IGNORE
     """
 
     def __init__(self, parent):
