@@ -47,10 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="devices.html">devices module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">network module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gui.html">gui module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">gui_components module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#classes">Classes:</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">gui_components module</a></li>
 </ul>
 
         </div>
@@ -79,17 +76,7 @@
              
   <section id="module-gui_components">
 <span id="gui-components-module"></span><h1>gui_components module<a class="headerlink" href="#module-gui_components" title="Permalink to this headline"></a></h1>
-<p>Create componenets of the GUI for implementation later.</p>
-<section id="classes">
-<h2>Classes:<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
-<p>Canvas - Handle all drawing operations.
-MenuBar - Menu bar component.
-CyclesWidget - Sizer containing ‘Cycles’ text and number selector.
-MonitorWidget - Scrolled window for monitors.
-SwitchWidget - Scrollable window for switches.
-ButtonsWidget - Widget containing the control buttons.
-Console - Console component that redirects stdout to gui.
-StatusBar - Status bar to display cycle count.</p>
+<p>Components of the GUI.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="gui_components.ButtonsWidget">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gui_components.</span></span><span class="sig-name descname"><span class="pre">ButtonsWidget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.ButtonsWidget" title="Permalink to this definition"></a></dt>
@@ -126,42 +113,6 @@ also contains handlers for events relating to the canvas.</p>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">init_gl(self):</span></span></dt>
-<dd><p>Configures the OpenGL context.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">render(self,</span> <span class="pre">text):</span></span></dt>
-<dd><p>Handles all drawing operations.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">on_paint(self,</span> <span class="pre">event):</span></span></dt>
-<dd><p>Handles the paint event.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">on_size(self,</span> <span class="pre">event):</span></span></dt>
-<dd><p>Handles the canvas resize event.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">on_mouse(self,</span> <span class="pre">event):</span></span></dt>
-<dd><p>Handles mouse events.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">render_text(self,</span> <span class="pre">text,</span> <span class="pre">x_pos,</span> <span class="pre">y_pos):</span></span></dt>
-<dd><p>Handles text drawing operations.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="gui_components.Canvas.draw_signal">
 <span class="sig-name descname"><span class="pre">draw_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colour_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.Canvas.draw_signal" title="Permalink to this definition"></a></dt>
@@ -220,12 +171,6 @@ matrices on the next paint event.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">write(self,</span> <span class="pre">string):</span></span></dt>
-<dd><p>Write string to console.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="gui_components.Console.write">
 <span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.Console.write" title="Permalink to this definition"></a></dt>
 <dd><p>Write string to console.</p>
@@ -244,12 +189,6 @@ matrices on the next paint event.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">GetValue(self):</span></span></dt>
-<dd><p>Get the current cycle selector value.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="gui_components.CyclesWidget.GetValue">
 <span class="sig-name descname"><span class="pre">GetValue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.CyclesWidget.GetValue" title="Permalink to this definition"></a></dt>
 <dd><p>Get the current cycle selector value.</p>
@@ -266,30 +205,12 @@ matrices on the next paint event.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>parent</strong> – parent window</p></li>
-<li><p><strong>file_opened</strong> – TODO</p></li>
-<li><p><strong>on_file</strong> – function to load new logic description files</p></li>
+<li><p><strong>parent</strong> (<em>wx.Frame</em>) – parent window</p></li>
+<li><p><strong>file_opened</strong> (<em>bool</em>) – whether there is a file loaded, if not a file dialogue will appear</p></li>
+<li><p><strong>on_file</strong> (<em>Callback</em>) – function to load new logic description files</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">on_menu(self,</span> <span class="pre">event):</span></span></dt>
-<dd><p>Handle menu events.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">open_file_dialog(self):</span></span></dt>
-<dd><p>Open the file dialog.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">handle_file_open(self):</span></span></dt>
-<dd><p>Call callback function if file selected.</p>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="gui_components.MenuBar.HelpID">
 <span class="sig-name descname"><span class="pre">HelpID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">110</span></em><a class="headerlink" href="#gui_components.MenuBar.HelpID" title="Permalink to this definition"></a></dt>
@@ -310,10 +231,9 @@ matrices on the next paint event.</p>
 <dt class="sig sig-object py" id="gui_components.MenuBar.on_menu">
 <span class="sig-name descname"><span class="pre">on_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#gui_components.MenuBar.on_menu" title="Permalink to this definition"></a></dt>
 <dd><p>Handle menu events.</p>
-<p>If Open button is selected, file dialog opens
-to select a .txt description file.
-If Help button is selected, web browser is
-opened to GitHub readme.</p>
+<p>If Open button is selected, file dialog opens to select
+a .txt description file.
+If Help button is selected, web browser is opened to GitHub readme.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -352,24 +272,6 @@ for each to toggle monitoring.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">on_monitor_button(self,</span> <span class="pre">event):</span></span></dt>
-<dd><p>Handle toggle monitor state of output.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">monitor_command(self,</span> <span class="pre">device_id,</span> <span class="pre">port):</span></span></dt>
-<dd><p>Set the specified monitor.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">zap_command(self,</span> <span class="pre">device_id,</span> <span class="pre">pin):</span></span></dt>
-<dd><p>Remove the specified monitor.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="gui_components.MonitorWidget.monitor_command">
 <span class="sig-name descname"><span class="pre">monitor_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.MonitorWidget.monitor_command" title="Permalink to this definition"></a></dt>
 <dd><p>Set the specified monitor.</p>
@@ -402,12 +304,6 @@ If output is not being monitored, button says ‘Add’.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">push_cycle_count(self,</span> <span class="pre">cycle_completed:</span> <span class="pre">int):</span></span></dt>
-<dd><p>Push the current cycle count to status bar.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="gui_components.StatusBar.push_cycle_count">
 <span class="sig-name descname"><span class="pre">push_cycle_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycle_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.StatusBar.push_cycle_count" title="Permalink to this definition"></a></dt>
 <dd><p>Push the current cycle count to status bar.</p>
@@ -430,12 +326,6 @@ If output is not being monitored, button says ‘Add’.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">on_toggle_button(self,</span> <span class="pre">event):</span></span></dt>
-<dd><p>Handle event when user presses a button to toggle switch value.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="gui_components.SwitchWidget.on_toggle_button">
 <span class="sig-name descname"><span class="pre">on_toggle_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.SwitchWidget.on_toggle_button" title="Permalink to this definition"></a></dt>
 <dd><p>Handle event when user presses a button to toggle switch value.</p>
@@ -444,7 +334,6 @@ If output is not being monitored, button says ‘Add’.</p>
 
 </dd></dl>
 
-</section>
 </section>
 
 

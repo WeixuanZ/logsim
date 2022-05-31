@@ -86,25 +86,26 @@
 <p>Collect and handle errors found while parsing circuit descriptions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>parameters.</strong> (<em>No</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> (<a class="reference internal" href="names.html#names.Names" title="names.Names"><em>Names</em></a>) – </p></li>
+<li><p><strong>scanner</strong> (<a class="reference internal" href="scanner.html#scanner.Scanner" title="scanner.Scanner"><em>Scanner</em></a>) – </p></li>
+</ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add_error(self,</span> <span class="pre">error):</span></span></dt>
-<dd><p>Add an error to the error list.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">print_error_messages(self):</span></span></dt>
-<dd><p>Pretty print all error messages.</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="exceptions.Errors.add_error">
 <span class="sig-name descname"><span class="pre">add_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><span class="pre">exceptions.ParseBaseException</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse_entry_func_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'parse_network'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#exceptions.Errors.add_error" title="Permalink to this definition"></a></dt>
 <dd><p>Add an error to the error list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>error</strong> (<a class="reference internal" href="#exceptions.ParseBaseException" title="exceptions.ParseBaseException"><em>ParseBaseException</em></a>) – The error instance</p></li>
+<li><p><strong>parse_entry_func_name</strong> (<em>str</em>) – The name of the top level parse function</p></li>
+<li><p><strong>base_depth</strong> – Extra stack depth added on top of the top level parse function,
+by error handling functions.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -120,10 +121,38 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">ParseBaseException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.ParseBaseException" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base parse exception.</p>
+<dl class="simple">
+<dt>description: Union[None, str]</dt><dd><p>Error description</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.ParseBaseException.symbol">
+<span class="sig-name descname"><span class="pre">symbol</span></span><a class="headerlink" href="#exceptions.ParseBaseException.symbol" title="Permalink to this definition"></a></dt>
+<dd><p>The symbol associated with the error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Union[<a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol">Symbol</a>, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exceptions.ParseBaseException.depth">
+<span class="sig-name descname"><span class="pre">depth</span></span><a class="headerlink" href="#exceptions.ParseBaseException.depth" title="Permalink to this definition"></a></dt>
+<dd><p>The stack depth where the error is thrown</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="exceptions.ParseBaseException.explain">
 <span class="sig-name descname"><span class="pre">explain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scanner.html#scanner.Scanner" title="scanner.Scanner"><span class="pre">scanner.Scanner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#exceptions.ParseBaseException.explain" title="Permalink to this definition"></a></dt>
 <dd><p>Return an explanation of the error.</p>
+<p>If show_depth is True, the error message will be indented according
+to the stack depth of the function that throws the error.</p>
 </dd></dl>
 
 <dl class="py attribute">
