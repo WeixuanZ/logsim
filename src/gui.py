@@ -62,12 +62,15 @@ class Gui(wx.Frame):
         monitors: Monitors,
     ):
         """Initialise widgets and layout."""
-        super().__init__(parent=None, title=title, size=(1200, 800))
+        super().__init__(parent=None, title=title, size=(1200, 820))
         self.devices = devices
         self.names = names
         self.network = network
         self.monitors = monitors
         self.cycles_completed = [0]  # use list to force pass by reference
+
+        # Open maximised
+        # self.Maximize(True)
 
         # Logo/icon
         self.SetIcon(wx.Icon("./src/logicgate.png"))
@@ -237,3 +240,33 @@ class Gui(wx.Frame):
         self.canvas.cycles = cycles
         self.canvas.render()
         return True
+
+    def open_file_dialog(self) -> Union[None, str]:
+        """Open the file dialog.
+
+        Returns
+        -------
+            path: Union[None, str]
+                Returns None if user cancels
+        """
+        openFileDialog = wx.FileDialog(
+            self,
+            message="Open Logic Description File",
+            wildcard="TXT files (*.txt)|*.txt",
+            style=wx.FD_OPEN + wx.FD_FILE_MUST_EXIST,
+        )
+        if openFileDialog.ShowModal() == wx.ID_CANCEL:
+            print("The user cancelled")
+            return  # User closed file dialog
+
+        path = openFileDialog.GetPath()
+        print("File chosen=", path)
+        return path
+
+    def handle_file_open(self) -> None:
+        """Call callback function if file selected."""
+        path = self.open_file_dialog()
+        if path is None:
+            return
+
+        self.on_file(path)

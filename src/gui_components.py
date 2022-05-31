@@ -26,8 +26,16 @@ class Canvas(wxcanvas.GLCanvas):
     ----------
     parent:
         parent window.
+    id:
+        unique id.
+    pos:
+        position of canvas.
+    size:
+        size of canvas.
     devices:
         instance of the devices.Devices() class.
+    network:
+        instance of the network.Network() class.
     monitors:
         instance of the monitors.Monitors() class.
 
@@ -73,8 +81,6 @@ class Canvas(wxcanvas.GLCanvas):
         self.scale_x = 50
         self.scale_y = 50
 
-        self.cycles = 0
-
         self.devices = devices
         self.network = network
         self.monitors = monitors
@@ -111,11 +117,11 @@ class Canvas(wxcanvas.GLCanvas):
         size = self.GetClientSize()
         # Five preset colours for signal lines
         line_colours = [
-            [0.85, 0.16, 0.69],
-            [0.07, 0.81, 0.86],
-            [0.90, 0.58, 0],
-            [0.24, 0.89, 0.09],
-            [0.56, 0.09, 1],
+            [0.85, 0.16, 0.69],  # pink
+            [0.07, 0.81, 0.86],  # blue
+            [0.90, 0.58, 0],  # orange
+            [0.24, 0.89, 0.09],  # green
+            [0.56, 0.09, 1],  # purple
         ]
         if not self.init:
             # Configure the viewport, modelview and projection matrices
@@ -161,7 +167,7 @@ class Canvas(wxcanvas.GLCanvas):
                     130
                     + len(
                         self.signals[0][-1] * 50
-                    ),  # length of lines depends on number of cycles
+                    ),  # lines extend depending on number of cycles
                     size.height - 2 * i * self.scale_y,
                 )
                 GL.glVertex2f(
@@ -197,6 +203,9 @@ class Canvas(wxcanvas.GLCanvas):
                 self.render_text(
                     "0", 110, size.height - 2 * i * self.scale_y - 3
                 )
+        # Flush the graphics pipeline
+        # and swap the back buffer to the front
+        # Necessary!
         GL.glFlush()
         self.SwapBuffers()
 
@@ -307,6 +316,24 @@ class MenuBar(wx.MenuBar):
     """Menu bar component.
 
     Handles file load and help.
+
+    Parameters
+    ----------
+    parent:
+        parent window
+    file_opened:
+        TODO
+    on_file:
+        function to load new logic description files
+
+    Methods
+    -------
+    on_menu(self, event):
+        Handle menu events.
+    open_file_dialog(self):
+        Open the file dialog.
+    handle_file_open(self):
+        Call callback function if file selected.
     """
 
     OpenID = 998
@@ -320,8 +347,7 @@ class MenuBar(wx.MenuBar):
         fileMenu = wx.Menu()
         fileMenu.Append(self.OpenID, "&Open")
         fileMenu.Append(self.HelpID, "&Help")
-        self.Append(fileMenu, "&File")
-
+        self.Append(fileMenu, "&Menu")
         self.Bind(wx.EVT_MENU, self.on_menu)  # Menu functionality
 
         parent.SetMenuBar(self)
@@ -375,7 +401,18 @@ class MenuBar(wx.MenuBar):
 
 
 class CyclesWidget(wx.BoxSizer):
-    """Sizer containing 'Cycles' text and number selector."""
+    """Sizer containing 'Cycles' text and number selector.
+
+    Parameters
+    ----------
+    parent:
+        parent window
+
+    Methods
+    -------
+    GetValue(self):
+        Get the current cycle selector value.
+    """
 
     def __init__(self, parent: wx.Window):
         """Initialize the widget."""
@@ -402,6 +439,30 @@ class MonitorWidget(wx.ScrolledWindow):
 
     All devices are listed, with a button
     for each to toggle monitoring.
+
+    Parameters
+    ----------
+    parent:
+        parent window
+    cycles_completed:
+        list containing number of cycles completed
+    names:
+        instance of the names.Names() class.
+    devices:
+        instance of the devices.Devices() class.
+    network:
+        instance of the network.Network() class.
+    monitors:
+        instance of the monitors.Monitors() class.
+
+    Methods
+    -------
+    on_monitor_button(self, event):
+        Handle toggle monitor state of output.
+    monitor_command(self, device_id, port):
+        Set the specified monitor.
+    zap_command(self, device_id, pin):
+        Remove the specified monitor.
     """
 
     def __init__(
@@ -585,7 +646,22 @@ class MonitorWidget(wx.ScrolledWindow):
 
 
 class SwitchWidget(wx.ScrolledWindow):
-    """Scrollable window for switches."""
+    """Scrollable window for switches.
+
+    Parameters
+    ----------
+    parent:
+        parent window.
+    names:
+        instance of the names.Names() class.
+    devices:
+        instance of the devices.Devices() class.
+
+    Methods
+    -------
+    on_toggle_button(self, event):
+        Handle event when user presses a button to toggle switch value.
+    """
 
     def __init__(self, parent: wx.Window, names: Names, devices: Devices):
         """Initialize the widget."""
@@ -670,7 +746,17 @@ class SwitchWidget(wx.ScrolledWindow):
 
 
 class ButtonsWidget(wx.BoxSizer):
-    """Widget containing the control buttons."""
+    """Widget containing the control buttons.
+
+    Parameters
+    ----------
+    parent:
+        parent window.
+    on_run:
+        function to handle event of pressing run button.
+    on_continue:
+        function to handle event of pressing continue button.
+    """
 
     def __init__(
         self, parent: wx.Window, on_run: Callable, on_continue: Callable
@@ -697,6 +783,16 @@ class Console(wx.TextCtrl):
     """Console component.
 
     The console redirects from stdout.
+
+    Parameters
+    ----------
+    parent:
+        parent window.
+
+    Methods
+    -------
+    write(self, string):
+        Write string to console.
     """
 
     def __init__(self, parent: wx.Window):
@@ -719,7 +815,18 @@ class Console(wx.TextCtrl):
 
 
 class StatusBar(wx.StatusBar):
-    """Status bar."""
+    """Status bar.
+
+    Parameters
+    ----------
+    parent:
+        parent window.
+
+    Methods
+    -------
+    push_cycle_count(self, cycle_completed: int):
+        Push the current cycle count to status bar.
+    """
 
     def __init__(self, parent):
         """Initialize the component."""
