@@ -1,6 +1,15 @@
-"""TODO.
+"""Create componenets of the GUI for implementation later.
 
-Canvas - handles all canvas drawing operations.
+Classes:
+--------
+Canvas - Handle all drawing operations.
+MenuBar - Menu bar component.
+CyclesWidget - Sizer containing 'Cycles' text and number selector.
+MonitorWidget - Scrolled window for monitors.
+SwitchWidget - Scrollable window for switches.
+ButtonsWidget - Widget containing the control buttons.
+Console - Console component that redirects stdout to gui.
+StatusBar - Status bar to display cycle count.
 """
 import sys
 from typing import Callable, Union
@@ -825,7 +834,7 @@ class Console(wx.TextCtrl):
 
 
 class StatusBar(wx.StatusBar):
-    """Status bar.
+    """Status bar to display cycle count.
 
     Parameters
     ----------
