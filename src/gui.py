@@ -7,6 +7,7 @@ Classes:
 --------
 Gui - configures the main window and all the widgets.
 """
+from pathlib import Path
 from typing import Union
 import wx
 
@@ -73,7 +74,9 @@ class Gui(wx.Frame):
         # self.Maximize(True)
 
         # Logo/icon
-        self.SetIcon(wx.Icon("./src/logicgate.png"))
+        self.SetIcon(
+            wx.Icon(str(Path(__file__).resolve().with_name("logicgate.png")))
+        )
 
         # Sizer containing everything
         self.main_sizer = wx.BoxSizer(wx.HORIZONTAL)
