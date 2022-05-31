@@ -6,7 +6,8 @@ on:
     branches: [master]
 
 jobs:
-  Lint:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -22,7 +23,8 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
-  Test:
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
