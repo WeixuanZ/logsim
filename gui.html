@@ -18,6 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="gui_components module" href="gui_components.html" />
     <link rel="prev" title="network module" href="network.html" /> 
 </head>
 
@@ -46,7 +47,11 @@
 <li class="toctree-l1"><a class="reference internal" href="monitors.html">monitors module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="devices.html">devices module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">network module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">gui module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">gui module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#classes">Classes:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gui_components.html">gui_components module</a></li>
 </ul>
 
         </div>
@@ -73,8 +78,98 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="gui-module">
-<h1>gui module<a class="headerlink" href="#gui-module" title="Permalink to this headline"></a></h1>
+  <section id="module-gui">
+<span id="gui-module"></span><h1>gui module<a class="headerlink" href="#module-gui" title="Permalink to this headline"></a></h1>
+<p>Implement the graphical user interface for the Logic Simulator.</p>
+<p>Used in the Logic Simulator project to enable the user to run the simulation
+or adjust the network properties.</p>
+<section id="classes">
+<h2>Classes:<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
+<p>Gui - configures the main window and all the widgets.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="gui.Gui">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gui.</span></span><span class="sig-name descname"><span class="pre">Gui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx.Frame</span></code></p>
+<p>Configure the main window and all the widgets.</p>
+<p>This class provides a graphical user interface for the Logic Simulator and
+enables the user to change the circuit properties and run simulations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>title</strong> – title of the window.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">handle_file_load(self,</span> <span class="pre">path):</span></span></dt>
+<dd><p>Handle file load, parse and build the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">handle_run_btn_click(self,</span> <span class="pre">event):</span></span></dt>
+<dd><p>Handle event when user presses run button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">handle_cont_btn_click(self,</span> <span class="pre">event):</span></span></dt>
+<dd><p>Handle event when user presses continue button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">run_network(self,</span> <span class="pre">cycles):</span></span></dt>
+<dd><p>Run the network for the specified number of simulation cycles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gui.Gui.handle_cont_btn_click">
+<span class="sig-name descname"><span class="pre">handle_cont_btn_click</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.handle_cont_btn_click" title="Permalink to this definition"></a></dt>
+<dd><p>Handle event when user presses continue button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gui.Gui.handle_file_load">
+<span class="sig-name descname"><span class="pre">handle_file_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.handle_file_load" title="Permalink to this definition"></a></dt>
+<dd><p>Handle file load, parse and build the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gui.Gui.handle_file_open">
+<span class="sig-name descname"><span class="pre">handle_file_open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#gui.Gui.handle_file_open" title="Permalink to this definition"></a></dt>
+<dd><p>Call callback function if file selected.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gui.Gui.handle_run_btn_click">
+<span class="sig-name descname"><span class="pre">handle_run_btn_click</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.handle_run_btn_click" title="Permalink to this definition"></a></dt>
+<dd><p>Handle event when user presses run button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gui.Gui.open_file_dialog">
+<span class="sig-name descname"><span class="pre">open_file_dialog</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#gui.Gui.open_file_dialog" title="Permalink to this definition"></a></dt>
+<dd><p>Open the file dialog.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>path</strong> – Returns None if user cancels</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Union[None, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gui.Gui.run_network">
+<span class="sig-name descname"><span class="pre">run_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cycles</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.run_network" title="Permalink to this definition"></a></dt>
+<dd><p>Run the network for the specified number of simulation cycles.</p>
+<p>Return True if successful.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -82,6 +177,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="network.html" class="btn btn-neutral float-left" title="network module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gui_components.html" class="btn btn-neutral float-right" title="gui_components module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
