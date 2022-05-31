@@ -43,19 +43,18 @@ jobs:
             CMD_DEPEND: >
               sudo apt-get update && sudo apt-get install --no-install-recommends -y python3 python3-dev python3-pip python3-opengl python3-wxgtk4.0 freeglut3-dev &&
               pip install pyinstaller
-            CMD_BUILD: >
-              pyinstaller -F -n logsim --add-data "src/logicgate.png:." src/logsim.py
+            CMD_BUILD: pyinstaller -F -n logsim --add-data "src/logicgate.png:." src/logsim.py
             OUT_FILE_NAME: logsim
             ASSET_MIME: application/x-executable
           - os: macos-latest
             TARGET: macos
             CMD_DEPEND: >
-              brew update --preinstall && brew install python3 &&
-              pip install -r requirements.txt
+              brew update --preinstall && brew install python-tk &&
+              pip3 install -r requirements.txt && pip3 install pyinstaller
             CMD_BUILD: >
               pyinstaller -F -w -n logsim --add-data "src/logicgate.png:." src/logsim.py &&
               cd dist/ && zip -r9 logsim-macos logsim.app/
-            OUT_FILE_NAME: logsim.zip
+            OUT_FILE_NAME: logsim-macos.zip
             ASSET_MIME: application/zip
           # - os: windows-latest
             # TARGET: windows
@@ -67,9 +66,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: ${{matrix.CMD_DEPEND}}$
+      run: ${{ matrix.CMD_DEPEND }}
     - name: Build with pyinstaller for ${{matrix.TARGET}}
-      run: ${{matrix.CMD_BUILD}}
+      run: ${{ matrix.CMD_BUILD }}
     - name: Load Release URL File from release job
       uses: actions/download-artifact@v1
       with:
