@@ -72,6 +72,12 @@ class Gui(wx.Frame):
         # Logo/icon
         self.SetIcon(wx.Icon("./src/logicgate.png"))
 
+        # Sizer containing everything
+        self.main_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        # load console first to show errors during file load
+        self.Console = Console(self)
+
         # Menu bar and status bar
         self.MenuBar = MenuBar(
             self, file_opened=path is not None, on_file=self.handle_file_load
@@ -79,11 +85,6 @@ class Gui(wx.Frame):
         self.StatusBar = StatusBar(self)
         if path is not None:
             self.StatusBar.PushStatusText(path)
-
-        # Configure sizers for layout
-        self.main_sizer = wx.BoxSizer(
-            wx.HORIZONTAL
-        )  # Sizer containing everything
 
         # Canvas for showing monitor signals
         self.canvas = Canvas(
@@ -97,6 +98,7 @@ class Gui(wx.Frame):
         )
         self.canvas.SetSizeHints(500, 500)
 
+        # Configure sizers for layout
         # Add scrollable canvas to left-hand side
         self.main_sizer.Add(self.canvas, 2, wx.EXPAND | wx.ALL, 5)
         # main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
@@ -113,8 +115,6 @@ class Gui(wx.Frame):
         self.side_sizer = wx.BoxSizer(wx.VERTICAL)
 
         # Components
-        # load console first to show errors using file load
-        self.Console = Console(self)
         self.CyclesWidget = CyclesWidget(self)
         self.MonitorWidget = MonitorWidget(
             self,
@@ -177,6 +177,7 @@ class Gui(wx.Frame):
         parser.parse_network()
         if parser.errors.error_counter > 0:
             parser.errors.print_error_messages()
+            return  # only rebuild buttons if new file has no error
 
         self.main_sizer.Hide(self.side_sizer)
         self._build_side_sizer()
