@@ -95,6 +95,14 @@ class Canvas(wxcanvas.GLCanvas):
         self.Bind(wx.EVT_SIZE, self.on_size)
         self.Bind(wx.EVT_MOUSE_EVENTS, self.on_mouse)
 
+        self.line_colours = [
+            [0.85, 0.16, 0.69],  # pink
+            [0.07, 0.81, 0.86],  # blue
+            [0.90, 0.58, 0],  # orange
+            [0.24, 0.89, 0.09],  # green
+            [0.56, 0.09, 1],  # purple
+        ]
+
     def init_gl(self):
         """Configure and initialise OpenGL context."""
         size = self.GetClientSize()
@@ -116,13 +124,6 @@ class Canvas(wxcanvas.GLCanvas):
         self.SetCurrent(self.context)
         size = self.GetClientSize()
         # Five preset colours for signal lines
-        line_colours = [
-            [0.85, 0.16, 0.69],  # pink
-            [0.07, 0.81, 0.86],  # blue
-            [0.90, 0.58, 0],  # orange
-            [0.24, 0.89, 0.09],  # green
-            [0.56, 0.09, 1],  # purple
-        ]
         if not self.init:
             # Configure the viewport, modelview and projection matrices
             self.init_gl()
@@ -181,15 +182,13 @@ class Canvas(wxcanvas.GLCanvas):
 
                 # Cycle through five colours for signal lines
                 colour_index = i % 5
-                GL.glColor3f(
-                    line_colours[colour_index][0],  # Red value
-                    line_colours[colour_index][1],  # Green value
-                    line_colours[colour_index][2],  # Blue value
-                )
+
                 GL.glLineWidth(3)
                 # Draw signal line
                 self.draw_signal(
-                    signal[-1], (130, size.height - 2 * i * self.scale_y)
+                    signal[-1],
+                    (130, size.height - 2 * i * self.scale_y),
+                    colour_index,
                 )
                 GL.glClearColor(1, 1, 1, 0)
                 # Write out name of device (and pin)
@@ -283,15 +282,26 @@ class Canvas(wxcanvas.GLCanvas):
 
         self.Refresh()  # triggers the paint event
 
-    def draw_signal(self, signal, offset):
+    def draw_signal(self, signal, offset, colour_index):
         """Draw line for a given signal."""
         self.max_X = self.scale_x * (len(signal) - 1)
         GL.glBegin(GL.GL_LINE_STRIP)
         for i in range(len(signal)):
             sig_val = signal[i]
+            # Choose colour
+            GL.glColor3f(
+                self.line_colours[colour_index][0],
+                self.line_colours[colour_index][1],
+                self.line_colours[colour_index][2],
+            )
+            # If the monitor was unmonitored and
+            # then monitored later, the singal before
+            # being set as a monitor is a different colour.
+            # For these periods, the signal value is not 0 or 1.
             if sig_val != 0:
                 if sig_val != 1:
-                    sig_val = 0.5
+                    sig_val = 0.01
+                    GL.glColor3f(0.6, 0.6, 0.6)
             if sig_val == 0:
                 GL.glVertex2f(offset[0] + i * self.scale_x, offset[1])
             elif sig_val == 1:
@@ -302,7 +312,7 @@ class Canvas(wxcanvas.GLCanvas):
             try:
                 if signal[i + 1] != 0:
                     if signal[i + 1] != 1:
-                        signal[i + 1] = 0.5
+                        signal[i + 1] = 0.01
                 next_val = (signal[i + 1]) * self.scale_y
                 GL.glVertex2f(
                     offset[0] + i * self.scale_x, offset[1] + next_val
