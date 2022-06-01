@@ -8,7 +8,7 @@ Usage
 -----
 Show help: logsim.py -h
 Command line user interface: logsim.py -c <file path>
-Graphical user interface: logsim.py <file path>
+Graphical user interface: logsim.py [<file path>]
 """
 import getopt
 import sys
@@ -35,7 +35,7 @@ def main(arg_list):
         "Usage:\n"
         "Show help: logsim.py -h\n"
         "Command line user interface: logsim.py -c <file path>\n"
-        "Graphical user interface: logsim.py <file path>"
+        "Graphical user interface: logsim.py [<file path>]"
     )
     try:
         options, arguments = getopt.getopt(arg_list, "hc:")

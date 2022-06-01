@@ -416,7 +416,6 @@ class MenuBar(wx.MenuBar):
         openFileDialog = wx.FileDialog(
             self,
             message="Open Logic Description File",
-            wildcard="TXT files (*.txt)|*.txt",
             style=wx.FD_OPEN + wx.FD_FILE_MUST_EXIST,
         )
         if openFileDialog.ShowModal() == wx.ID_CANCEL:

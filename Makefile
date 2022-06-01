@@ -10,8 +10,8 @@ coverage:
 	coverage run --source=src -m pytest -v tests && coverage report -m
 
 lint:
-	pycodestyle src/
-	pydocstyle src/
+	pycodestyle src/*.py
+	pydocstyle src/*.py
 
 build:
 	pyinstaller -F -w -n logsim --add-data "src/logicgate.png:." src/logsim.py
