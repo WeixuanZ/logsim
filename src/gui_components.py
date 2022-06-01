@@ -91,7 +91,7 @@ class Canvas(wxcanvas.GLCanvas):
         self.pan_y = 0
         self.zoom = 1  # Initialise variable for zooming
         self.zoom_max = 2
-        self.zoom_min = 0.4
+        self.zoom_min = 0.5
 
         self.scale_x = 50
         self.scale_y = 50
@@ -272,16 +272,7 @@ class Canvas(wxcanvas.GLCanvas):
         if event.Dragging():
             # If user drags on canvas, canvas pans.
             self.pan_x += event.GetX() - self.last_mouse_x
-            if self.pan_x > 120:
-                self.pan_x = 120
-            if self.pan_x < -100 - 45 * len(self.signals[0][-1]):
-                self.pan_x = -100 - 45 * len(self.signals[0][-1])
-
             self.pan_y -= event.GetY() - self.last_mouse_y
-            if self.pan_y < -120:
-                self.pan_y = -120
-            if self.pan_y > 50 + 80 * len(self.signals):
-                self.pan_y = 50 + 80 * len(self.signals)
             self.last_mouse_x = event.GetX()
             self.last_mouse_y = event.GetY()
             self.init = False
