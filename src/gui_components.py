@@ -90,6 +90,8 @@ class Canvas(wxcanvas.GLCanvas):
         self.pan_x = 0  # Initialise variables for panning
         self.pan_y = 0
         self.zoom = 1  # Initialise variable for zooming
+        self.zoom_max = 2
+        self.zoom_min = 0.5
 
         self.scale_x = 50
         self.scale_y = 50
@@ -170,6 +172,8 @@ class Canvas(wxcanvas.GLCanvas):
                 GL.glEnd()
             # Draw signals
             for i, signal in enumerate(self.signals, 1):
+                signal_copy = signal[-1].copy()
+                signal_copy.insert(0, signal_copy[0])
                 # Draw two horizontal gridlines for each signal
                 GL.glColor3f(0.6, 0.6, 0.6)
                 GL.glLineWidth(0.25)
@@ -199,7 +203,7 @@ class Canvas(wxcanvas.GLCanvas):
                 GL.glLineWidth(3)
                 # Draw signal line
                 self.draw_signal(
-                    signal[-1],
+                    signal_copy,
                     (130, size.height - 2 * i * self.scale_y),
                     colour_index,
                 )
@@ -275,8 +279,11 @@ class Canvas(wxcanvas.GLCanvas):
 
         if event.GetWheelRotation() < 0:
             # Zoom on wheel rotation
-            self.zoom *= 1.0 + (
-                event.GetWheelRotation() / (20 * event.GetWheelDelta())
+            zoom = self.zoom
+            self.zoom = max(
+                zoom * 1.0
+                + (event.GetWheelRotation() / (20 * event.GetWheelDelta())),
+                self.zoom_min,
             )
             # Adjust pan so as to zoom around the mouse position
             self.pan_x -= (self.zoom - old_zoom) * ox
@@ -285,8 +292,13 @@ class Canvas(wxcanvas.GLCanvas):
 
         if event.GetWheelRotation() > 0:
             # Zoom opposite direction
-            self.zoom /= 1.0 - (
-                event.GetWheelRotation() / (20 * event.GetWheelDelta())
+            self.zoom = min(
+                self.zoom
+                / (
+                    1.0
+                    - (event.GetWheelRotation() / (20 * event.GetWheelDelta()))
+                ),
+                self.zoom_max,
             )
             # Adjust pan so as to zoom around the mouse position
             self.pan_x -= (self.zoom - old_zoom) * ox
