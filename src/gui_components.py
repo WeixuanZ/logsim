@@ -68,13 +68,18 @@ class Canvas(wxcanvas.GLCanvas):
     SPHINX-IGNORE
     """
 
-    def __init__(self, parent, id, pos, size, devices, network, monitors):
+    def __init__(
+        self,
+        parent: wx.Frame,
+        id: int,
+        devices: Devices,
+        network: Network,
+        monitors: Monitors,
+    ):
         """Initialise canvas for displaying monitor signals."""
         super().__init__(
             parent,
             -1,
-            pos=pos,
-            size=size,
             attribList=[
                 wxcanvas.WX_GL_RGBA,
                 wxcanvas.WX_GL_DOUBLEBUFFER,
@@ -463,8 +468,8 @@ class CyclesWidget(wx.BoxSizer):
         self.cycles_text = wx.StaticText(parent, wx.ID_ANY, "Cycles")
 
         # Add text and cycle number selector to sizer.
-        self.Add(self.cycles_text, 1, wx.LEFT, 20)
-        self.Add(self.cycles, 1, wx.LEFT, 20)
+        self.Add(self.cycles_text, 1, wx.ALIGN_CENTER_VERTICAL)
+        self.Add(self.cycles, 1, wx.ALIGN_CENTER_VERTICAL)
 
     def GetValue(self):
         """Get the current cycle selector value."""
@@ -523,14 +528,19 @@ class MonitorWidget(wx.ScrolledWindow):
         super().__init__(
             parent,
             -1,
-            wx.DefaultPosition,
-            (100, 200),
-            wx.SUNKEN_BORDER | wx.HSCROLL | wx.VSCROLL,
+            style=wx.SUNKEN_BORDER | wx.HSCROLL | wx.VSCROLL,
         )
-        monitors_sizer = wx.BoxSizer(wx.VERTICAL)
+        monitors_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.SetSizer(monitors_sizer)
         self.SetScrollRate(10, 10)
         self.SetAutoLayout(True)
+
+        self.SetSizeHints((50, 100))
+
+        name_sizer = wx.BoxSizer(wx.VERTICAL)
+        btn_sizer = wx.BoxSizer(wx.VERTICAL)
+        monitors_sizer.Add(name_sizer, 1, wx.EXPAND)
+        monitors_sizer.Add(btn_sizer, 0.5, wx.EXPAND)
 
         self.monitor_dict = {}
         self.monitor_buttons = []
@@ -562,9 +572,7 @@ class MonitorWidget(wx.ScrolledWindow):
                         value = False
 
                     self.monitor_buttons.append(
-                        wx.ToggleButton(
-                            self, wx.ID_ANY, label=label, size=(130, 30)
-                        )
+                        wx.ToggleButton(self, wx.ID_ANY, label=label)
                     )
                     if self.names.get_name_string(pin) == "Q":
                         info = self.devices.Q_ID
@@ -587,9 +595,7 @@ class MonitorWidget(wx.ScrolledWindow):
                     label = "Add"
                     value = False
                 self.monitor_buttons.append(
-                    wx.ToggleButton(
-                        self, wx.ID_ANY, label=label, size=(130, 30)
-                    )
+                    wx.ToggleButton(self, wx.ID_ANY, label=label)
                 )
                 self.monitor_dict[self.monitor_buttons[i].GetId()] = [
                     device,
@@ -620,14 +626,10 @@ class MonitorWidget(wx.ScrolledWindow):
                 + self.names.get_name_string(device.device_kind)
                 + ">"
             )
-            device_sizer = wx.BoxSizer(
-                wx.HORIZONTAL
-            )  # Sizer for single device containing text
-            # and one button horizontally
-            monitors_sizer.Add(device_sizer, 1, wx.ALIGN_CENTRE, 70)
             self.device_text = wx.StaticText(self, wx.ID_ANY, device_name)
-            device_sizer.Add(self.device_text, 1, wx.ALL, 10)
-            device_sizer.Add(monitor_button, 1, wx.ALL, 10)
+
+            name_sizer.Add(self.device_text, 1, wx.EXPAND | wx.ALL, 10)
+            btn_sizer.Add(monitor_button, 1, wx.EXPAND | wx.ALL, 10)
 
         # Create a list of ids for each monitor button
         # so that we can find out which button was pressed
@@ -709,17 +711,21 @@ class SwitchWidget(wx.ScrolledWindow):
         super().__init__(
             parent,
             -1,
-            wx.DefaultPosition,
-            (100, 200),
-            wx.SUNKEN_BORDER | wx.HSCROLL | wx.VSCROLL,
+            style=wx.SUNKEN_BORDER | wx.HSCROLL | wx.VSCROLL,
         )
-        switches_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.names = names
+        self.devices = devices
+
+        switches_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.SetSizer(switches_sizer)
         self.SetScrollRate(10, 10)
         self.SetAutoLayout(True)
+        self.SetSizeHints((50, 100))
 
-        self.names = names
-        self.devices = devices
+        name_sizer = wx.BoxSizer(wx.VERTICAL)
+        btn_sizer = wx.BoxSizer(wx.VERTICAL)
+        switches_sizer.Add(name_sizer, 1, wx.EXPAND)
+        switches_sizer.Add(btn_sizer, 0.5, wx.EXPAND)
 
         switches_id_val = list(
             map(
@@ -741,20 +747,16 @@ class SwitchWidget(wx.ScrolledWindow):
             else:
                 label = "Off"
                 value = False
-            switch_button = wx.ToggleButton(
-                self, wx.ID_ANY, label=label, size=(130, 30)
-            )
+            switch_button = wx.ToggleButton(self, wx.ID_ANY, label=label)
             switch_button.SetValue(value)
             switch_button.Bind(wx.EVT_TOGGLEBUTTON, self.on_toggle_button)
 
-            single_switch_sizer = wx.BoxSizer(wx.HORIZONTAL)
             switch_text = wx.StaticText(
                 self, wx.ID_ANY, names.get_name_string(switches_id_val[i][0])
             )
-            single_switch_sizer.Add(switch_text, 1, wx.ALL, 10)
-            single_switch_sizer.Add(switch_button, 1, wx.ALL, 10)
 
-            switches_sizer.Add(single_switch_sizer, 1, wx.ALIGN_CENTRE, 110)
+            name_sizer.Add(switch_text, 1, wx.EXPAND | wx.ALL, 10)
+            btn_sizer.Add(switch_button, 1, wx.EXPAND | wx.ALL, 10)
 
             self.switch_btn_id_to_device_id[switch_button.GetId()] = switch[0]
 
@@ -847,8 +849,15 @@ class Console(wx.TextCtrl):
         super().__init__(
             parent,
             -1,
-            size=(200, 100),
             style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL,
+        )
+        self.SetFont(
+            wx.Font(
+                12,
+                family=wx.FONTFAMILY_TELETYPE,
+                style=wx.NORMAL,
+                weight=wx.NORMAL,
+            )
         )
         sys.stdout = self
 

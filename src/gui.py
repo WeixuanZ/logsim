@@ -90,13 +90,16 @@ class Gui(wx.Frame):
 
         # Sizer containing everything
         self.main_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.left_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.main_sizer.Add(self.left_sizer, 3, wx.EXPAND)
+
+        # load console first to show errors during file load
+        self.Console = Console(self)
 
         # Canvas for showing monitor signals
         self.canvas = Canvas(
             self,
             wx.ID_ANY,
-            (10, 10),
-            wx.Size(300, 300),
             self.devices,
             self.network,
             self.monitors,
@@ -105,14 +108,14 @@ class Gui(wx.Frame):
 
         # Configure sizers for layout
         # Add scrollable canvas to left-hand side
-        self.main_sizer.Add(self.canvas, 2, wx.EXPAND | wx.ALL, 5)
-        # main_sizer.Add(self.scrollable_canvas, 1, wx.EXPAND + wx.TOP, 10)
+        self.left_sizer.Add(self.canvas, 4, wx.EXPAND | wx.ALL, 5)
+        self.left_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 5)
 
         # Widgets
         self._build_side_sizer()
 
         # Show everything.
-        self.SetSizeHints(200, 200)
+        self.SetSizeHints(800, 500)
         self.SetSizer(self.main_sizer)
 
         # Menu bar and status bar
@@ -126,11 +129,9 @@ class Gui(wx.Frame):
 
     def _build_side_sizer(self):
         """Build right-hand plane, containing all controls."""
-        self.side_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.right_sizer = wx.BoxSizer(wx.VERTICAL)
 
         # Components
-        # load console first to show errors during file load
-        self.Console = Console(self)
         self.CyclesWidget = CyclesWidget(self)
         self.MonitorWidget = MonitorWidget(
             self,
@@ -148,35 +149,25 @@ class Gui(wx.Frame):
         )
 
         # Add vertical space at top of right-hand side
-        self.side_sizer.AddSpacer(15)
-        self.side_sizer.Add(self.CyclesWidget, 1, wx.ALIGN_CENTRE, 130)
-        self.side_sizer.Add(
-            wx.StaticText(self, wx.ID_ANY, "Monitors"), 1, wx.LEFT, 10
-        )
-        self.side_sizer.AddSpacer(-25)
-        self.side_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)
+        self.right_sizer.AddSpacer(15)
+        self.right_sizer.Add(self.CyclesWidget, 0.5, wx.ALIGN_CENTRE, 130)
+        self.right_sizer.AddSpacer(15)
 
-        # Vertical space between elements
-        self.side_sizer.AddSpacer(15)
-        self.side_sizer.Add(
-            wx.StaticText(self, wx.ID_ANY, "Switches"), 1, wx.LEFT, 10
-        )
-        self.side_sizer.AddSpacer(-25)
-        self.side_sizer.Add(self.SwitchWidget, 1, wx.EXPAND | wx.ALL, 10)
+        self.right_sizer.Add(wx.StaticText(self, wx.ID_ANY, "Monitors"), 0)
+        self.right_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)
 
-        # Add vertical space
-        self.side_sizer.AddSpacer(15)
+        self.right_sizer.AddSpacer(15)
+
+        self.right_sizer.Add(wx.StaticText(self, wx.ID_ANY, "Switches"), 0)
+        self.right_sizer.Add(self.SwitchWidget, 1, wx.EXPAND | wx.ALL, 10)
+
+        self.right_sizer.AddSpacer(15)
+
         # Add run + continue buttons at bottom
-        self.side_sizer.Add(self.ButtonsWidget, 1, wx.ALIGN_CENTRE, 130)
+        self.right_sizer.Add(self.ButtonsWidget, 0.5, wx.ALIGN_CENTRE, 130)
+        self.right_sizer.AddSpacer(15)
 
-        self.side_sizer.AddSpacer(15)
-        self.side_sizer.Add(
-            wx.StaticText(self, wx.ID_ANY, "Console"), 1, wx.LEFT, 10
-        )
-        self.side_sizer.AddSpacer(-25)
-        self.side_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 10)
-
-        self.main_sizer.Add(self.side_sizer, 1, wx.ALL, 5)
+        self.main_sizer.Add(self.right_sizer, 1, wx.EXPAND | wx.ALL, 5)
 
     def handle_file_load(self, path: str):
         """Handle file load, parse and build the network."""
@@ -195,7 +186,7 @@ class Gui(wx.Frame):
             parser.errors.print_error_messages()
             return  # only rebuild buttons if new file has no error
 
-        self.main_sizer.Hide(self.side_sizer)
+        self.main_sizer.Hide(self.right_sizer)
         self._build_side_sizer()
         self.Layout()
 
