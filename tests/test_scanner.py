@@ -11,6 +11,18 @@ from symbol_types import (
 )
 
 
+class StubErrors:
+    def add_error(
+        self,
+        error,
+        show_end_of_word,
+        show_cursor=True,
+        parse_entry_func_name="parse_network",
+        base_depth=2,
+    ):
+        return
+
+
 def test_symbol_equal():
     symbol1 = Symbol(
         symbol_type=ExternalSymbolType.IDENTIFIER,
@@ -62,7 +74,7 @@ def input_file(tmp_path, file_content):
 @pytest.fixture()
 def scanner(input_file):
     """Create a scanner instance with the test file."""
-    return Scanner(input_file, Names())
+    return Scanner(input_file, Names(), StubErrors())  # noqa
 
 
 # -----------------------------------------------------------------------------
@@ -582,7 +594,7 @@ def test_get_symbol(tmp_path, monkeypatch, content, expected_symbols):
 
     monkeypatch.setattr("names.ReservedSymbolType", ReservedSymbolType)
     monkeypatch.setattr("scanner.ReservedSymbolType", ReservedSymbolType)
-    scanner = Scanner(p, Names())
+    scanner = Scanner(p, Names(), StubErrors())  # noqa
 
     expected_symbols = iter(expected_symbols)
     while (symbol := scanner.get_symbol()) is not None:

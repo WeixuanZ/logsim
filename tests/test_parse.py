@@ -6,7 +6,7 @@ from devices import Devices
 from scanner import Symbol
 from names import Names
 from symbol_types import OperatorType, DeviceType
-from exceptions import SyntaxErrors, SemanticErrors
+from exceptions import SyntaxErrors, SemanticErrors, Errors
 
 
 class MockScanner:
@@ -37,8 +37,9 @@ def make_parser(statement):
     names.lookup(statement)
     devices = Devices(names)
     scanner = MockScanner(names, statement)
+    errors = Errors()
 
-    return Parser(names, devices, None, None, scanner)
+    return Parser(names, devices, None, None, scanner, errors)
 
 
 @pytest.mark.parametrize(

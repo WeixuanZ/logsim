@@ -268,7 +268,9 @@ class Parser:
             return None
 
         if not self.current_symbol.type == OperatorType.SEMICOLON:
-            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ';'")
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken, "Expected ';'", prev_word=True
+            )
             return False
 
         if self.syntax_valid:
@@ -316,7 +318,9 @@ class Parser:
 
         if not self.current_symbol.type == OperatorType.LEFT_ANGLE:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected '<' or ';'"
+                SyntaxErrors.UnexpectedToken,
+                "Expected '<' or ';'",
+                prev_word=True,
             )
             return False, None
 
@@ -455,7 +459,9 @@ class Parser:
             return None
 
         if not self.current_symbol.type == OperatorType.SEMICOLON:
-            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ';'")
+            self.throw_error(
+                SyntaxErrors.UnexpectedToken, "Expected ';'", prev_word=True
+            )
             return False
 
         if self.syntax_valid:

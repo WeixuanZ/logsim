@@ -6,6 +6,7 @@ from scanner import Scanner
 from network import Network
 from names import Names
 from monitors import Monitors
+from exceptions import Errors
 
 
 @pytest.fixture()
@@ -40,18 +41,14 @@ def names():
 
 
 @pytest.fixture()
-def scanner(input_file, names):
-    """Create a scanner instance with the test file."""
-    return Scanner(input_file, names)
-
-
-@pytest.fixture()
-def parser(names, scanner):
+def parser(names, input_file):
     """Create a parser instance."""
     devices = Devices(names)
     network = Network(names, devices)
     monitors = Monitors(names, devices, network)
-    return Parser(names, devices, network, monitors, scanner)
+    errors = Errors()
+    scanner = Scanner(input_file, names, errors)
+    return Parser(names, devices, network, monitors, scanner, errors)
 
 
 def test_parse_definition_file(parser):

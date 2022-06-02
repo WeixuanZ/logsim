@@ -106,9 +106,12 @@ class Scanner:
     pointer_colno:
         Column number of the pointer.
     LINE_COMMENT_IDENTIFIER:
-        Identifier specifying start of line comments.
+        Identifier specifying start of line comments, default '//'.
     BLOCK_COMMENT_IDENTIFIERS:
-        Identifiers specifying start and end of block comments.
+        Identifiers specifying start and end of block comments,
+        default ('/*', '*/').
+    TREAT_INVALID_CHAR_AS_ERROR:
+        Whether to throw errors for invalid characters, default True.
     EOF:
         Symbol indicating the end of file.
 
@@ -578,18 +581,17 @@ class Scanner:
             if Scanner.TREAT_INVALID_CHAR_AS_ERROR:
                 error = SyntaxErrors.UnexpectedToken("Invalid character")
                 symbol_lineno, symbol_colno = self.get_lineno_colno(
-                    self._pointer_pos - 1
+                    self._pointer_pos
                 )
-                [symbol_id] = self.names.lookup([current_character])
                 error.symbol = Symbol(
                     symbol_type=ExternalSymbolType.IDENTIFIER,
-                    symbol_id=symbol_id,
+                    symbol_id=-1,
                     lineno=symbol_lineno,
                     colno=symbol_colno,
                 )
                 self.errors.add_error(
                     error=error,
-                    show_end_of_word=True,
+                    show_end_of_word=False,
                     parse_entry_func_name="get_symbol",
                     base_depth=0,
                 )
