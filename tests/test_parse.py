@@ -202,44 +202,30 @@ def test_parse_device_type_errors(statement, error_type, description, success):
 
 
 @pytest.mark.parametrize(
-    "statement, names, type, param, success",
+    "statement, success",
     [
-        (["Jeevan", "=", "AND", ";"], ["Jeevan"], DeviceType.AND, None, True),
+        (["Jeevan", "=", "AND", ";"], True),
         (
             ["Weixuan", "=", "OR", "<", "2", ">", ";"],
-            ["Weixuan"],
-            DeviceType.OR,
-            2,
             True,
         ),
         (
             ["A", ",", "B", "=", "SWITCH", ";"],
-            ["A", "B"],
-            DeviceType.SWITCH,
-            None,
             True,
         ),
-        (["A", "=", "DTYPE", ";"], ["A"], DeviceType.D_TYPE, None, True),
+        (["A", "=", "DTYPE", ";"], True),
         (
             ["A", ",", "B", ",", "C", "=", "SWITCH", ";"],
-            ["A", "B", "C"],
-            DeviceType.SWITCH,
-            None,
             True,
         ),
-        (["A", "=", ";"], None, None, None, False),
+        (["A", "=", ";"], False),
     ],
 )
-def test_parse_devices_statement(statement, names, type, param, success):
+def test_parse_devices_statement(statement, success):
     """Test parse_devices_statement."""
     parser = make_parser(statement)
-    out, device = parser.parse_devices_statement()
+    out = parser.parse_devices_statement()
     assert out == success
-    if success:
-        (device_names, device_type, parameter) = device
-        assert device_names == names
-        assert device_type == type
-        assert parameter == param
 
 
 @pytest.mark.parametrize(
@@ -279,7 +265,7 @@ def test_parse_devices_statement_errors(
 ):
     """Test specific syntax errors arising in parse_devices_statement."""
     parser = make_parser(statement)
-    out, _ = parser.parse_devices_statement()
+    out = parser.parse_devices_statement()
     assert out == success
     assert parser.errors.error_counter == 1
     assert parser.errors.error_list[0].message == error_type.message
@@ -568,40 +554,27 @@ def test_parse_connection_block_errors(statement, error_list):
 
 
 @pytest.mark.parametrize(
-    "statement, pin_list, success",
+    "statement, success",
     [
-        (["A", ";"], [("out", "A", None)], True),
+        (["A", ";"], True),
         (
             ["A", ",", "B", ".", "QBAR", ";"],
-            [("out", "A", None), ("out", "B", "QBAR")],
             True,
         ),
         (
             ["A", ".", "I1", ",", "B", ".", "I2", ",", "C", ";"],
-            [("in", "A", "I1"), ("in", "B", "I2"), ("out", "C", None)],
             True,
         ),
-        ([], None, True),
-        (["A"], None, None),
-        (["A", "-"], None, False),
+        ([], True),
+        (["A"], None),
+        (["A", "-"], False),
     ],
 )
-def test_parse_monitor_statement(statement, pin_list, success):
+def test_parse_monitor_statement(statement, success):
     """Test module parse_monitor_statement."""
     parser = make_parser(statement)
-    outcome, pins = parser.parse_monitor_statement()
+    outcome = parser.parse_monitor_statement()
     assert outcome == success
-    if success is True:
-        if pin_list is None:
-            assert pins is None
-        else:
-            assert len(pin_list) == len(pins)
-            for i in range(len(pin_list)):
-                (out, dev_name, pin_name) = pins[i]
-                (true_out, true_dev_name, true_pin_name) = pin_list[i]
-                assert out == true_out
-                assert dev_name == true_dev_name
-                assert pin_name == true_pin_name
 
 
 @pytest.mark.parametrize(
@@ -621,7 +594,7 @@ def test_parse_monitor_statement_errors(
 ):
     """Test errors arising in parse_monitor_statement."""
     parser = make_parser(statement)
-    out, _ = parser.parse_monitor_statement()
+    out = parser.parse_monitor_statement()
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1

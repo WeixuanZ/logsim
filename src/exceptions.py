@@ -56,11 +56,13 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
         Return an explanation of the error
     """
 
-    def __init__(self, description=None):
+    def __init__(self, description=None, end_of_word=False, show_cursor=True):
         """Initialize the exception instance."""
         self.description = description if description is not None else ""
         self.symbol: Union[Symbol, None] = None
         self.depth = 0
+        self.end_of_word = end_of_word
+        self.show_cursor = show_cursor
 
     def __repr__(self):
         """Customised repr of error objects."""
@@ -88,7 +90,12 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
             )
         )
         cursor_line[
-            int(self.symbol.colno) + len(names.get_name_string(self.symbol.id))
+            int(self.symbol.colno)
+            + (
+                len(names.get_name_string(self.symbol.id))
+                if self.end_of_word
+                else 0
+            )
         ] = "^"
         cursor_line = "".join(cursor_line)
 
@@ -101,7 +108,7 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
                 ("  " * self.depth if show_depth else "")
                 + error_line
                 + ("  " * self.depth if show_depth else "")
-                + cursor_line
+                + (cursor_line if self.show_cursor else "")
                 if self.depth > 0
                 else ""
             )
@@ -209,6 +216,8 @@ class Errors:
     def add_error(
         self,
         error: ParseBaseException,
+        show_end_of_word: bool,
+        show_cursor=True,
         parse_entry_func_name="parse_network",
         base_depth=2,
     ) -> None:
@@ -218,6 +227,10 @@ class Errors:
         ----------
         error: ParseBaseException
             The error instance
+        show_end_of_word: bool
+            Set caret sign to the end or beginning of symbol
+        show_cursor: bool
+            Show caret sign or not
         parse_entry_func_name: str
             The name of the top level parse function
         base_depth:
@@ -235,7 +248,8 @@ class Errors:
             )
             - base_depth
         )
-
+        error.end_of_word = show_end_of_word
+        error.show_cursor = show_cursor
         self.error_counter += 1
         self.error_list.append(error)
 
@@ -254,7 +268,6 @@ class Errors:
             == getattr(sorted_error_list[i - 1].symbol, "lineno", None)
             for i in range(1, len(sorted_error_list))
         ]
-
         print(
             f"{self.error_counter} Errors\n\n"
             + "\n".join(
