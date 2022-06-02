@@ -23,6 +23,7 @@ from scanner import Scanner
 from parse import Parser
 from userint import UserInterface
 from gui import Gui
+from exceptions import Errors
 
 
 def main(arg_list):
@@ -55,11 +56,12 @@ def main(arg_list):
             print(usage_message)
             sys.exit()
         elif option == "-c":  # use the command line user interface
-            scanner = Scanner(path, names)
-            parser = Parser(names, devices, network, monitors, scanner)
+            errors = Errors()
+            scanner = Scanner(path, names, errors)
+            parser = Parser(names, devices, network, monitors, scanner, errors)
             parser.parse_network()
             if parser.errors.error_counter > 0:
-                parser.errors.print_error_messages()
+                parser.errors.print_error_messages(names, scanner)
                 return
             # Initialise an instance of the userint.UserInterface() class
             userint = UserInterface(names, devices, network, monitors)
@@ -70,11 +72,12 @@ def main(arg_list):
 
         if len(arguments) == 1:  # wrong number of arguments
             [path] = arguments
-            scanner = Scanner(path, names)
-            parser = Parser(names, devices, network, monitors, scanner)
+            errors = Errors()
+            scanner = Scanner(path, names, errors)
+            parser = Parser(names, devices, network, monitors, scanner, errors)
             parser.parse_network()
             if parser.errors.error_counter > 0:
-                parser.errors.print_error_messages()
+                parser.errors.print_error_messages(names, scanner)
                 return
 
         app = wx.App()

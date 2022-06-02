@@ -52,13 +52,16 @@ class Parser:
     SPHINX-IGNORE
     """
 
-    def __init__(self, names, devices, network, monitors, scanner):
+    def __init__(
+        self, names, devices, network, monitors, scanner, errors: Errors
+    ):
         """Initialise constants."""
         self.names = names
         self.devices = devices
         self.network = network
         self.monitors = monitors
         self.scanner = scanner
+        self.errors = errors
 
         # initialize by getting first symbol from scanner
         self.current_symbol = scanner.get_symbol()
@@ -66,9 +69,6 @@ class Parser:
 
         # build the network while this is True, then just parse for errors
         self.syntax_valid = True
-
-        # initialize errors
-        self.errors = Errors(names, scanner)
 
     def throw_error(
         self, error_type, description=None, prev_word=False, show_cursor=True

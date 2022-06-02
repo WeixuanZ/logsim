@@ -30,6 +30,7 @@ from monitors import Monitors
 from network import Network
 from scanner import Scanner
 from parse import Parser
+from exceptions import Errors
 
 
 class Gui(wx.Frame):
@@ -177,9 +178,15 @@ class Gui(wx.Frame):
         self.monitors = Monitors(self.names, self.devices, self.network)
         self.cycles_completed[0] = 0
 
-        scanner = Scanner(path, self.names)
+        errors = Errors()
+        scanner = Scanner(path, self.names, errors)
         parser = Parser(
-            self.names, self.devices, self.network, self.monitors, scanner
+            self.names,
+            self.devices,
+            self.network,
+            self.monitors,
+            scanner,
+            errors,
         )
         parser.parse_network()
 
@@ -188,7 +195,7 @@ class Gui(wx.Frame):
         self.left_sizer.Hide(self.Canvas)
 
         if parser.errors.error_counter > 0:
-            parser.errors.print_error_messages()
+            parser.errors.print_error_messages(self.names, scanner)
             return  # only rebuild buttons if new file has no error
 
         self._build_side_sizer()

@@ -13,11 +13,13 @@ Errors - Collect and handle errors found while parsing circuit descriptions.
 SPHINX-IGNORE
 """
 import inspect
-from typing import Union
+from typing import Union, TYPE_CHECKING
 from itertools import takewhile, starmap
 
 from names import Names
-from scanner import Symbol, Scanner
+
+if TYPE_CHECKING:
+    from scanner import Symbol, Scanner
 
 
 class ParseBaseExceptionMeta(type):
@@ -72,7 +74,9 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
             else ""
         )
 
-    def explain(self, names: Names, scanner: Scanner, show_depth=True) -> str:
+    def explain(
+        self, names: Names, scanner: "Scanner", show_depth=True
+    ) -> str:
         """Return an explanation of the error.
 
         If show_depth is True, the error message will be indented according
@@ -206,12 +210,10 @@ class Errors:
     SPHINX-IGNORE
     """
 
-    def __init__(self, names: Names, scanner: Scanner):
+    def __init__(self):
         """Initialise Errors class."""
         self.error_counter = 0
         self.error_list = []
-        self.names = names
-        self.scanner = scanner
 
     def add_error(
         self,
@@ -253,7 +255,7 @@ class Errors:
         self.error_counter += 1
         self.error_list.append(error)
 
-    def print_error_messages(self) -> None:
+    def print_error_messages(self, names: Names, scanner: "Scanner") -> None:
         """Pretty print all error messages."""
         # sort errors by depth if on the same line
         sorted_error_list = sorted(
@@ -273,7 +275,7 @@ class Errors:
             + "\n".join(
                 starmap(
                     lambda error, show_depth: error.explain(
-                        self.names, self.scanner, show_depth=show_depth
+                        names, scanner, show_depth=show_depth
                     ),
                     zip(sorted_error_list, show_depth_list),
                 )

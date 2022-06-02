@@ -19,6 +19,7 @@ import os
 
 from names import Names
 from symbol_types import ReservedSymbolType, ExternalSymbolType
+from exceptions import SyntaxErrors, Errors
 
 
 class Symbol:
@@ -154,14 +155,16 @@ class Scanner:
 
     LINE_COMMENT_IDENTIFIER = "//"
     BLOCK_COMMENT_IDENTIFIERS = ("/*", "*/")
+    TREAT_INVALID_CHAR_AS_ERROR = True
 
     _reserved_symbol_values_set = set(ReservedSymbolType.values())
     _valid_char_not_comment_set = _reserved_symbol_values_set | {"_"}
 
-    def __init__(self, path: str, names: Names):
+    def __init__(self, path: str, names: Names, errors: Errors):
         """Open specified file and initialise reserved words and IDs."""
         self.path = path
         self.names = names
+        self.errors = errors
         self.encoding = "utf-8"
 
         # >= 0, <= file_content_length, at EOF when = file_content_length
@@ -571,6 +574,26 @@ class Scanner:
             symbol_string = self.get_next_character()
 
         else:  # not a valid character
+            # throw error
+            if Scanner.TREAT_INVALID_CHAR_AS_ERROR:
+                error = SyntaxErrors.UnexpectedToken("Invalid character")
+                symbol_lineno, symbol_colno = self.get_lineno_colno(
+                    self._pointer_pos - 1
+                )
+                [symbol_id] = self.names.lookup([current_character])
+                error.symbol = Symbol(
+                    symbol_type=ExternalSymbolType.IDENTIFIER,
+                    symbol_id=symbol_id,
+                    lineno=symbol_lineno,
+                    colno=symbol_colno,
+                )
+                self.errors.add_error(
+                    error=error,
+                    show_end_of_word=True,
+                    parse_entry_func_name="get_symbol",
+                    base_depth=0,
+                )
+
             # not just use self.move_pointer_relative(1) to prevent reaching
             # recursion depth limit
             if current_character in (
