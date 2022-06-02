@@ -82,7 +82,7 @@
 file and translate them into symbols that are usable by the parser.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="scanner.Scanner">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scanner.</span></span><span class="sig-name descname"><span class="pre">Scanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scanner.Scanner" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scanner.</span></span><span class="sig-name descname"><span class="pre">Scanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="exceptions.html#exceptions.Errors" title="exceptions.Errors"><span class="pre">exceptions.Errors</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scanner.Scanner" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Read circuit definition file and translate the characters into symbols.</p>
 <p>Once supplied with the path to a valid definition file, the scanner
@@ -112,6 +112,11 @@ formatting characters, such as spaces and line breaks.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scanner.Scanner.LINE_COMMENT_IDENTIFIER">
 <span class="sig-name descname"><span class="pre">LINE_COMMENT_IDENTIFIER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'//'</span></em><a class="headerlink" href="#scanner.Scanner.LINE_COMMENT_IDENTIFIER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scanner.Scanner.TREAT_INVALID_CHAR_AS_ERROR">
+<span class="sig-name descname"><span class="pre">TREAT_INVALID_CHAR_AS_ERROR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#scanner.Scanner.TREAT_INVALID_CHAR_AS_ERROR" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

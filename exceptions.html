@@ -81,7 +81,7 @@
 <p>Used in the Logic Simulator project. Mainly used by the parser.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="exceptions.Errors">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">Errors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scanner.html#scanner.Scanner" title="scanner.Scanner"><span class="pre">scanner.Scanner</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exceptions.Errors" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exceptions.</span></span><span class="sig-name descname"><span class="pre">Errors</span></span><a class="headerlink" href="#exceptions.Errors" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Collect and handle errors found while parsing circuit descriptions.</p>
 <dl class="field-list simple">
@@ -112,7 +112,7 @@ by error handling functions.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="exceptions.Errors.print_error_messages">
-<span class="sig-name descname"><span class="pre">print_error_messages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#exceptions.Errors.print_error_messages" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">print_error_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scanner.html#scanner.Scanner" title="scanner.Scanner"><span class="pre">Scanner</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#exceptions.Errors.print_error_messages" title="Permalink to this definition"></a></dt>
 <dd><p>Pretty print all error messages.</p>
 </dd></dl>
 
@@ -151,7 +151,7 @@ by error handling functions.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="exceptions.ParseBaseException.explain">
-<span class="sig-name descname"><span class="pre">explain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scanner.html#scanner.Scanner" title="scanner.Scanner"><span class="pre">scanner.Scanner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#exceptions.ParseBaseException.explain" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">explain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="names.html#names.Names" title="names.Names"><span class="pre">names.Names</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scanner.html#scanner.Scanner" title="scanner.Scanner"><span class="pre">Scanner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#exceptions.ParseBaseException.explain" title="Permalink to this definition"></a></dt>
 <dd><p>Return an explanation of the error.</p>
 <p>If show_depth is True, the error message will be indented according
 to the stack depth of the function that throws the error.</p>
@@ -190,7 +190,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.ConnectInToIn.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.ConnectInToIn.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.ConnectInToIn.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -207,7 +207,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.ConnectOutToOut.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.ConnectOutToOut.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.ConnectOutToOut.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -224,7 +224,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.FloatingInput.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.FloatingInput.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.FloatingInput.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -241,7 +241,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.InvalidAndParam.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.InvalidAndParam.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.InvalidAndParam.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -258,7 +258,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.InvalidClockParam.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.InvalidClockParam.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.InvalidClockParam.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -275,7 +275,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.MonitorInputPin.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MonitorInputPin.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MonitorInputPin.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -292,7 +292,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.MonitorSamePin.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MonitorSamePin.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MonitorSamePin.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -309,7 +309,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.MultipleConnections.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MultipleConnections.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.MultipleConnections.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -326,7 +326,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.NameClash.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.NameClash.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.NameClash.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -343,7 +343,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedDevice.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedDevice.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedDevice.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -360,7 +360,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedInPin.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedInPin.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedInPin.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -377,7 +377,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SemanticErrors.UndefinedOutPin.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedOutPin.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SemanticErrors.UndefinedOutPin.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -401,7 +401,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.InvalidSwitchParam.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.InvalidSwitchParam.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.InvalidSwitchParam.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -418,7 +418,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.MissingParam.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.MissingParam.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.MissingParam.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -435,7 +435,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.MissingSemicolon.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.MissingSemicolon.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.MissingSemicolon.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -452,7 +452,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoConnections.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoConnections.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoConnections.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -469,7 +469,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoDevices.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoDevices.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoDevices.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -486,7 +486,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.NoMonitors.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoMonitors.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.NoMonitors.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -503,7 +503,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedEOF.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedEOF.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedEOF.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -520,7 +520,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedParam.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedParam.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedParam.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -537,7 +537,7 @@ the code.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exceptions.SyntaxErrors.UnexpectedToken.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedToken.symbol" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">symbol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scanner.html#scanner.Symbol" title="scanner.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exceptions.SyntaxErrors.UnexpectedToken.symbol" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
