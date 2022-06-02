@@ -105,7 +105,6 @@ class Gui(wx.Frame):
             self.network,
             self.monitors,
         )
-        self.Canvas.SetSizeHints(500, 500)
 
         # Configure sizers for layout
         # Add scrollable canvas to left-hand side
@@ -190,16 +189,31 @@ class Gui(wx.Frame):
         )
         parser.parse_network()
 
-        # only show the buttons and canvas if there is no error
+        # remove the buttons
         self.main_sizer.Hide(self.right_sizer)
+
+        # replace the console with an empty one
+        self.left_sizer.Hide(self.Console)
+        self.Console.Destroy()
+        self.Console = Console(self)
+        self.left_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 5)
+
+        # hide the canvas
         self.left_sizer.Hide(self.Canvas)
+
+        print(f"File opened, path: {path}\n")
 
         if parser.errors.error_counter > 0:
             parser.errors.print_error_messages(self.names, scanner)
+            self.Layout()
             return  # only rebuild buttons if new file has no error
 
         self._build_side_sizer()
+        # display the canvas
         self.left_sizer.Show(self.Canvas)
+        # clear the canvas
+        self.Canvas.signals = []
+        self.Canvas.render()
         self.Layout()
 
         self.StatusBar.PushStatusText(path)

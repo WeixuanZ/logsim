@@ -88,7 +88,8 @@ class Canvas(wxcanvas.GLCanvas):
                 0,
             ],
         )
-        GLUT.glutInit()
+        self.SetSizeHints(500, 500)
+
         self.init = False
         self.context = wxcanvas.GLContext(self)
 
@@ -389,7 +390,7 @@ class MenuBar(wx.MenuBar):
         fileMenu = wx.Menu()
         fileMenu.Append(self.OpenID, "&Open")
         fileMenu.Append(self.HelpID, "&Help")
-        self.Append(fileMenu, "&Menu")
+        self.Append(fileMenu, "&logsim")
         self.Bind(wx.EVT_MENU, self.on_menu)  # Menu functionality
 
         parent.SetMenuBar(self)
@@ -424,12 +425,10 @@ class MenuBar(wx.MenuBar):
             style=wx.FD_OPEN + wx.FD_FILE_MUST_EXIST,
         )
         if openFileDialog.ShowModal() == wx.ID_CANCEL:
-            print("The user cancelled")
+            print("Cancelled loading new file")
             return  # User closed file dialog
 
-        path = openFileDialog.GetPath()
-        print("File chosen=", path)
-        return path
+        return openFileDialog.GetPath()
 
     def handle_file_open(self) -> None:
         """Call callback function if file selected."""
@@ -626,9 +625,9 @@ class MonitorWidget(wx.ScrolledWindow):
                 + self.names.get_name_string(device.device_kind)
                 + ">"
             )
-            self.device_text = wx.StaticText(self, wx.ID_ANY, device_name)
+            device_text = wx.StaticText(self, wx.ID_ANY, device_name)
 
-            name_sizer.Add(self.device_text, 1, wx.EXPAND | wx.ALL, 10)
+            name_sizer.Add(device_text, 1, wx.EXPAND | wx.ALL, 10)
             btn_sizer.Add(monitor_button, 1, wx.EXPAND | wx.ALL, 10)
 
         # Create a list of ids for each monitor button
