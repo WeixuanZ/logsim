@@ -97,18 +97,18 @@ class Gui(wx.Frame):
         self.Console = Console(self)
 
         # Canvas for showing monitor signals
-        self.canvas = Canvas(
+        self.Canvas = Canvas(
             self,
             wx.ID_ANY,
             self.devices,
             self.network,
             self.monitors,
         )
-        self.canvas.SetSizeHints(500, 500)
+        self.Canvas.SetSizeHints(500, 500)
 
         # Configure sizers for layout
         # Add scrollable canvas to left-hand side
-        self.left_sizer.Add(self.canvas, 4, wx.EXPAND | wx.ALL, 5)
+        self.left_sizer.Add(self.Canvas, 4, wx.EXPAND | wx.ALL, 5)
         self.left_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 5)
 
         # Widgets
@@ -182,12 +182,17 @@ class Gui(wx.Frame):
             self.names, self.devices, self.network, self.monitors, scanner
         )
         parser.parse_network()
+
+        # only show the buttons and canvas if there is no error
+        self.main_sizer.Hide(self.right_sizer)
+        self.left_sizer.Hide(self.Canvas)
+
         if parser.errors.error_counter > 0:
             parser.errors.print_error_messages()
             return  # only rebuild buttons if new file has no error
 
-        self.main_sizer.Hide(self.right_sizer)
         self._build_side_sizer()
+        self.left_sizer.Show(self.Canvas)
         self.Layout()
 
         self.StatusBar.PushStatusText(path)
@@ -208,7 +213,7 @@ class Gui(wx.Frame):
         cycles = self.CyclesWidget.GetValue()
         if self.run_network(cycles):
             self.cycles_completed[0] += cycles
-            self.canvas.cycles += cycles
+            self.Canvas.cycles += cycles
             self.StatusBar.push_cycle_count(self.cycles_completed[0])
         print(
             " ".join(
@@ -227,7 +232,7 @@ class Gui(wx.Frame):
 
         Return True if successful.
         """
-        self.canvas.signals = []
+        self.Canvas.signals = []
         for _ in range(cycles):
             if self.network.execute_network():
                 self.monitors.record_signals()
@@ -240,7 +245,7 @@ class Gui(wx.Frame):
             pin_id,
         ), value in self.monitors.monitors_dictionary.items():
             signal_name = self.devices.get_signal_name(device_id, pin_id)
-            self.canvas.signals.append([signal_name, value])
-        self.canvas.cycles = cycles
-        self.canvas.render()
+            self.Canvas.signals.append([signal_name, value])
+        self.Canvas.cycles = cycles
+        self.Canvas.render()
         return True
