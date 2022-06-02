@@ -64,7 +64,7 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
 
     def __repr__(self):
         """Customised repr of error objects."""
-        return f"{self.__class__.__qualname__}: {self.message}" + (
+        return f"{self.message}" + (
             f" - {self.description}"
             if self.description is not None and self.description != ""
             else ""
@@ -256,8 +256,7 @@ class Errors:
         ]
 
         print(
-            "\033[91m"
-            + f"{self.error_counter} Errors\n\n"
+            f"{self.error_counter} Errors\n\n"
             + "\n".join(
                 starmap(
                     lambda error, show_depth: error.explain(
@@ -266,5 +265,4 @@ class Errors:
                     zip(sorted_error_list, show_depth_list),
                 )
             )
-            + "\033[91m"
         )

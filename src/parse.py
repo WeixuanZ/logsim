@@ -73,7 +73,10 @@ class Parser:
     def throw_error(self, error_type, description=None):
         """Add error with optional description to the list."""
         error = error_type(description)
-        error.symbol = self.previous_symbol
+        if error_type is SyntaxErrors.UnexpectedEOF:
+            error.symbol = self.previous_symbol
+        else:
+            error.symbol = self.current_symbol
         self.errors.add_error(error)
 
     def get_next(self):
