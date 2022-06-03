@@ -10,6 +10,7 @@ Classes
 Parser - parses the definition file and builds the logic network.
 SPHINX-IGNORE
 """
+import wx
 
 from symbol_types import (
     KeywordType,
@@ -20,6 +21,8 @@ from symbol_types import (
     DTypeOutputType,
 )
 from exceptions import SyntaxErrors, SemanticErrors, Errors
+
+_ = wx.GetTranslation
 
 
 class Parser:
@@ -142,24 +145,28 @@ class Parser:
         """
         if self.current_symbol is None:
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Missing DEVICES block", True
+                SyntaxErrors.UnexpectedEOF, _("Missing DEVICES block"), True
             )
             return None
 
         if not self.current_symbol.type == KeywordType.DEVICES:
             # TODO check for typos later to give suggestions for improvement
-            self.throw_error(SyntaxErrors.NoDevices, "Missing DEVICES block")
+            self.throw_error(
+                SyntaxErrors.NoDevices, _("Missing DEVICES block")
+            )
             return False
 
         if not self.get_next():
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected ':' after DEVICES", True
+                SyntaxErrors.UnexpectedEOF,
+                _("Expected ':' after DEVICES"),
+                True,
             )
             return None
 
         if not self.current_symbol.type == OperatorType.COLON:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected ':' after DEVICES"
+                SyntaxErrors.UnexpectedToken, _("Expected ':' after DEVICES")
             )
             return False
 
@@ -167,7 +174,7 @@ class Parser:
         outcome = self.parse_devices_statement()
         if outcome is None:
             self.syntax_valid = False
-            self.throw_error(SyntaxErrors.NoDevices, "Empty DEVICES block")
+            self.throw_error(SyntaxErrors.NoDevices, _("Empty DEVICES block"))
             return None
         if not outcome:
             self.syntax_valid = False
@@ -177,7 +184,9 @@ class Parser:
                 return False
             elif not outcome:
                 # there was end of file
-                self.throw_error(SyntaxErrors.NoDevices, "Empty DEVICES block")
+                self.throw_error(
+                    SyntaxErrors.NoDevices, _("Empty DEVICES block")
+                )
                 return None
             self.get_next()
 
@@ -210,13 +219,15 @@ class Parser:
         """
         if self.current_symbol is None:
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected device definition", True
+                SyntaxErrors.UnexpectedEOF,
+                _("Expected device definition"),
+                True,
             )
             return None
 
         if not self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected device name"
+                SyntaxErrors.UnexpectedToken, _("Expected device name")
             )
             return False
 
@@ -230,12 +241,12 @@ class Parser:
         ):
             if not self.get_next():
                 self.throw_error(
-                    SyntaxErrors.UnexpectedEOF, "Expected device name", True
+                    SyntaxErrors.UnexpectedEOF, _("Expected device name"), True
                 )
                 return None
             if not self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
                 self.throw_error(
-                    SyntaxErrors.UnexpectedToken, "Expected device name"
+                    SyntaxErrors.UnexpectedToken, _("Expected device name")
                 )
                 return False
             device_names.append(
@@ -245,13 +256,13 @@ class Parser:
 
         if self.current_symbol is None:
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected ',' or '='", True
+                SyntaxErrors.UnexpectedEOF, _("Expected ',' or '='"), True
             )
             return None
 
         if not self.current_symbol.type == OperatorType.EQUAL:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected ',' or '='"
+                SyntaxErrors.UnexpectedToken, _("Expected ',' or '='")
             )
             return False
 
@@ -269,7 +280,7 @@ class Parser:
 
         if not self.current_symbol.type == OperatorType.SEMICOLON:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected ';'", prev_word=True
+                SyntaxErrors.UnexpectedToken, _("Expected ';'"), prev_word=True
             )
             return False
 
@@ -295,13 +306,13 @@ class Parser:
         """
         if self.current_symbol is None:
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected device type", True
+                SyntaxErrors.UnexpectedEOF, _("Expected device type"), True
             )
             return None, None
 
         if self.current_symbol.type not in DeviceType:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected device type"
+                SyntaxErrors.UnexpectedToken, _("Expected device type")
             )
             return False, None
 
@@ -309,7 +320,7 @@ class Parser:
 
         if not self.get_next():
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected '<' or ';'", True
+                SyntaxErrors.UnexpectedEOF, _("Expected '<' or ';'"), True
             )
             return None, None
 
@@ -319,31 +330,35 @@ class Parser:
         if not self.current_symbol.type == OperatorType.LEFT_ANGLE:
             self.throw_error(
                 SyntaxErrors.UnexpectedToken,
-                "Expected '<' or ';'",
+                _("Expected '<' or ';'"),
                 prev_word=True,
             )
             return False, None
 
         if not self.get_next():
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected number parameter", True
+                SyntaxErrors.UnexpectedEOF,
+                _("Expected number parameter"),
+                True,
             )
             return None, None
 
         if not self.current_symbol.type == ExternalSymbolType.NUMBERS:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected number parameter"
+                SyntaxErrors.UnexpectedToken, _("Expected number parameter")
             )
             return False, None
 
         parameter = int(self.names.get_name_string(self.current_symbol.id))
 
         if not self.get_next():
-            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected '>'", True)
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, _("Expected '>'"), True
+            )
             return None, None
 
         if not self.current_symbol.type == OperatorType.RIGHT_ANGLE:
-            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected '>'")
+            self.throw_error(SyntaxErrors.UnexpectedToken, _("Expected '>'"))
             return False, None
 
         self.get_next()
@@ -358,29 +373,33 @@ class Parser:
         """
         if self.current_symbol is None:
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Missing CONNECTIONS block", True
+                SyntaxErrors.UnexpectedEOF,
+                _("Missing CONNECTIONS block"),
+                True,
             )
             return None
 
         if not self.current_symbol.type == KeywordType.CONNECTIONS:
             self.throw_error(
-                SyntaxErrors.NoConnections, "Missing CONNECTIONS block"
+                SyntaxErrors.NoConnections, _("Missing CONNECTIONS block")
             )
             return False
 
         if not self.get_next():
-            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected ':'", True)
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, _("Expected ':'"), True
+            )
             return None
 
         if not self.current_symbol.type == OperatorType.COLON:
-            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ':'")
+            self.throw_error(SyntaxErrors.UnexpectedToken, _("Expected ':'"))
             return False
 
         self.get_next()
         outcome = self.parse_connection_statement()
         if outcome is None:
             self.throw_error(
-                SyntaxErrors.NoConnections, "Empty CONNECTIONS block"
+                SyntaxErrors.NoConnections, _("Empty CONNECTIONS block")
             )
             return None
         if not outcome:
@@ -390,7 +409,7 @@ class Parser:
             elif not out:
                 # there was end of file
                 self.throw_error(
-                    SyntaxErrors.NoConnections, "Empty CONNECTIONS block"
+                    SyntaxErrors.NoConnections, _("Empty CONNECTIONS block")
                 )
                 return None
             self.get_next()
@@ -422,7 +441,7 @@ class Parser:
         if self.current_symbol is None:
             self.throw_error(
                 SyntaxErrors.UnexpectedEOF,
-                "Expected " "connection " "statement",
+                _("Expected connection statement"),
                 True,
             )
             return None
@@ -433,11 +452,13 @@ class Parser:
             return outcome
 
         if self.current_symbol is None:
-            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected '-'", True)
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, _("Expected '-'"), True
+            )
             return None
 
         if not self.current_symbol.type == OperatorType.CONNECT:
-            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected '-'")
+            self.throw_error(SyntaxErrors.UnexpectedToken, _("Expected '-'"))
             return False
 
         self.get_next()
@@ -447,9 +468,8 @@ class Parser:
             self.syntax_valid = False
             # TODO this is a bit hacky, change if time allows
             if self.errors.error_counter == 1:
-                if (
-                    self.errors.error_list[0].description
-                    == "Expected '.', '-', or ';'"
+                if self.errors.error_list[0].description == _(
+                    "Expected '.', '-', or ';'"
                 ):
                     self.errors.error_list[0] = SyntaxErrors.MissingSemicolon()
             return outcome
@@ -460,7 +480,7 @@ class Parser:
 
         if not self.current_symbol.type == OperatorType.SEMICOLON:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected ';'", prev_word=True
+                SyntaxErrors.UnexpectedToken, _("Expected ';'"), prev_word=True
             )
             return False
 
@@ -489,13 +509,15 @@ class Parser:
         """
         if self.current_symbol is None:
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected pin's device name", True
+                SyntaxErrors.UnexpectedEOF,
+                _("Expected pin's device name"),
+                True,
             )
             return None, None
 
         if not self.current_symbol.type == ExternalSymbolType.IDENTIFIER:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected pin's device name"
+                SyntaxErrors.UnexpectedToken, _("Expected pin's device name")
             )
             return False, None
 
@@ -505,12 +527,12 @@ class Parser:
             if connection_statement:
                 self.throw_error(
                     SyntaxErrors.UnexpectedEOF,
-                    "Expected '.', '-', or ';'",
+                    _("Expected '.', '-', or ';'"),
                     True,
                 )
             else:
                 self.throw_error(
-                    SyntaxErrors.UnexpectedEOF, "Expected ',' or ';'", True
+                    SyntaxErrors.UnexpectedEOF, _("Expected ',' or ';'"), True
                 )
             return None, None
 
@@ -531,17 +553,18 @@ class Parser:
         if not self.current_symbol.type == OperatorType.DOT:
             if connection_statement:
                 self.throw_error(
-                    SyntaxErrors.UnexpectedToken, "Expected '.', '-', or ';'"
+                    SyntaxErrors.UnexpectedToken,
+                    _("Expected '.', '-', or ';'"),
                 )
             else:
                 self.throw_error(
-                    SyntaxErrors.UnexpectedToken, "Expected '.', ',' or ';'"
+                    SyntaxErrors.UnexpectedToken, _("Expected '.', ',' or ';'")
                 )
             return False, None
 
         if not self.get_next():
             self.throw_error(
-                SyntaxErrors.UnexpectedEOF, "Expected pin name", True
+                SyntaxErrors.UnexpectedEOF, _("Expected pin name"), True
             )
             return None, None
 
@@ -558,7 +581,7 @@ class Parser:
             self.get_next()
             return True, ("out", device_name, pin_name)
 
-        self.throw_error(SyntaxErrors.UnexpectedToken, "Expected pin name")
+        self.throw_error(SyntaxErrors.UnexpectedToken, _("Expected pin name"))
         return False, None
 
     def parse_monitors_block(self):
@@ -575,16 +598,18 @@ class Parser:
         if not self.current_symbol.type == KeywordType.MONITORS:
             self.throw_error(
                 SyntaxErrors.UnexpectedToken,
-                "Expected MONITORS keyword or end of file",
+                _("Expected MONITORS keyword or end of file"),
             )
             return False
 
         if not self.get_next():
-            self.throw_error(SyntaxErrors.UnexpectedEOF, "Expected ':'", True)
+            self.throw_error(
+                SyntaxErrors.UnexpectedEOF, _("Expected ':'"), True
+            )
             return None
 
         if not self.current_symbol.type == OperatorType.COLON:
-            self.throw_error(SyntaxErrors.UnexpectedToken, "Expected ':'")
+            self.throw_error(SyntaxErrors.UnexpectedToken, _("Expected ':'"))
             return False
 
         self.get_next()
@@ -633,7 +658,7 @@ class Parser:
 
         if not self.current_symbol.type == OperatorType.SEMICOLON:
             self.throw_error(
-                SyntaxErrors.UnexpectedToken, "Expected ',' or ';'"
+                SyntaxErrors.UnexpectedToken, _("Expected ',' or ';'")
             )
             return None
 
@@ -671,38 +696,38 @@ class Parser:
             if error == self.devices.DEVICE_PRESENT:
                 self.throw_error(
                     SemanticErrors.NameClash,
-                    "Device with this name already exists",
+                    _("Device with this name already exists"),
                     show_cursor=False,
                 )
             elif error == self.devices.QUALIFIER_PRESENT:
                 self.throw_error(
                     SyntaxErrors.UnexpectedParam,
-                    "Device of this type does not require a parameter",
+                    _("Device of this type does not require a parameter"),
                     show_cursor=False,
                 )
             elif error == self.devices.NO_QUALIFIER:
                 self.throw_error(
                     SyntaxErrors.MissingParam,
-                    "Device of this type requires a parameter",
+                    _("Device of this type requires a parameter"),
                     show_cursor=False,
                 )
             elif error == self.devices.INVALID_QUALIFIER:
                 if gate_type == DeviceType.SWITCH:
                     self.throw_error(
                         SyntaxErrors.InvalidSwitchParam,
-                        "Parameter for a SWITCH device can only be 0 or 1",
+                        _("Parameter for a SWITCH device can only be 0 or 1"),
                         show_cursor=False,
                     )
                 elif gate_type == DeviceType.CLOCK:
                     self.throw_error(
                         SemanticErrors.InvalidClockParam,
-                        "Parameter for a CLOCK device has to be > 0",
+                        _("Parameter for a CLOCK device has to be > 0"),
                         show_cursor=False,
                     )
                 else:
                     self.throw_error(
                         SemanticErrors.InvalidAndParam,
-                        "Gates can only have 1-16 inputs",
+                        _("Gates can only have 1-16 inputs"),
                         show_cursor=False,
                     )
             elif error == self.devices.BAD_DEVICE:
@@ -842,7 +867,8 @@ class Parser:
         if self.syntax_valid:
             if self.network is not None and not self.network.check_network():
                 self.throw_error(
-                    SemanticErrors.FloatingInput, "Some pins are not connected"
+                    SemanticErrors.FloatingInput,
+                    _("Some pins are not connected"),
                 )
                 self.syntax_valid = False
 

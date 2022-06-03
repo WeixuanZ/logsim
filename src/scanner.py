@@ -17,9 +17,13 @@ import logging
 import mmap
 import os
 
+import wx
+
 from names import Names
 from symbol_types import ReservedSymbolType, ExternalSymbolType
 from exceptions import SyntaxErrors, Errors
+
+_ = wx.GetTranslation
 
 
 class Symbol:
@@ -579,7 +583,7 @@ class Scanner:
         else:  # not a valid character
             # throw error
             if Scanner.TREAT_INVALID_CHAR_AS_ERROR:
-                error = SyntaxErrors.UnexpectedToken("Invalid character")
+                error = SyntaxErrors.UnexpectedToken(_("Invalid character"))
                 symbol_lineno, symbol_colno = self.get_lineno_colno(
                     self._pointer_pos
                 )

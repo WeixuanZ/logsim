@@ -11,6 +11,7 @@ SPHINX-IGNORE
 """
 from pathlib import Path
 from typing import Union
+
 import wx
 
 from gui_components import (
@@ -23,7 +24,6 @@ from gui_components import (
     Console,
     StatusBar,
 )
-
 from names import Names
 from devices import Devices
 from monitors import Monitors
@@ -31,6 +31,8 @@ from network import Network
 from scanner import Scanner
 from parse import Parser
 from exceptions import Errors
+
+_ = wx.GetTranslation
 
 
 class Gui(wx.Frame):
@@ -153,12 +155,12 @@ class Gui(wx.Frame):
         self.right_sizer.Add(self.CyclesWidget, 0.5, wx.ALIGN_CENTRE, 130)
         self.right_sizer.AddSpacer(15)
 
-        self.right_sizer.Add(wx.StaticText(self, wx.ID_ANY, "Monitors"), 0)
+        self.right_sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Monitors")), 0)
         self.right_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)
 
         self.right_sizer.AddSpacer(15)
 
-        self.right_sizer.Add(wx.StaticText(self, wx.ID_ANY, "Switches"), 0)
+        self.right_sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Switches")), 0)
         self.right_sizer.Add(self.SwitchWidget, 1, wx.EXPAND | wx.ALL, 10)
 
         self.right_sizer.AddSpacer(15)
@@ -201,7 +203,7 @@ class Gui(wx.Frame):
         # hide the canvas
         self.left_sizer.Hide(self.Canvas)
 
-        print(f"File opened, path: {path}\n")
+        print(_("File opened, path: {}\n").format(path))
 
         if parser.errors.error_counter > 0:
             parser.errors.print_error_messages(self.names, scanner)
@@ -223,7 +225,7 @@ class Gui(wx.Frame):
         cycles = self.CyclesWidget.GetValue()
 
         self.monitors.reset_monitors()
-        print("".join(["Running for ", str(cycles), " cycles"]))
+        print(_("Running for {} cycles.").format(cycles))
         self.devices.cold_startup()
         if self.run_network(cycles):
             self.cycles_completed[0] = cycles
@@ -237,14 +239,8 @@ class Gui(wx.Frame):
             self.Canvas.cycles += cycles
             self.StatusBar.push_cycle_count(self.cycles_completed[0])
         print(
-            " ".join(
-                [
-                    "Continuing for",
-                    str(cycles),
-                    "cycles.",
-                    "Total:",
-                    str(self.cycles_completed[0]),
-                ]
+            _("Continuing for {} cycles. Total: {}").format(
+                cycles, self.cycles_completed[0]
             )
         )
 
@@ -254,11 +250,11 @@ class Gui(wx.Frame):
         Return True if successful.
         """
         self.Canvas.signals = []
-        for _ in range(cycles):
+        for i in range(cycles):
             if self.network.execute_network():
                 self.monitors.record_signals()
             else:
-                print("Error! Network oscillating.")
+                print(_("Error! Network oscillating."))
                 return False
         # self.monitors.display_signals()
         for (

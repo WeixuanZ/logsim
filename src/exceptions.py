@@ -16,10 +16,14 @@ import inspect
 from typing import Union, TYPE_CHECKING
 from itertools import takewhile, starmap
 
+import wx
+
 from names import Names
 
 if TYPE_CHECKING:
     from scanner import Symbol, Scanner
+
+_ = wx.GetTranslation
 
 
 class ParseBaseExceptionMeta(type):
@@ -68,7 +72,7 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
 
     def __repr__(self):
         """Customised repr of error objects."""
-        return f"{self.message}" + (
+        return _(self.message) + (
             f" - {self.description}"
             if self.description is not None and self.description != ""
             else ""
@@ -105,7 +109,11 @@ class ParseBaseException(metaclass=ParseBaseExceptionMeta):
 
         return (
             ("  " * self.depth if show_depth else "")
-            + (f"Line {self.symbol.lineno + 1}: " if self.depth > 0 else "")
+            + (
+                _("Line {}: ").format(self.symbol.lineno + 1)
+                if self.depth > 0
+                else ""
+            )
             + self.__repr__()
             + "\n"
             + (
@@ -271,7 +279,7 @@ class Errors:
             for i in range(1, len(sorted_error_list))
         ]
         print(
-            f"{self.error_counter} Errors\n\n"
+            _("{} Errors\n\n").format(self.error_counter)
             + "\n".join(
                 starmap(
                     lambda error, show_depth: error.explain(

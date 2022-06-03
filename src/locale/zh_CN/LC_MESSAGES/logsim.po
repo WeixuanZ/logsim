@@ -1,0 +1,335 @@
+# Internationalization of logic simulator.
+# Copyright (C) 2022
+# This file is distributed under the same license as the logsim package.
+# W Zhang, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: logsim\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-03 12:31+0100\n"
+"PO-Revision-Date: 2022-06-03 12:41+0100\n"
+"Last-Translator: \n"
+"Language-Team: W Zhang\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: exceptions.py:112
+msgid "Line {}: "
+msgstr "第{}行: "
+
+#: exceptions.py:278
+msgid ""
+"{} Errors\n"
+"\n"
+msgstr ""
+"{}个错误\n"
+"\n"
+
+#: gui.py:158
+msgid "Monitors"
+msgstr "监测"
+
+#: gui.py:163
+msgid "Switches"
+msgstr "开关"
+
+#: gui.py:206
+msgid "File opened, path: {}\n"
+msgstr "文件已加载，路径：{}\n"
+
+#: gui.py:228
+msgid "Running for {} cycles."
+msgstr "模拟 {} 个周期。"
+
+#: gui.py:242
+msgid "Continuing for {} cycles. Total: {}"
+msgstr "继续模拟 {} 个周期。一共：{}"
+
+#: gui.py:257
+msgid "Error! Network oscillating."
+msgstr "发生错误！逻辑电路非确定。"
+
+#: gui_components.py:393
+msgid "&Open"
+msgstr "&打开"
+
+#: gui_components.py:394
+msgid "&Help"
+msgstr "&帮助"
+
+#: gui_components.py:426
+msgid "Open Logic Description File"
+msgstr "打开逻辑电路描述文件"
+
+#: gui_components.py:430
+msgid "Cancelled loading new file"
+msgstr "已取消加载新文件"
+
+#: gui_components.py:469
+msgid "Cycles"
+msgstr "周期数"
+
+#: gui_components.py:566 gui_components.py:593 gui_components.py:656
+msgid "Remove"
+msgstr "移除"
+
+#: gui_components.py:569 gui_components.py:572 gui_components.py:596
+#: gui_components.py:660
+msgid "Add"
+msgstr "添加"
+
+#: gui_components.py:670
+msgid "Successfully made {} a monitor."
+msgstr "成功将{}加入监测列表。"
+
+#: gui_components.py:675
+msgid "Error! Could not make monitor."
+msgstr "错误！无法监测。"
+
+#: gui_components.py:687
+msgid "Error! Could not zap monitor."
+msgstr "错误！无法从监测列表移除。"
+
+#: gui_components.py:746 gui_components.py:774
+msgid "On"
+msgstr "开"
+
+#: gui_components.py:749 gui_components.py:778
+msgid "Off"
+msgstr "关"
+
+#: gui_components.py:782
+msgid "Successfully set {} {}."
+msgstr "成功设置 {} {}。"
+
+#: gui_components.py:787
+msgid "Error! Invalid switch."
+msgstr "错误！开关设置失败。"
+
+#: gui_components.py:811
+msgid "Run"
+msgstr "运行"
+
+#: gui_components.py:815
+msgid "Continue"
+msgstr "继续"
+
+#: gui_components.py:894
+msgid "Cycles completed: "
+msgstr "完成的周期数： "
+
+#: logsim.py:122
+msgid "Logic Simulator"
+msgstr "逻辑模拟器"
+
+#: parse.py:148 parse.py:155
+msgid "Missing DEVICES block"
+msgstr "缺少 DEVICES 语句块"
+
+#: parse.py:162 parse.py:169
+msgid "Expected ':' after DEVICES"
+msgstr "DEVICES 后应是 ‘:’"
+
+#: parse.py:177 parse.py:188
+msgid "Empty DEVICES block"
+msgstr "空的 DEVICES 语句块"
+
+#: parse.py:223
+msgid "Expected device definition"
+msgstr "应是装置定义"
+
+#: parse.py:230 parse.py:244 parse.py:249
+msgid "Expected device name"
+msgstr "应是装置名称"
+
+#: parse.py:259 parse.py:265
+msgid "Expected ',' or '='"
+msgstr "应是 ‘,’ 或 ‘=‘"
+
+#: parse.py:283 parse.py:483
+msgid "Expected ';'"
+msgstr "应是 ‘;’"
+
+#: parse.py:309 parse.py:315
+msgid "Expected device type"
+msgstr "应是装置类型"
+
+#: parse.py:323 parse.py:333
+msgid "Expected '<' or ';'"
+msgstr "应是 ‘<’ 或 ‘;‘"
+
+#: parse.py:341 parse.py:348
+msgid "Expected number parameter"
+msgstr "应是数字参数"
+
+#: parse.py:356 parse.py:361
+msgid "Expected '>'"
+msgstr "应是 ‘>‘"
+
+#: parse.py:377 parse.py:384
+msgid "Missing CONNECTIONS block"
+msgstr "缺少 CONNECTIONS 语句块"
+
+#: parse.py:390 parse.py:395 parse.py:607 parse.py:612
+msgid "Expected ':'"
+msgstr "应是 ‘:’"
+
+#: parse.py:402 parse.py:412
+msgid "Empty CONNECTIONS block"
+msgstr "空的 CONNECTIONS 语句块"
+
+#: parse.py:444
+msgid "Expected connection statement"
+msgstr "应是连接语句"
+
+#: parse.py:456 parse.py:461
+msgid "Expected '-'"
+msgstr "应是 ‘-‘"
+
+#: parse.py:472 parse.py:530 parse.py:557
+msgid "Expected '.', '-', or ';'"
+msgstr "应是 ‘.’，‘-’ 或 ‘;‘"
+
+#: parse.py:513 parse.py:520
+msgid "Expected pin's device name"
+msgstr "应是引脚的装置名称"
+
+#: parse.py:535 parse.py:661
+msgid "Expected ',' or ';'"
+msgstr "应是 ‘,’ 或 ‘;‘"
+
+#: parse.py:561
+msgid "Expected '.', ',' or ';'"
+msgstr "应是 ‘.’，‘,’ 或 ‘;‘"
+
+#: parse.py:567 parse.py:584
+msgid "Expected pin name"
+msgstr "应是引脚名称"
+
+#: parse.py:601
+msgid "Expected MONITORS keyword or end of file"
+msgstr "应是 MONITORS 或文件结尾"
+
+#: parse.py:699
+msgid "Device with this name already exists"
+msgstr "同样名称的装置已经存在"
+
+#: parse.py:705
+msgid "Device of this type does not require a parameter"
+msgstr "这种装置不需要参数"
+
+#: parse.py:711
+msgid "Device of this type requires a parameter"
+msgstr "这种装置需要一个参数"
+
+#: parse.py:718
+msgid "Parameter for a SWITCH device can only be 0 or 1"
+msgstr "开关参数只能是0或1"
+
+#: parse.py:724
+msgid "Parameter for a CLOCK device has to be > 0"
+msgstr "钟的参数必须大于0"
+
+#: parse.py:730
+msgid "Gates can only have 1-16 inputs"
+msgstr "逻辑门只能有1-16个输入"
+
+#: parse.py:871
+msgid "Some pins are not connected"
+msgstr "一些输入阵脚没有连接"
+
+#: scanner.py:586
+msgid "Invalid character"
+msgstr "无效的字符"
+
+#: exceptions.py
+msgid "Unexpected token"
+msgstr "意料之外的符号"
+
+#: exceptions.py
+msgid "Missing ';' at the end of statement"
+msgstr "语句末尾缺少 ;"
+
+#: exceptions.py
+msgid "Missing parameter for device type"
+msgstr "装置类型缺少参数"
+
+#: exceptions.py
+msgid "Invalid parameter for SWITCH device"
+msgstr "无效的开关参数"
+
+#: exceptions.py
+msgid "Unexpected parameter for device type"
+msgstr "意料之外的装置类型参数"
+
+#: exceptions.py
+msgid "No devices found"
+msgstr "没有找到装置"
+
+#: exceptions.py
+msgid "No connections found"
+msgstr "没有找到连接"
+
+#: exceptions.py
+msgid "No monitor pins found"
+msgstr "没有找到需要监测的引脚"
+
+#: exceptions.py
+msgid "Unexpected end of file"
+msgstr "意料之外的文件结尾"
+
+#: exceptions.py
+msgid "Undefined device name"
+msgstr "未定义的的装置名称"
+
+#: exceptions.py
+msgid "NameClash"
+msgstr "命名冲突"
+
+#: exceptions.py
+msgid "Undefined input pin"
+msgstr "未定义的的输入引脚"
+
+#: exceptions.py
+msgid "Undefined output pin"
+msgstr "未定义的输出引脚"
+
+#: exceptions.py
+msgid "Attempting to connect input pin to input pin"
+msgstr "试图将两个输入引脚连接到一起"
+
+#: exceptions.py
+msgid "Attempting to connect output pin to output pin"
+msgstr "试图将两个输出引脚连接到一起"
+
+#: exceptions.py
+msgid "Floating input"
+msgstr "浮空的输入"
+
+#: exceptions.py
+msgid "Attempting to connect multiple pins to a single pin"
+msgstr "试图将多个引脚连接到同一个引脚"
+
+#: exceptions.py
+msgid "Invalid number of inputs for the gate"
+msgstr "无效的逻辑门输入数量"
+
+#: exceptions.py
+msgid "Invalid clock period"
+msgstr "无效的钟期"
+
+#: exceptions.py
+msgid "Attempting to monitor an input pin"
+msgstr "试图监测一个输入引脚"
+
+#: exceptions.py
+msgid "Warning: duplicate monitor pin"
+msgstr "警告-重复监测同一个引脚"

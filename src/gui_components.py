@@ -26,6 +26,8 @@ from devices import Devices
 from monitors import Monitors
 from network import Network
 
+_ = wx.GetTranslation
+
 
 class Canvas(wxcanvas.GLCanvas):
     """Handle all drawing operations.
@@ -388,8 +390,8 @@ class MenuBar(wx.MenuBar):
 
         super().__init__()
         fileMenu = wx.Menu()
-        fileMenu.Append(self.OpenID, "&Open")
-        fileMenu.Append(self.HelpID, "&Help")
+        fileMenu.Append(self.OpenID, _("&Open"))
+        fileMenu.Append(self.HelpID, _("&Help"))
         self.Append(fileMenu, "&logsim")
         self.Bind(wx.EVT_MENU, self.on_menu)  # Menu functionality
 
@@ -421,11 +423,11 @@ class MenuBar(wx.MenuBar):
         """
         openFileDialog = wx.FileDialog(
             self,
-            message="Open Logic Description File",
+            message=_("Open Logic Description File"),
             style=wx.FD_OPEN + wx.FD_FILE_MUST_EXIST,
         )
         if openFileDialog.ShowModal() == wx.ID_CANCEL:
-            print("Cancelled loading new file")
+            print(_("Cancelled loading new file"))
             return  # User closed file dialog
 
         return openFileDialog.GetPath()
@@ -464,7 +466,7 @@ class CyclesWidget(wx.BoxSizer):
             parent, wx.ID_ANY, "10", size=(60, 30), min=1, name="#cycles"
         )
         # Text 'Cycles'
-        self.cycles_text = wx.StaticText(parent, wx.ID_ANY, "Cycles")
+        self.cycles_text = wx.StaticText(parent, wx.ID_ANY, _("Cycles"))
 
         # Add text and cycle number selector to sizer.
         self.Add(self.cycles_text, 1, wx.ALIGN_CENTER_VERTICAL)
@@ -561,13 +563,13 @@ class MonitorWidget(wx.ScrolledWindow):
                 for pin in list(device.outputs.keys()):
                     if device.device_id in self.initial_monitors_lst:
                         if pin in self.initial_monitor_pins:
-                            label = "Remove"
+                            label = _("Remove")
                             value = True
                         else:
-                            label = "Add"
+                            label = _("Add")
                             value = False
                     else:
-                        label = "Add"
+                        label = _("Add")
                         value = False
 
                     self.monitor_buttons.append(
@@ -588,10 +590,10 @@ class MonitorWidget(wx.ScrolledWindow):
                     i += 1
             else:
                 if device.device_id in self.initial_monitors_lst:
-                    label = "Remove"
+                    label = _("Remove")
                     value = True
                 else:
-                    label = "Add"
+                    label = _("Add")
                     value = False
                 self.monitor_buttons.append(
                     wx.ToggleButton(self, wx.ID_ANY, label=label)
@@ -651,11 +653,11 @@ class MonitorWidget(wx.ScrolledWindow):
         if obj.GetValue():
             # monitor device
             self.monitor_command(device_id, pin)
-            obj.SetLabel("Remove")
+            obj.SetLabel(_("Remove"))
         else:
             # stop monitoring device
             self.zap_command(device_id, pin)
-            obj.SetLabel("Add")
+            obj.SetLabel(_("Add"))
 
     def monitor_command(self, device_id, port):
         """Set the specified monitor."""
@@ -665,12 +667,12 @@ class MonitorWidget(wx.ScrolledWindow):
             )
             if monitor_error == self.monitors.NO_ERROR:
                 print(
-                    "Successfully made "
-                    + self.names.get_name_string(device_id)
-                    + " a monitor."
+                    _("Successfully made {} a monitor.").format(
+                        self.names.get_name_string(device_id)
+                    )
                 )
             else:
-                print("Error! Could not make monitor.")
+                print(_("Error! Could not make monitor."))
 
     def zap_command(self, device_id, pin):
         """Remove the specified monitor."""
@@ -682,7 +684,7 @@ class MonitorWidget(wx.ScrolledWindow):
                     + "."
                 )
             else:
-                print("Error! Could not zap monitor.")
+                print(_("Error! Could not zap monitor."))
 
 
 class SwitchWidget(wx.ScrolledWindow):
@@ -741,10 +743,10 @@ class SwitchWidget(wx.ScrolledWindow):
         for i, switch in enumerate(switches_id_val):
             if switch[1]:  # Initial value + label of switch
                 # depends on initial state of switch
-                label = "On"
+                label = _("On")
                 value = True
             else:
-                label = "Off"
+                label = _("Off")
                 value = False
             switch_button = wx.ToggleButton(self, wx.ID_ANY, label=label)
             switch_button.SetValue(value)
@@ -769,22 +771,20 @@ class SwitchWidget(wx.ScrolledWindow):
         switch_id = self.switch_btn_id_to_device_id[button_id]
         if obj.GetValue():
             switch_state = 1
-            label = "On"
+            label = _("On")
             obj.SetLabel(label)
         else:
             switch_state = 0
-            label = "Off"
+            label = _("Off")
             obj.SetLabel(label)
         if self.devices.set_switch(switch_id, switch_state):
             print(
-                "Successfully set "
-                + self.names.get_name_string(switch_id)
-                + " "
-                + label.lower()
-                + "."
+                _("Successfully set {} {}.").format(
+                    self.names.get_name_string(switch_id), label.lower()
+                )
             )
         else:
-            print("Error! Invalid switch.")
+            print(_("Error! Invalid switch."))
 
 
 class ButtonsWidget(wx.BoxSizer):
@@ -807,10 +807,12 @@ class ButtonsWidget(wx.BoxSizer):
         super().__init__(wx.HORIZONTAL)
 
         # Run button
-        self.run_button = wx.Button(parent, wx.ID_ANY, "Run", size=(100, 30))
+        self.run_button = wx.Button(
+            parent, wx.ID_ANY, _("Run"), size=(100, 30)
+        )
         # Continue button
         self.cont_button = wx.Button(
-            parent, wx.ID_ANY, "Continue", size=(100, 30)
+            parent, wx.ID_ANY, _("Continue"), size=(100, 30)
         )
 
         # Bind events to widgets
@@ -889,4 +891,4 @@ class StatusBar(wx.StatusBar):
 
     def push_cycle_count(self, cycle_completed: int):
         """Push the current cycle count to status bar."""
-        self.SetStatusText(f"Cycles completed: {cycle_completed}", i=1)
+        self.SetStatusText(_("Cycles completed: ") + str(cycle_completed), i=1)
