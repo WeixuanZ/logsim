@@ -10,6 +10,9 @@ system language, you can launch `logsim` in Chinese using
 LANG=zh_CN.utf8 ./logsim
 ```
 
+本程序支持简体中文，如果你的系统语言并不是中文，可用上述指令运行`logsim`
+
+
 ## Logic Description Language
 
 In Extended Backus Naur Form (EBNF)

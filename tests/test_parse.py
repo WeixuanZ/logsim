@@ -1,12 +1,18 @@
 """Test parser module"""
-import pytest
+import builtins
 from typing import Union
+
+import pytest
+
 from parse import Parser
 from devices import Devices
 from scanner import Symbol
 from names import Names
 from symbol_types import OperatorType, DeviceType
 from exceptions import SyntaxErrors, SemanticErrors, Errors
+
+# mock GetTranslation
+builtins.__dict__["_"] = lambda s: s
 
 
 class MockScanner:

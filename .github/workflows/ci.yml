@@ -37,13 +37,11 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: |
-          sudo apt-get update && sudo apt-get install --no-install-recommends -y python3-opengl python3-wxgtk4.0 freeglut3-dev
-          pip install pytest pytest-cov
+        run: pip install pytest pytest-cov
 
       - name: Run test suite
         run: |
-          pytest tests/
+          python -m pytest tests/
 
       - name: Build coverage file
         if: github.event_name == 'pull_request'

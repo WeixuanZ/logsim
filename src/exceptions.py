@@ -16,14 +16,10 @@ import inspect
 from typing import Union, TYPE_CHECKING
 from itertools import takewhile, starmap
 
-import wx
-
 from names import Names
 
 if TYPE_CHECKING:
     from scanner import Symbol, Scanner
-
-_ = wx.GetTranslation
 
 
 class ParseBaseExceptionMeta(type):

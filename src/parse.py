@@ -10,8 +10,6 @@ Classes
 Parser - parses the definition file and builds the logic network.
 SPHINX-IGNORE
 """
-import wx
-
 from symbol_types import (
     KeywordType,
     DeviceType,
@@ -21,8 +19,6 @@ from symbol_types import (
     DTypeOutputType,
 )
 from exceptions import SyntaxErrors, SemanticErrors, Errors
-
-_ = wx.GetTranslation
 
 
 class Parser:

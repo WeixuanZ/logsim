@@ -17,13 +17,9 @@ import logging
 import mmap
 import os
 
-import wx
-
 from names import Names
 from symbol_types import ReservedSymbolType, ExternalSymbolType
 from exceptions import SyntaxErrors, Errors
-
-_ = wx.GetTranslation
 
 
 class Symbol:

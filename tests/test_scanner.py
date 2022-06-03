@@ -1,4 +1,5 @@
 """Test the scanner module."""
+import builtins
 
 import pytest
 
@@ -9,6 +10,9 @@ from symbol_types import (
     ExtendedEnum,
     ExternalSymbolType,
 )
+
+# mock GetTranslation
+builtins.__dict__["_"] = lambda s: s
 
 
 class StubErrors:
