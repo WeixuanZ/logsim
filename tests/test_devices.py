@@ -60,7 +60,7 @@ def test_make_device(new_devices):
     [NAND1_ID, CLOCK1_ID, D1_ID, I1_ID, I2_ID, NOT1_ID] = names.lookup(
         ["Nand1", "Clock1", "D1", "I1", "I2", "Not1"]
     )
-    new_devices.make_device(NOT1_ID, new_devices.NOT, 1)  # 1-input NOT
+    new_devices.make_device(NOT1_ID, new_devices.NOT)  # 1-input NOT
     new_devices.make_device(NAND1_ID, new_devices.NAND, 2)  # 2-input NAND
     # Clock half period is 5
     new_devices.make_device(CLOCK1_ID, new_devices.CLOCK, 5)
