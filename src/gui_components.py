@@ -393,7 +393,7 @@ class MenuBar(wx.MenuBar):
         fileMenu = wx.Menu()
         fileMenu.Append(self.OpenID, _("&Open"))
         fileMenu.Append(self.HelpID, _("&Help"))
-        self.Append(fileMenu, "&logsim")
+        self.Append(fileMenu, "&File")
         self.Bind(wx.EVT_MENU, self.on_menu)  # Menu functionality
 
         parent.SetMenuBar(self)
@@ -822,6 +822,61 @@ class ButtonsWidget(wx.BoxSizer):
 
         self.Add(self.run_button, 1, wx.LEFT, 10)
         self.Add(self.cont_button, 1, wx.LEFT, 10)
+
+
+class ConnectionsWidget(wx.BoxSizer):
+    """Widget containing controls to add and remove connections.
+
+    Parameters
+    ----------
+    parent:
+        parent window.
+
+    SPHINX-IGNORE
+    Public Methods
+    --------------
+    on_connect_button(self, event):
+    TODO
+    SPHINX-IGNORE
+    """
+
+    def __init__(self, parent: wx.Window):
+        """Initialise widget."""
+        super().__init__(wx.VERTICAL)
+
+        self.dropdown1 = wx.ComboBox(
+            parent,
+            wx.ID_ANY,
+            value="Connection 1",
+            choices=["A", "B", "C"],
+            size=(150, 50),
+        )
+        self.dropdown2 = wx.ComboBox(
+            parent,
+            wx.ID_ANY,
+            value="Connection 2",
+            choices=["A", "B", "C"],
+            size=(150, 50),
+        )
+        self.connect_button = wx.Button(
+            parent, wx.ID_ANY, label="Connect", size=(100, 30)
+        )
+
+        self.connect_button.Bind(wx.EVT_BUTTON, self.on_connect_button)
+
+        self.Add(self.dropdown1, 1, wx.ALIGN_CENTRE, 50)
+        self.Add(self.dropdown2, 1, wx.ALIGN_CENTRE, 50)
+        self.Add(self.connect_button, 1, wx.ALIGN_CENTRE, 50)
+
+    def on_connect_button(self, event):
+        """TODO.
+
+        Currently just prints values of the dropdowns when pressed.
+        """
+        print(
+            self.dropdown1.GetStringSelection(),
+            self.dropdown2.GetStringSelection(),
+        )
 
 
 class Console(wx.TextCtrl):

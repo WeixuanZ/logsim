@@ -136,3 +136,7 @@ dmypy.json
 src/fonts/
 src/test.py
 PyOpenGL-3.1.6-cp39-cp39-win_amd64.whl
+
+#Random
+COMMIT.txt
+tests/circuit3.txt

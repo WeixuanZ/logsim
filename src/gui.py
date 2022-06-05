@@ -21,6 +21,7 @@ from gui_components import (
     MonitorWidget,
     SwitchWidget,
     ButtonsWidget,
+    ConnectionsWidget,
     Console,
     StatusBar,
 )
@@ -94,6 +95,7 @@ class Gui(wx.Frame):
         # Sizer containing everything
         self.main_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.left_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.left_bottom_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.main_sizer.Add(self.left_sizer, 3, wx.EXPAND)
 
         # load console first to show errors during file load
@@ -111,7 +113,13 @@ class Gui(wx.Frame):
         # Configure sizers for layout
         # Add scrollable canvas to left-hand side
         self.left_sizer.Add(self.Canvas, 4, wx.EXPAND | wx.ALL, 5)
-        self.left_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 5)
+        self.left_sizer.Add(self.left_bottom_sizer, 1, wx.EXPAND | wx.ALL, 5)
+        self.left_bottom_sizer.Add(self.Console, 3.5, wx.EXPAND | wx.ALL, 5)
+        # Widget containing dropdowns to choose which pins to connect
+        # and button to connect/disconnect.
+        # TODO: Actual functionality.
+        self.ConnectionsWidget = ConnectionsWidget(self)
+        self.left_bottom_sizer.Add(self.ConnectionsWidget, 1, wx.ALL, 5)
 
         # Widgets
         self._build_side_sizer()
