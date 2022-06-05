@@ -291,13 +291,15 @@ class Parser:
         EBNF syntax: device_type = ( "CLOCK", parameter )
             | ( "SWITCH", "<" , ( "0" | "1" ) , ">" )
             | ( ( "AND" | "NAND" | "OR" | "NOR" ), parameter )
+            | "NOT"
             | "XOR"
             | "D_TYPE" ;
             parameter = "<" , digit , { digit } , ">" ;
 
         Return: success, (device_type, parameter)
         success = None(unexpected eof), False(syntax not ok), True(syntax ok)
-        device_type = 'AND'|'NAND'|'OR'|'NOR'|'XOR'|'CLOCK'|'SWITCH'|'DTYPE'
+        device_type = 'AND'|'NAND'|'OR'|'NOR'|'NOT'|
+                      'XOR'|'CLOCK'|'SWITCH'|'DTYPE'
         parameter = None or number
         """
         if self.current_symbol is None:

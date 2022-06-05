@@ -225,6 +225,7 @@ def test_parse_device_type_errors(statement, error_type, description, success):
             ["A", ",", "B", ",", "C", "=", "SWITCH", ";"],
             True,
         ),
+        (["A", ",", "B", ",", "C", "=", "NOT", ";"], True),
         (["A", "=", ";"], False),
     ],
 )
