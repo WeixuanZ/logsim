@@ -40,6 +40,7 @@ device_name = ( letter | "_" ) , { letter | digit | "_" } ;
 device_type = ( "CLOCK", parameter )
             | ( "SWITCH", "<" , ( "0" | "1" ) , ">" )
             | ( ( "AND" | "NAND" | "OR" | "NOR" ), parameter )
+            | "NOT"
             | "XOR"
             | "D_TYPE" ;
 parameter = "<" , digit , { digit } , ">" ;
