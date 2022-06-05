@@ -90,6 +90,7 @@ class Canvas(wxcanvas.GLCanvas):
                 0,
             ],
         )
+        GLUT.glutInit()
         self.SetSizeHints(500, 500)
 
         self.init = False
