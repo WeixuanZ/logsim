@@ -58,6 +58,7 @@ class OperatorType(ExtendedEnum):
 class DeviceType(ExtendedEnum):
     """Supported devices."""
 
+    NOT = "NOT"
     AND = "AND"
     OR = "OR"
     NOR = "NOR"

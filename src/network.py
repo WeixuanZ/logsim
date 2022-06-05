@@ -255,6 +255,31 @@ class Network:
         device.outputs[None] = updated_signal
         return True
 
+    def execute_not(self, device_id):
+        """Simulate a NOR gate.
+
+        Return True if successful.
+        """
+        device = self.devices.get_device(device_id)
+        input_signal_list = []
+        for input_id in device.inputs:
+            input_signal = self.get_input_signal(device_id, input_id)
+            if input_signal is None:  # this input is unconnected
+                return False
+            input_signal_list.append(input_signal)
+
+        input_signal = input_signal_list[0]  # assume 1 input
+        output_signal = self.invert_signal(input_signal)
+
+        # Update and store the new signal
+        signal = self.get_output_signal(device_id, None)
+        target = output_signal
+        updated_signal = self.update_signal(signal, target)
+        if updated_signal is None:  # if the update is unsuccessful
+            return False
+        device.outputs[None] = updated_signal
+        return True
+
     def execute_d_type(self, device_id):
         """Simulate a D-type device and update its output signal value.
 
@@ -361,6 +386,7 @@ class Network:
         nand_devices = self.devices.find_devices(self.devices.NAND)
         nor_devices = self.devices.find_devices(self.devices.NOR)
         xor_devices = self.devices.find_devices(self.devices.XOR)
+        not_devices = self.devices.find_devices(self.devices.NOT)
 
         # This sets clock signals to RISING or FALLING, where necessary
         self.update_clocks()
@@ -384,6 +410,9 @@ class Network:
                     return False
             for device_id in clock_devices:  # complete clock executions
                 if not self.execute_clock(device_id):
+                    return False
+            for device_id in not_devices:  # execute NOT gate devices
+                if not self.execute_not(device_id):
                     return False
             for device_id in and_devices:  # execute AND gate devices
                 if not self.execute_gate(

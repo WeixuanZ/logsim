@@ -180,6 +180,29 @@ def test_make_connection_gives_error(
     assert left_expression == right_expression
 
 
+def test_execute_not(new_network):
+    """Test if execute_network returns the correct output for NOT gates."""
+    network = new_network
+    devices = network.devices
+    names = devices.names
+
+    [SW1_ID, NOT1_ID, I1] = names.lookup(["Sw1", "Not1", "I1"])
+
+    # Make devices
+    devices.make_device(NOT1_ID, devices.NOT)
+    devices.make_device(SW1_ID, devices.SWITCH, 0)
+
+    # Make connections
+    network.make_connection(SW1_ID, None, NOT1_ID, I1)
+
+    network.execute_network()
+    assert network.get_output_signal(NOT1_ID, None) == devices.HIGH
+
+    devices.set_switch(SW1_ID, devices.HIGH)
+    network.execute_network()
+    assert network.get_output_signal(NOT1_ID, None) == devices.LOW
+
+
 def test_execute_xor(new_network):
     """Test if execute_network returns the correct output for XOR gates."""
     network = new_network
@@ -200,7 +223,7 @@ def test_execute_xor(new_network):
     network.make_connection(SW2_ID, None, XOR1_ID, I2)
 
     network.execute_network()
-    assert new_network.get_output_signal(XOR1_ID, None) == devices.LOW
+    assert network.get_output_signal(XOR1_ID, None) == devices.LOW
 
     # Set Sw1 to HIGH
     devices.set_switch(SW1_ID, devices.HIGH)
