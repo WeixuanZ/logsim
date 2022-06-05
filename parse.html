@@ -180,6 +180,7 @@ None if there was (unexpected) end of file</p>
 <dt>EBNF syntax: device_type = ( “CLOCK”, parameter )</dt><dd><div class="line-block">
 <div class="line">( “SWITCH”, “&lt;” , ( “0” | “1” ) , “&gt;” )</div>
 <div class="line">( ( “AND” | “NAND” | “OR” | “NOR” ), parameter )</div>
+<div class="line">“NOT”</div>
 <div class="line">“XOR”</div>
 <div class="line">“D_TYPE” ;</div>
 </div>
@@ -188,8 +189,11 @@ None if there was (unexpected) end of file</p>
 </dl>
 <p>Return: success, (device_type, parameter)
 success = None(unexpected eof), False(syntax not ok), True(syntax ok)
-device_type = ‘AND’|’NAND’|’OR’|’NOR’|’XOR’|’CLOCK’|’SWITCH’|’DTYPE’
-parameter = None or number</p>
+device_type = ‘AND’|’NAND’|’OR’|’NOR’|’NOT’|</p>
+<blockquote>
+<div><p>‘XOR’|’CLOCK’|’SWITCH’|’DTYPE’</p>
+</div></blockquote>
+<p>parameter = None or number</p>
 </dd></dl>
 
 <dl class="py method">
