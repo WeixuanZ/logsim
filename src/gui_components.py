@@ -841,25 +841,38 @@ class ConnectionsWidget(wx.BoxSizer):
     SPHINX-IGNORE
     """
 
-    def __init__(self, parent: wx.Window):
+    def __init__(self, parent: wx.Window, names: Names, devices: Devices):
         """Initialise widget."""
         super().__init__(wx.VERTICAL)
 
+        self.names = names
+        self.devices = devices
+
         self.dropdown_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        self.choices = []
+        for device in self.devices.devices_list:
+            if device.device_kind != self.devices.SWITCH:
+                self.choices.append(
+                    self.names.get_name_string(device.device_id)
+                )
 
         self.input = wx.ComboBox(
             parent,
             wx.ID_ANY,
             value="Input Device",
-            choices=["A", "B", "C"],
+            choices=self.choices,
             size=(100, 50),
         )
+        self.input.Bind(wx.EVT_COMBOBOX, self.on_input_dropdown)
+
+        self.input_names = []
         self.input_pin = wx.ComboBox(
             parent,
             wx.ID_ANY,
             value="Input Pin",
-            choices=["1", "2", "3"],
+            choices=self.input_names,
             size=(100, 50),
         )
         self.output = wx.ComboBox(
@@ -901,6 +914,16 @@ class ConnectionsWidget(wx.BoxSizer):
             self.input_pin.GetStringSelection(),
             self.output.GetStringSelection(),
         )
+
+    def on_input_dropdown(self, event):
+        """TODO."""
+        self.input_pin.Clear()
+        device_name = self.input.GetStringSelection()
+        device_id = self.names.query(device_name)
+        device = self.devices.get_device(device_id)
+        inputs = device.inputs.keys()
+        for input in inputs:
+            self.input_pin.Append(self.names.get_name_string(input))
 
 
 class Console(wx.TextCtrl):

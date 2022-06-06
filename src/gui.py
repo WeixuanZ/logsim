@@ -148,7 +148,9 @@ class Gui(wx.Frame):
             self.monitors,
         )
         self.SwitchWidget = SwitchWidget(self, self.names, self.devices)
-        self.ConnectionsWidget = ConnectionsWidget(self)
+        self.ConnectionsWidget = ConnectionsWidget(
+            self, self.names, self.devices
+        )
         self.ButtonsWidget = ButtonsWidget(
             self,
             on_run=self.handle_run_btn_click,
