@@ -147,7 +147,7 @@ class Gui(wx.Frame):
         )
         self.SwitchWidget = SwitchWidget(self, self.names, self.devices)
         self.ConnectionsWidget = ConnectionsWidget(
-            self, self.names, self.devices
+            self, self.names, self.devices, self.network
         )
         self.ButtonsWidget = ButtonsWidget(
             self,

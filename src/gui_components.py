@@ -843,12 +843,19 @@ class ConnectionsWidget(wx.BoxSizer):
     SPHINX-IGNORE
     """
 
-    def __init__(self, parent: wx.Window, names: Names, devices: Devices):
+    def __init__(
+        self,
+        parent: wx.Window,
+        names: Names,
+        devices: Devices,
+        network: Network,
+    ):
         """Initialise widget."""
         super().__init__(wx.VERTICAL)
 
         self.names = names
         self.devices = devices
+        self.network = network
 
         self.dropdown_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -930,14 +937,19 @@ class ConnectionsWidget(wx.BoxSizer):
         input_pin_name = self.input_pin.GetStringSelection()
         output_name = self.output.GetStringSelection()
         if input_name and input_pin_name and output_name:
-            print(
-                input_name,
-                input_pin_name,
-                output_name,
-            )
             input_device = self.input_choices[input_name]
             output_device = self.output_choices[output_name]
-            print(input_device.device_id, output_device.device_id)
+
+            device1_id = input_device.device_id
+            device2_id = output_device.device_id
+            pin1_id = self.names.query(input_pin_name)
+            if "." in output_name:
+                # it's Q or QBAR of DTYPE
+                parts = output_name.split(".")
+                pin2_id = self.names.query(parts[1])
+            else:
+                pin2_id = None
+            self.add_connection(device1_id, pin1_id, device2_id, pin2_id)
         else:
             print(
                 "Have not selected sufficient devices to create a connection."
@@ -955,18 +967,70 @@ class ConnectionsWidget(wx.BoxSizer):
         input_pin_name = self.input_pin.GetStringSelection()
         output_name = self.output.GetStringSelection()
         if input_name and input_pin_name and output_name:
-            print(
-                input_name,
-                input_pin_name,
-                output_name,
-            )
             input_device = self.input_choices[input_name]
             output_device = self.output_choices[output_name]
-            print(input_device.device_id, output_device.device_id)
+
+            device1_id = input_device.device_id
+            device2_id = output_device.device_id
+            pin1_id = self.names.query(input_pin_name)
+            if "." in output_name:
+                # it's Q or QBAR of DTYPE
+                parts = output_name.split(".")
+                pin2_id = self.names.query(parts[1])
+            else:
+                pin2_id = None
+            self.break_connection(device1_id, pin1_id, device2_id, pin2_id)
         else:
             print(
                 "Have not selected sufficient devices to destroy a connection."
             )
+
+    def break_connection(self, device1_id, pin1_id, device2_id, pin2_id):
+        """Break an existing connection."""
+        first_device = self.devices.get_device(device1_id)
+
+        if first_device.inputs[pin1_id] is None:
+            print(_("Connection you want to break doesn't exist."))
+            return
+        else:
+            second_device_id, second_port_id = first_device.inputs[pin1_id]
+            if second_device_id != device2_id or second_port_id != pin2_id:
+                print(_("Connection you want to break doesn't exist."))
+                return
+
+        connection = (
+            self.names.get_name_string(device1_id)
+            + "."
+            + self.names.get_name_string(pin1_id)
+        )
+        connection += "-" + self.names.get_name_string(device2_id)
+        if pin2_id is not None:
+            connection += "." + self.names.get_name_string(pin2_id)
+
+        first_device.inputs[pin1_id] = None
+        print(
+            _(
+                "Successfully broken a connection {}. "
+                "Make a new one before running again."
+            ).format(connection)
+        )
+
+    def add_connection(self, device1_id, pin1_id, device2_id, pin2_id):
+        """Add a connection between input of device1 and output of device2."""
+        # get previous connection
+        first_device = self.devices.get_device(device1_id)
+
+        if first_device.inputs[pin1_id] is not None:
+            device, pin = first_device.inputs[pin1_id]
+            self.break_connection(device1_id, pin1_id, device, pin)
+
+        error = self.network.make_connection(
+            device1_id, pin1_id, device2_id, pin2_id
+        )
+        if error == self.network.NO_ERROR:
+            print(_("Successfully made a connection."))
+        else:
+            print(_("Error! Couldn't make a connection."))
 
     def on_input_dropdown(self, event):
         """Refresh dropdown for input pin on selection of input device."""
