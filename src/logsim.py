@@ -13,8 +13,10 @@ Graphical user interface: logsim.py [<file path>]
 import getopt
 from pathlib import Path
 import sys
-import wx
+import builtins
 from os import environ
+
+import wx
 
 from names import Names
 from devices import Devices
@@ -26,7 +28,7 @@ from userint import UserInterface
 from gui import Gui
 from exceptions import Errors
 
-_ = wx.GetTranslation
+builtins.__dict__["_"] = wx.GetTranslation
 
 
 def _displayHook(obj):

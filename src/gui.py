@@ -33,8 +33,6 @@ from scanner import Scanner
 from parse import Parser
 from exceptions import Errors
 
-_ = wx.GetTranslation
-
 
 class Gui(wx.Frame):
     """Configure the main window and all the widgets.

@@ -27,8 +27,6 @@ from devices import Devices
 from monitors import Monitors
 from network import Network
 
-_ = wx.GetTranslation
-
 
 class Canvas(wxcanvas.GLCanvas):
     """Handle all drawing operations.
