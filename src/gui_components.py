@@ -832,12 +832,16 @@ class ConnectionsWidget(wx.BoxSizer):
     ----------
     parent:
         parent window.
+    names:
+        instance of the names.Names() class.
+    devices:
+        instance of the devices.Devices() class.
 
     SPHINX-IGNORE
     Public Methods
     --------------
     on_connect_button(self, event):
-    TODO
+    on_disconnect_button(self, event):
     SPHINX-IGNORE
     """
 
@@ -851,35 +855,46 @@ class ConnectionsWidget(wx.BoxSizer):
         self.dropdown_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.choices = []
+        self.input_choices = {}
+        self.output_choices = {}
         for device in self.devices.devices_list:
-            if device.device_kind != self.devices.SWITCH:
-                self.choices.append(
+            if (
+                device.device_kind != self.devices.SWITCH
+                and device.device_kind != self.devices.CLOCK
+            ):
+                self.input_choices[
                     self.names.get_name_string(device.device_id)
-                )
+                ] = device
+            if device.device_kind == self.devices.D_TYPE:
+                d_type_name = self.names.get_name_string(device.device_id)
+                self.output_choices[d_type_name + ".Q"] = device
+                self.output_choices[d_type_name + ".QBAR"] = device
+            else:
+                self.output_choices[
+                    self.names.get_name_string(device.device_id)
+                ] = device
 
         self.input = wx.ComboBox(
             parent,
             wx.ID_ANY,
             value="Input Device",
-            choices=self.choices,
+            choices=list(self.input_choices.keys()),
             size=(100, 50),
         )
         self.input.Bind(wx.EVT_COMBOBOX, self.on_input_dropdown)
 
-        self.input_names = []
         self.input_pin = wx.ComboBox(
             parent,
             wx.ID_ANY,
             value="Input Pin",
-            choices=self.input_names,
+            choices=[],
             size=(100, 50),
         )
         self.output = wx.ComboBox(
             parent,
             wx.ID_ANY,
-            value="Output Pin",
-            choices=["A", "B", "C"],
+            value="Output",
+            choices=list(self.output_choices.keys()),
             size=(100, 50),
         )
         self.connect_button = wx.Button(
@@ -890,6 +905,7 @@ class ConnectionsWidget(wx.BoxSizer):
         )
 
         self.connect_button.Bind(wx.EVT_BUTTON, self.on_connect_button)
+        self.disconnect_button.Bind(wx.EVT_BUTTON, self.on_disconnect_button)
 
         self.dropdown_sizer.Add(self.input, 1, wx.LEFT, 5)
         self.dropdown_sizer.Add(self.input_pin, 1, wx.LEFT, 5)
@@ -905,18 +921,57 @@ class ConnectionsWidget(wx.BoxSizer):
         self.Add(self.buttons_sizer, 1, wx.ALIGN_CENTRE, 5)
 
     def on_connect_button(self, event):
-        """TODO.
+        """Handle event of user pressing connect button.
 
-        Currently just prints values of the dropdowns when pressed.
+        If all three dropdowns are not selected, error is shown.
+
+        If all three dropdowns are selected, attempt to create
+        the given connection.
         """
-        print(
-            self.input.GetStringSelection(),
-            self.input_pin.GetStringSelection(),
-            self.output.GetStringSelection(),
-        )
+        input_name = self.input.GetStringSelection()
+        input_pin_name = self.input_pin.GetStringSelection()
+        output_name = self.output.GetStringSelection()
+        if input_name and input_pin_name and output_name:
+            print(
+                input_name,
+                input_pin_name,
+                output_name,
+            )
+            input_device = self.input_choices[input_name]
+            output_device = self.output_choices[output_name]
+            print(input_device.device_id, output_device.device_id)
+        else:
+            print(
+                "Have not selected sufficient devices to create a connection."
+            )
+
+    def on_disconnect_button(self, event):
+        """Handle event of user pressing disconnect button.
+
+        If all three dropdowns are not selected, error is shown.
+
+        If all three dropdowns are selected, attempt to destroy
+        the given connection.
+        """
+        input_name = self.input.GetStringSelection()
+        input_pin_name = self.input_pin.GetStringSelection()
+        output_name = self.output.GetStringSelection()
+        if input_name and input_pin_name and output_name:
+            print(
+                input_name,
+                input_pin_name,
+                output_name,
+            )
+            input_device = self.input_choices[input_name]
+            output_device = self.output_choices[output_name]
+            print(input_device.device_id, output_device.device_id)
+        else:
+            print(
+                "Have not selected sufficient devices to destroy a connection."
+            )
 
     def on_input_dropdown(self, event):
-        """TODO."""
+        """Refresh dropdown for input pin on selection of input device."""
         self.input_pin.Clear()
         device_name = self.input.GetStringSelection()
         device_id = self.names.query(device_name)

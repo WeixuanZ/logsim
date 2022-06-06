@@ -159,15 +159,18 @@ class Gui(wx.Frame):
 
         # Add vertical space at top of right-hand side
         self.right_sizer.AddSpacer(15)
-        self.right_sizer.Add(self.CyclesWidget, 0.5, wx.ALIGN_CENTRE, 130)
-        self.right_sizer.AddSpacer(15)
-
         self.right_sizer.Add(
             wx.StaticText(self, wx.ID_ANY, _("Connections")), 0
         )
         self.right_sizer.Add(
             self.ConnectionsWidget, 0.2, wx.EXPAND | wx.ALL, 0
         )
+        self.right_sizer.Add(
+            wx.StaticLine(self, -1), 0, wx.EXPAND | wx.TOP | wx.BOTTOM, 0
+        )
+        self.right_sizer.AddSpacer(10)
+        self.right_sizer.Add(self.CyclesWidget, 0.5, wx.ALIGN_CENTRE, 130)
+        self.right_sizer.AddSpacer(15)
 
         self.right_sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Monitors")), 0)
         self.right_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)
