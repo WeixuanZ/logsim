@@ -95,7 +95,6 @@ class Gui(wx.Frame):
         # Sizer containing everything
         self.main_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.left_sizer = wx.BoxSizer(wx.VERTICAL)
-        self.left_bottom_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.main_sizer.Add(self.left_sizer, 3, wx.EXPAND)
 
         # load console first to show errors during file load
@@ -113,13 +112,10 @@ class Gui(wx.Frame):
         # Configure sizers for layout
         # Add scrollable canvas to left-hand side
         self.left_sizer.Add(self.Canvas, 4, wx.EXPAND | wx.ALL, 5)
-        self.left_sizer.Add(self.left_bottom_sizer, 1, wx.EXPAND | wx.ALL, 5)
-        self.left_bottom_sizer.Add(self.Console, 3.5, wx.EXPAND | wx.ALL, 5)
+        self.left_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 5)
         # Widget containing dropdowns to choose which pins to connect
         # and button to connect/disconnect.
         # TODO: Actual functionality.
-        self.ConnectionsWidget = ConnectionsWidget(self)
-        self.left_bottom_sizer.Add(self.ConnectionsWidget, 1, wx.ALL, 5)
 
         # Widgets
         self._build_side_sizer()
@@ -152,6 +148,7 @@ class Gui(wx.Frame):
             self.monitors,
         )
         self.SwitchWidget = SwitchWidget(self, self.names, self.devices)
+        self.ConnectionsWidget = ConnectionsWidget(self)
         self.ButtonsWidget = ButtonsWidget(
             self,
             on_run=self.handle_run_btn_click,
@@ -162,6 +159,13 @@ class Gui(wx.Frame):
         self.right_sizer.AddSpacer(15)
         self.right_sizer.Add(self.CyclesWidget, 0.5, wx.ALIGN_CENTRE, 130)
         self.right_sizer.AddSpacer(15)
+
+        self.right_sizer.Add(
+            wx.StaticText(self, wx.ID_ANY, _("Connections")), 0
+        )
+        self.right_sizer.Add(
+            self.ConnectionsWidget, 0.2, wx.EXPAND | wx.ALL, 0
+        )
 
         self.right_sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Monitors")), 0)
         self.right_sizer.Add(self.MonitorWidget, 1, wx.EXPAND | wx.ALL, 10)

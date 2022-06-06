@@ -9,6 +9,7 @@ CyclesWidget - Sizer containing 'Cycles' text and number selector.
 MonitorWidget - Scrolled window for monitors.
 SwitchWidget - Scrollable window for switches.
 ButtonsWidget - Widget containing the control buttons.
+ConnectionsWidget - Widget containing controls to add and remove connections.
 Console - Console component that redirects stdout to gui.
 StatusBar - Status bar to display cycle count.
 SPHINX-IGNORE
@@ -844,29 +845,51 @@ class ConnectionsWidget(wx.BoxSizer):
         """Initialise widget."""
         super().__init__(wx.VERTICAL)
 
-        self.dropdown1 = wx.ComboBox(
+        self.dropdown_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        self.input = wx.ComboBox(
             parent,
             wx.ID_ANY,
-            value="Connection 1",
+            value="Input Device",
             choices=["A", "B", "C"],
-            size=(150, 50),
+            size=(100, 50),
         )
-        self.dropdown2 = wx.ComboBox(
+        self.input_pin = wx.ComboBox(
             parent,
             wx.ID_ANY,
-            value="Connection 2",
+            value="Input Pin",
+            choices=["1", "2", "3"],
+            size=(100, 50),
+        )
+        self.output = wx.ComboBox(
+            parent,
+            wx.ID_ANY,
+            value="Output Pin",
             choices=["A", "B", "C"],
-            size=(150, 50),
+            size=(100, 50),
         )
         self.connect_button = wx.Button(
             parent, wx.ID_ANY, label="Connect", size=(100, 30)
         )
+        self.disconnect_button = wx.Button(
+            parent, wx.ID_ANY, label="Disconnect", size=(100, 30)
+        )
 
         self.connect_button.Bind(wx.EVT_BUTTON, self.on_connect_button)
 
-        self.Add(self.dropdown1, 1, wx.ALIGN_CENTRE, 50)
-        self.Add(self.dropdown2, 1, wx.ALIGN_CENTRE, 50)
-        self.Add(self.connect_button, 1, wx.ALIGN_CENTRE, 50)
+        self.dropdown_sizer.Add(self.input, 1, wx.LEFT, 5)
+        self.dropdown_sizer.Add(self.input_pin, 1, wx.LEFT, 5)
+        self.dropdown_sizer.Add(
+            wx.StaticText(parent, wx.ID_ANY, _("-")), 0, wx.ALL, 5
+        )
+        self.dropdown_sizer.Add(self.output, 1, wx.LEFT, 5)
+
+        self.buttons_sizer.Add(self.connect_button, 1, wx.LEFT, 10)
+        self.buttons_sizer.Add(self.disconnect_button, 1, wx.LEFT, 10)
+
+        self.Add(self.dropdown_sizer, 1, wx.EXPAND | wx.ALL, 5)
+        self.Add(self.buttons_sizer, 1, wx.ALIGN_CENTRE, 5)
 
     def on_connect_button(self, event):
         """TODO.
@@ -874,8 +897,9 @@ class ConnectionsWidget(wx.BoxSizer):
         Currently just prints values of the dropdowns when pressed.
         """
         print(
-            self.dropdown1.GetStringSelection(),
-            self.dropdown2.GetStringSelection(),
+            self.input.GetStringSelection(),
+            self.input_pin.GetStringSelection(),
+            self.output.GetStringSelection(),
         )
 
 
