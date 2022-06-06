@@ -882,7 +882,7 @@ class ConnectionsWidget(wx.BoxSizer):
         self.input = wx.ComboBox(
             parent,
             wx.ID_ANY,
-            value="Input Device",
+            value="Device",
             choices=list(self.input_choices.keys()),
             size=(100, 50),
         )
@@ -898,7 +898,7 @@ class ConnectionsWidget(wx.BoxSizer):
         self.output = wx.ComboBox(
             parent,
             wx.ID_ANY,
-            value="Output",
+            value="Output Pin",
             choices=list(self.output_choices.keys()),
             size=(100, 50),
         )
@@ -912,12 +912,12 @@ class ConnectionsWidget(wx.BoxSizer):
         self.connect_button.Bind(wx.EVT_BUTTON, self.on_connect_button)
         self.disconnect_button.Bind(wx.EVT_BUTTON, self.on_disconnect_button)
 
-        self.dropdown_sizer.Add(self.input, 1, wx.LEFT, 5)
-        self.dropdown_sizer.Add(self.input_pin, 1, wx.LEFT, 5)
+        self.dropdown_sizer.Add(self.output, 1, wx.LEFT, 5)
         self.dropdown_sizer.Add(
             wx.StaticText(parent, wx.ID_ANY, _("-")), 0, wx.ALL, 5
         )
-        self.dropdown_sizer.Add(self.output, 1, wx.LEFT, 5)
+        self.dropdown_sizer.Add(self.input, 1, wx.LEFT, 5)
+        self.dropdown_sizer.Add(self.input_pin, 1, wx.LEFT, 5)
 
         self.buttons_sizer.Add(self.connect_button, 1, wx.LEFT, 10)
         self.buttons_sizer.Add(self.disconnect_button, 1, wx.LEFT, 10)
@@ -1010,7 +1010,7 @@ class ConnectionsWidget(wx.BoxSizer):
         first_device.inputs[pin1_id] = None
         print(
             _(
-                "Successfully broken a connection {}. "
+                "Successfully broke connection {}. "
                 "Make a new one before running again."
             ).format(connection)
         )
