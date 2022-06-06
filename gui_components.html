@@ -166,20 +166,35 @@ matrices on the next paint event.</p>
 <p>Widget containing controls to add and remove connections.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>parent</strong> – parent window.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent</strong> – parent window.</p></li>
+<li><p><strong>names</strong> – instance of the names.Names() class.</p></li>
+<li><p><strong>devices</strong> – instance of the devices.Devices() class.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="gui_components.ConnectionsWidget.on_connect_button">
 <span class="sig-name descname"><span class="pre">on_connect_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.ConnectionsWidget.on_connect_button" title="Permalink to this definition"></a></dt>
-<dd><p>TODO.</p>
-<p>Currently just prints values of the dropdowns when pressed.</p>
+<dd><p>Handle event of user pressing connect button.</p>
+<p>If all three dropdowns are not selected, error is shown.</p>
+<p>If all three dropdowns are selected, attempt to create
+the given connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gui_components.ConnectionsWidget.on_disconnect_button">
+<span class="sig-name descname"><span class="pre">on_disconnect_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.ConnectionsWidget.on_disconnect_button" title="Permalink to this definition"></a></dt>
+<dd><p>Handle event of user pressing disconnect button.</p>
+<p>If all three dropdowns are not selected, error is shown.</p>
+<p>If all three dropdowns are selected, attempt to destroy
+the given connection.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gui_components.ConnectionsWidget.on_input_dropdown">
 <span class="sig-name descname"><span class="pre">on_input_dropdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_components.ConnectionsWidget.on_input_dropdown" title="Permalink to this definition"></a></dt>
-<dd><p>TODO.</p>
+<dd><p>Refresh dropdown for input pin on selection of input device.</p>
 </dd></dl>
 
 </dd></dl>
