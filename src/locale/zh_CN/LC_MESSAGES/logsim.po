@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: logsim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 12:31+0100\n"
-"PO-Revision-Date: 2022-06-03 12:41+0100\n"
+"POT-Creation-Date: 2022-06-07 17:47+0100\n"
+"PO-Revision-Date: 2022-06-07 17:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: W Zhang\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: exceptions.py:112
+#: exceptions.py:109
 msgid "Line {}: "
 msgstr "第{}行: "
 
@@ -34,26 +34,30 @@ msgstr ""
 "\n"
 
 #: gui.py:158
+msgid "Connections"
+msgstr "连接"
+
+#: gui.py:170
 msgid "Monitors"
 msgstr "监测"
 
-#: gui.py:163
+#: gui.py:175
 msgid "Switches"
 msgstr "开关"
 
-#: gui.py:206
+#: gui.py:218
 msgid "File opened, path: {}\n"
 msgstr "文件已加载，路径：{}\n"
 
-#: gui.py:228
+#: gui.py:240
 msgid "Running for {} cycles."
 msgstr "模拟 {} 个周期。"
 
-#: gui.py:242
+#: gui.py:254
 msgid "Continuing for {} cycles. Total: {}"
 msgstr "继续模拟 {} 个周期。一共：{}"
 
-#: gui.py:257
+#: gui.py:269
 msgid "Error! Network oscillating."
 msgstr "发生错误！逻辑电路非确定。"
 
@@ -122,131 +126,177 @@ msgstr "运行"
 msgid "Continue"
 msgstr "继续"
 
-#: gui_components.py:894
+#: gui_components.py:886
+msgid "Device"
+msgstr "装置"
+
+#: gui_components.py:895
+msgid "Input Pin"
+msgstr "输入引脚"
+
+#: gui_components.py:902
+msgid "Output Pin"
+msgstr "输出引脚"
+
+#: gui_components.py:907
+msgid "Connect"
+msgstr "连接"
+
+#: gui_components.py:910
+msgid "Disconnect"
+msgstr "断开"
+
+#: gui_components.py:957
+msgid "Have not selected sufficient devices to create aconnection."
+msgstr "没有选择足够的装置来新添连接。"
+
+#: gui_components.py:990
+msgid "Have not selected sufficient devices to destroy aconnection."
+msgstr "没有选择足够的装置来断开连接。"
+
+#: gui_components.py:1000 gui_components.py:1005
+msgid "Connection you want to break doesn't exist."
+msgstr "想要断开的连接不存在。"
+
+#: gui_components.py:1020
+msgid ""
+"Successfully broke connection {}. Ensure circuit is fully connected before "
+"running."
+msgstr "成功断开{}。运行前请确保电路完全连接。"
+
+#: gui_components.py:1038
+msgid "Successfully made a connection."
+msgstr "成功新添连接。"
+
+#: gui_components.py:1040
+msgid "Error! Couldn't make a connection."
+msgstr "错误！无法连接。"
+
+#: gui_components.py:1121
 msgid "Cycles completed: "
 msgstr "完成的周期数： "
 
-#: logsim.py:122
+#: logsim.py:127
 msgid "Logic Simulator"
 msgstr "逻辑模拟器"
 
-#: parse.py:148 parse.py:155
+#: parse.py:144 parse.py:151
 msgid "Missing DEVICES block"
 msgstr "缺少 DEVICES 语句块"
 
-#: parse.py:162 parse.py:169
+#: parse.py:158 parse.py:165
 msgid "Expected ':' after DEVICES"
 msgstr "DEVICES 后应是 ‘:’"
 
-#: parse.py:177 parse.py:188
+#: parse.py:173 parse.py:184
 msgid "Empty DEVICES block"
 msgstr "空的 DEVICES 语句块"
 
-#: parse.py:223
+#: parse.py:219
 msgid "Expected device definition"
 msgstr "应是装置定义"
 
-#: parse.py:230 parse.py:244 parse.py:249
+#: parse.py:226 parse.py:240 parse.py:245
 msgid "Expected device name"
 msgstr "应是装置名称"
 
-#: parse.py:259 parse.py:265
+#: parse.py:255 parse.py:261
 msgid "Expected ',' or '='"
 msgstr "应是 ‘,’ 或 ‘=‘"
 
-#: parse.py:283 parse.py:483
+#: parse.py:279 parse.py:481
 msgid "Expected ';'"
 msgstr "应是 ‘;’"
 
-#: parse.py:309 parse.py:315
+#: parse.py:307 parse.py:313
 msgid "Expected device type"
 msgstr "应是装置类型"
 
-#: parse.py:323 parse.py:333
+#: parse.py:321 parse.py:331
 msgid "Expected '<' or ';'"
 msgstr "应是 ‘<’ 或 ‘;‘"
 
-#: parse.py:341 parse.py:348
+#: parse.py:339 parse.py:346
 msgid "Expected number parameter"
 msgstr "应是数字参数"
 
-#: parse.py:356 parse.py:361
+#: parse.py:354 parse.py:359
 msgid "Expected '>'"
 msgstr "应是 ‘>‘"
 
-#: parse.py:377 parse.py:384
+#: parse.py:375 parse.py:382
 msgid "Missing CONNECTIONS block"
 msgstr "缺少 CONNECTIONS 语句块"
 
-#: parse.py:390 parse.py:395 parse.py:607 parse.py:612
+#: parse.py:388 parse.py:393 parse.py:605 parse.py:610
 msgid "Expected ':'"
 msgstr "应是 ‘:’"
 
-#: parse.py:402 parse.py:412
+#: parse.py:400 parse.py:410
 msgid "Empty CONNECTIONS block"
 msgstr "空的 CONNECTIONS 语句块"
 
-#: parse.py:444
+#: parse.py:442
 msgid "Expected connection statement"
 msgstr "应是连接语句"
 
-#: parse.py:456 parse.py:461
+#: parse.py:454 parse.py:459
 msgid "Expected '-'"
 msgstr "应是 ‘-‘"
 
-#: parse.py:472 parse.py:530 parse.py:557
+#: parse.py:470 parse.py:528 parse.py:555
 msgid "Expected '.', '-', or ';'"
 msgstr "应是 ‘.’，‘-’ 或 ‘;‘"
 
-#: parse.py:513 parse.py:520
+#: parse.py:511 parse.py:518
 msgid "Expected pin's device name"
 msgstr "应是引脚的装置名称"
 
-#: parse.py:535 parse.py:661
+#: parse.py:533 parse.py:659
 msgid "Expected ',' or ';'"
 msgstr "应是 ‘,’ 或 ‘;‘"
 
-#: parse.py:561
+#: parse.py:559
 msgid "Expected '.', ',' or ';'"
 msgstr "应是 ‘.’，‘,’ 或 ‘;‘"
 
-#: parse.py:567 parse.py:584
+#: parse.py:565 parse.py:582
 msgid "Expected pin name"
 msgstr "应是引脚名称"
 
-#: parse.py:601
+#: parse.py:599
 msgid "Expected MONITORS keyword or end of file"
 msgstr "应是 MONITORS 或文件结尾"
 
-#: parse.py:699
+#: parse.py:697
 msgid "Device with this name already exists"
 msgstr "同样名称的装置已经存在"
 
-#: parse.py:705
+#: parse.py:703
 msgid "Device of this type does not require a parameter"
 msgstr "这种装置不需要参数"
 
-#: parse.py:711
+#: parse.py:709
 msgid "Device of this type requires a parameter"
 msgstr "这种装置需要一个参数"
 
-#: parse.py:718
+#: parse.py:716
 msgid "Parameter for a SWITCH device can only be 0 or 1"
 msgstr "开关参数只能是0或1"
 
-#: parse.py:724
+#: parse.py:722
 msgid "Parameter for a CLOCK device has to be > 0"
 msgstr "钟的参数必须大于0"
 
-#: parse.py:730
+#: parse.py:728
 msgid "Gates can only have 1-16 inputs"
 msgstr "逻辑门只能有1-16个输入"
 
-#: parse.py:871
+#: parse.py:869
 msgid "Some pins are not connected"
 msgstr "一些输入阵脚没有连接"
 
-#: scanner.py:586
+#: scanner.py:582
 msgid "Invalid character"
 msgstr "无效的字符"
 
