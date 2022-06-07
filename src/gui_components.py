@@ -834,6 +834,8 @@ class ConnectionsWidget(wx.BoxSizer):
         instance of the names.Names() class.
     devices:
         instance of the devices.Devices() class.
+    network:
+        instance of the network.Network() class.
 
     SPHINX-IGNORE
     Public Methods
@@ -851,12 +853,19 @@ class ConnectionsWidget(wx.BoxSizer):
     SPHINX-IGNORE
     """
 
-    def __init__(self, parent: wx.Window, names: Names, devices: Devices):
+    def __init__(
+        self,
+        parent: wx.Window,
+        names: Names,
+        devices: Devices,
+        network: Network,
+    ):
         """Initialise widget."""
         super().__init__(wx.VERTICAL)
 
         self.names = names
         self.devices = devices
+        self.network = network
 
         self.dropdown_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
