@@ -140,112 +140,11 @@ length of the file, which denotes end of file.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.get_next_character">
-<span class="sig-name descname"><span class="pre">get_next_character</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">predicate:</span> <span class="pre">typing.Callable[[str],</span> <span class="pre">bool]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">Scanner.&lt;lambda&gt;&gt;,</span> <span class="pre">reset_pointer:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#scanner.Scanner.get_next_character" title="Permalink to this definition"></a></dt>
-<dd><p>Return the next desired character in file.</p>
-<p>An optional predicate can be specified to get the next character
-meeting a certain criteria.</p>
-<p>If the end of file is reached, will return Scanner.EOF.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_character</span><span class="p">(</span><span class="n">predicate</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">isdigit</span><span class="p">())</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>predicate</strong> (<em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>bool</em><em>]</em>) – Optional callable that accepts a character and return whether to
-it is the desired next character</p></li>
-<li><p><strong>reset_pointer</strong> (<em>bool</em>) – Whether to reset the pointer to the initial position before this
-function call</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.get_next_chunk">
-<span class="sig-name descname"><span class="pre">get_next_chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_predicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_predicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_pointer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#scanner.Scanner.get_next_chunk" title="Permalink to this definition"></a></dt>
-<dd><p>Get the next chunk of characters from the file.</p>
-<p>The start_predicate is a callable returning a bool, which specifies
-when the chunk starts. The chunk is returned upto when the
-end_predicate returns True (not including the character making
-end_predicate True). The chunk is at least one character long, i.e.
-only characters after the chunk starting character are passed to
-end_predicate.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>start_predicate</strong> (<em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>bool</em><em>]</em>) – A callable that accepts a character and returns whether to start
-the chunk</p></li>
-<li><p><strong>end_predicate</strong> (<em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>bool</em><em>]</em>) – A callable that accepts a character and returns whether to end the
-chunk. The input character causing a True return is not included
-in the chunk</p></li>
-<li><p><strong>reset_pointer</strong> (<em>bool</em>) – Whether to reset the pointer to initial position before this
-function call. Default to False.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.get_next_name">
-<span class="sig-name descname"><span class="pre">get_next_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset_pointer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#scanner.Scanner.get_next_name" title="Permalink to this definition"></a></dt>
-<dd><p>Return the next name string in file.</p>
-<p>A name is defined as a sequence of characters that starts with a letter
-and is followed by a mixture of letters and numbers.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.get_next_non_whitespace_character">
-<span class="sig-name descname"><span class="pre">get_next_non_whitespace_character</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset_pointer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#scanner.Scanner.get_next_non_whitespace_character" title="Permalink to this definition"></a></dt>
-<dd><p>Return the next non-whitespace character in file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.get_next_number">
-<span class="sig-name descname"><span class="pre">get_next_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset_pointer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#scanner.Scanner.get_next_number" title="Permalink to this definition"></a></dt>
-<dd><p>Return the next number in file.</p>
-<p>Number strings can start with “0”s.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="scanner.Scanner.get_symbol">
 <span class="sig-name descname"><span class="pre">get_symbol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scanner.Symbol" title="scanner.Symbol"><span class="pre">scanner.Symbol</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scanner.Scanner.get_symbol" title="Permalink to this definition"></a></dt>
 <dd><p>Translate the next sequence of characters into a symbol.</p>
 <p>If the end of file is reached, None will be returned instead of a
 Symbol instance.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.move_pointer_absolute">
-<span class="sig-name descname"><span class="pre">move_pointer_absolute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#scanner.Scanner.move_pointer_absolute" title="Permalink to this definition"></a></dt>
-<dd><p>Move the pointer to an absolute position.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.move_pointer_after_next_match">
-<span class="sig-name descname"><span class="pre">move_pointer_after_next_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#scanner.Scanner.move_pointer_after_next_match" title="Permalink to this definition"></a></dt>
-<dd><p>Move pointer after the specific target.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.move_pointer_onto_next_character">
-<span class="sig-name descname"><span class="pre">move_pointer_onto_next_character</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">predicate:</span> <span class="pre">typing.Callable[[str],</span> <span class="pre">bool]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">Scanner.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#scanner.Scanner.move_pointer_onto_next_character" title="Permalink to this definition"></a></dt>
-<dd><p>Move pointer onto the next desired character.</p>
-<p>Note that the pointer will be on the character instead of after it,
-i.e. subsequent call to self.read(1) will return the desired character.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.move_pointer_relative">
-<span class="sig-name descname"><span class="pre">move_pointer_relative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#scanner.Scanner.move_pointer_relative" title="Permalink to this definition"></a></dt>
-<dd><p>Move the pointer by a relative distance.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.move_pointer_skip_whitespace_characters">
-<span class="sig-name descname"><span class="pre">move_pointer_skip_whitespace_characters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#scanner.Scanner.move_pointer_skip_whitespace_characters" title="Permalink to this definition"></a></dt>
-<dd><p>Move pointer onto the next character that is not a whitespace.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -276,28 +175,6 @@ of file is reached.</p>
 <dd><p>Pointer position in the file.</p>
 <p>It is zero-indexed and protected. If the pointer is at end of file,
 Scanner.EOF will be returned.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scanner.Scanner.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_pointer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scanner.Scanner.EOF" title="scanner.Scanner.EOF"><span class="pre">scanner.Scanner.EOF</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scanner.Scanner.read" title="Permalink to this definition"></a></dt>
-<dd><p>Read up to n characters from the file and return them.</p>
-<p>An optional start position can be specified, without which the read
-will start from the current pointer position. The returned value
-includes the character at this start position.</p>
-<p>Fewer than n characters can be returned if the end of file is
-reached. If no character is left, Scanner.EOF will be returned.</p>
-<p>The pointer will be moved to one position after the last character
-returned by read. This can be prevented using the reset_pointer flag.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<em>int</em>) – Number of characters to read</p></li>
-<li><p><strong>start</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>None</em><em>]</em>) – Optional start position to read</p></li>
-<li><p><strong>reset_pointer</strong> (<em>bool</em>) – Whether to reset the pointer after read. Default to False</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
