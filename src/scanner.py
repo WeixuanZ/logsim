@@ -178,9 +178,9 @@ class Scanner:
         self._file_content_length = self._file_obj.tell()
 
         # the pos of last character on the line
-        self._line_end_pos = list(accumulate(self._line_lengths, initial=-1))[
-            1:
-        ]
+        self._line_end_pos = list(
+            map(lambda pos: pos - 1, accumulate(self._line_lengths))
+        )
         # EOF
         self._line_end_pos[-1] += 1
         self._line_lengths[-1] += 1
