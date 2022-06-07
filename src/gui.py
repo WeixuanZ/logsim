@@ -116,7 +116,7 @@ class Gui(wx.Frame):
         self._build_side_sizer()
 
         # Show everything.
-        self.SetSizeHints(800, 500)
+        self.SetSizeHints(800, 600)
         self.SetSizer(self.main_sizer)
 
         # Menu bar and status bar

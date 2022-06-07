@@ -892,31 +892,31 @@ class ConnectionsWidget(wx.BoxSizer):
         self.input = wx.ComboBox(
             parent,
             wx.ID_ANY,
-            value="Device",
+            value=_("Device"),
             choices=list(self.input_choices.keys()),
-            size=(100, 50),
         )
+        self.input.SetSizeHints((20, 30))
         self.input.Bind(wx.EVT_COMBOBOX, self.on_input_dropdown)
 
         self.input_pin = wx.ComboBox(
             parent,
             wx.ID_ANY,
-            value="Input Pin",
+            value=_("Input Pin"),
             choices=[],
-            size=(100, 50),
         )
+        self.input_pin.SetSizeHints((20, 30))
         self.output = wx.ComboBox(
             parent,
             wx.ID_ANY,
-            value="Output Pin",
+            value=_("Output Pin"),
             choices=list(self.output_choices.keys()),
-            size=(100, 50),
         )
+        self.output.SetSizeHints((20, 30))
         self.connect_button = wx.Button(
-            parent, wx.ID_ANY, label="Connect", size=(100, 30)
+            parent, wx.ID_ANY, label=_("Connect"), size=(100, 30)
         )
         self.disconnect_button = wx.Button(
-            parent, wx.ID_ANY, label="Disconnect", size=(100, 30)
+            parent, wx.ID_ANY, label=_("Disconnect"), size=(100, 30)
         )
 
         self.connect_button.Bind(wx.EVT_BUTTON, self.on_connect_button)
@@ -924,7 +924,7 @@ class ConnectionsWidget(wx.BoxSizer):
 
         self.dropdown_sizer.Add(self.output, 1, wx.LEFT, 5)
         self.dropdown_sizer.Add(
-            wx.StaticText(parent, wx.ID_ANY, _("-")), 0, wx.ALL, 5
+            wx.StaticText(parent, wx.ID_ANY, "-"), 0, wx.ALL, 5
         )
         self.dropdown_sizer.Add(self.input, 1, wx.LEFT, 5)
         self.dropdown_sizer.Add(self.input_pin, 1, wx.LEFT, 5)
@@ -962,7 +962,10 @@ class ConnectionsWidget(wx.BoxSizer):
             self.add_connection(device1_id, pin1_id, device2_id, pin2_id)
         else:
             print(
-                "Have not selected sufficient devices to create a connection."
+                _(
+                    "Have not selected sufficient devices to create a"
+                    "connection."
+                )
             )
 
     def on_disconnect_button(self, event):
@@ -992,7 +995,10 @@ class ConnectionsWidget(wx.BoxSizer):
             self.break_connection(device1_id, pin1_id, device2_id, pin2_id)
         else:
             print(
-                "Have not selected sufficient devices to destroy a connection."
+                _(
+                    "Have not selected sufficient devices to destroy a"
+                    "connection."
+                )
             )
 
     def break_connection(self, device1_id, pin1_id, device2_id, pin2_id):
