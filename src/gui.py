@@ -111,9 +111,6 @@ class Gui(wx.Frame):
         # Add scrollable canvas to left-hand side
         self.left_sizer.Add(self.Canvas, 4, wx.EXPAND | wx.ALL, 5)
         self.left_sizer.Add(self.Console, 1, wx.EXPAND | wx.ALL, 5)
-        # Widget containing dropdowns to choose which pins to connect
-        # and button to connect/disconnect.
-        # TODO: Actual functionality.
 
         # Widgets
         self._build_side_sizer()
@@ -147,7 +144,7 @@ class Gui(wx.Frame):
         )
         self.SwitchWidget = SwitchWidget(self, self.names, self.devices)
         self.ConnectionsWidget = ConnectionsWidget(
-            self, self.names, self.devices, self.network
+            self, self.names, self.devices
         )
         self.ButtonsWidget = ButtonsWidget(
             self,

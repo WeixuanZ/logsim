@@ -839,23 +839,24 @@ class ConnectionsWidget(wx.BoxSizer):
     Public Methods
     --------------
     on_connect_button(self, event):
+        Handle event of user pressing connect button.
     on_disconnect_button(self, event):
+        Handle event of user pressing disconnect button.
+    break_connection(self, device1_id, pin1_id, device2_id, pin2_id):
+        Break an existing connection.
+    add_connection(self, device1_id, pin1_id, device2_id, pin2_id):
+        Add a connection between input of device1 and output of device2.
+    on_input_dropdown(self, event):
+        Refresh dropdown for input pin on selection of input device.
     SPHINX-IGNORE
     """
 
-    def __init__(
-        self,
-        parent: wx.Window,
-        names: Names,
-        devices: Devices,
-        network: Network,
-    ):
+    def __init__(self, parent: wx.Window, names: Names, devices: Devices):
         """Initialise widget."""
         super().__init__(wx.VERTICAL)
 
         self.names = names
         self.devices = devices
-        self.network = network
 
         self.dropdown_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -1011,7 +1012,7 @@ class ConnectionsWidget(wx.BoxSizer):
         print(
             _(
                 "Successfully broke connection {}. "
-                "Make a new one before running again."
+                "Ensure circuit is fully connected before running."
             ).format(connection)
         )
 
