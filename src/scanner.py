@@ -123,31 +123,9 @@ class Scanner:
         Get the content of a line a given position is on.
     get_lineno_colno(self, pos):
         Get the line and column numbers of a position in file.
-    get_next_character(self, predicate=lambda c: True, reset_pointer=False):
-        Return the next desired character in file.
-    get_next_chunk(self, start_predicate, end_predicate):
-        Get the next chunk of characters from the file.
-    get_next_name(self, reset_pointer=False):
-        Return the next name string in file.
-    get_next_non_whitespace_character(self, reset_pointer=False):
-        Return the next non-whitespace character in file.
-    get_next_number(self, reset_pointer=False):
-        Return the next number in file.
     get_symbol(self):
         Translates the next sequence of characters into a symbol and returns
         the symbol.
-    move_pointer_absolute(self, pos):
-        Move the pointer to an absolute position.
-    move_pointer_after_next_match(self, target):
-        Move pointer after the specific target.
-    move_pointer_onto_next_character(self, predicate=lambda c: True):
-        Move pointer onto the next desired character.
-    move_pointer_relative(self, n):
-        Move the pointer by a relative distance.
-    move_pointer_skip_whitespace_characters(self):
-        Move pointer onto the next character that is not a whitespace.
-    read(self, n, start=None, reset_pointer=False):
-        Read up to n characters from the file and return them.
     SPHINX-IGNORE
     """
 
@@ -284,7 +262,7 @@ class Scanner:
             )
         )
 
-    def move_pointer_absolute(self, pos: int) -> None:
+    def _move_pointer_absolute(self, pos: int) -> None:
         """Move the pointer to an absolute position."""
         Scanner._check_is_natural_number(pos, "New pointer position")
         # allow going past end by 1 for eof
@@ -295,11 +273,11 @@ class Scanner:
 
         self._pointer_pos = pos
 
-    def move_pointer_relative(self, n: int) -> None:
+    def _move_pointer_relative(self, n: int) -> None:
         """Move the pointer by a relative distance."""
-        self.move_pointer_absolute(self._pointer_pos + n)
+        self._move_pointer_absolute(self._pointer_pos + n)
 
-    def read(
+    def _read(
         self,
         n: int,
         start: Union[int, None] = None,
@@ -336,7 +314,7 @@ class Scanner:
                     "Read start position greater than file content length. "
                     "Will return EOF."
                 )
-            self.move_pointer_absolute(start)
+            self._move_pointer_absolute(start)
 
         if self._pointer_pos > self._file_content_length - 1:
             return Scanner.EOF
@@ -347,14 +325,14 @@ class Scanner:
         )
 
         if reset_pointer:
-            self.move_pointer_absolute(old_pos)
+            self._move_pointer_absolute(old_pos)
         else:
             if self._pointer_pos + n > self._file_content_length:
                 logging.warning(
                     "End of file reached, subsequent reads will return EOF "
                     "if pointer position is not reset."
                 )
-            self.move_pointer_absolute(chunk_end_pos)
+            self._move_pointer_absolute(chunk_end_pos)
         return chunk
 
     def get_line_by_lineno(self, lineno: int) -> str:
@@ -366,7 +344,7 @@ class Scanner:
             )
 
         start_pos = 0 if lineno == 0 else self._line_end_pos[lineno - 1] + 1
-        return self.read(
+        return self._read(
             self._line_end_pos[lineno] + 1 - start_pos,
             start=start_pos,
             reset_pointer=True,
@@ -389,14 +367,14 @@ class Scanner:
                     old_pos = self._pointer_pos
                 returned = func(*args, **kwargs)
                 if reset_pointer:
-                    self.move_pointer_absolute(old_pos)  # noqa
+                    self._move_pointer_absolute(old_pos)  # noqa
                 return returned
 
             return wrapped
 
         return wrapper
 
-    def get_next_character(
+    def _get_next_character(
         self,
         predicate: Callable[[str], bool] = lambda c: True,
         reset_pointer: bool = False,
@@ -410,7 +388,7 @@ class Scanner:
 
         Examples
         --------
-        >>> self.get_next_character(predicate=lambda c: not c.isdigit())
+        >>> self._get_next_character(predicate=lambda c: not c.isdigit())
 
         Parameters
         ----------
@@ -424,14 +402,17 @@ class Scanner:
 
         @self._reset_pointer_wrapper(reset_pointer=reset_pointer)
         def inner():
-            while (next_char := self.read(1)) is not Scanner.EOF:
+            while True:
+                next_char = self._read(1)
+                if next_char is Scanner.EOF:
+                    break
                 if predicate(next_char):
                     return next_char
             return Scanner.EOF
 
         return inner()
 
-    def move_pointer_onto_next_character(
+    def _move_pointer_onto_next_character(
         self, predicate: Callable[[str], bool] = lambda c: True
     ) -> None:
         """Move pointer onto the next desired character.
@@ -439,33 +420,34 @@ class Scanner:
         Note that the pointer will be on the character instead of after it,
         i.e. subsequent call to self.read(1) will return the desired character.
         """
-        next_char = self.get_next_character(predicate=predicate)
+        next_char = self._get_next_character(predicate=predicate)
         if next_char is not Scanner.EOF:
-            self.move_pointer_relative(-1)
+            self._move_pointer_relative(-1)
 
-    def move_pointer_after_next_match(self, target: str) -> None:
+    def _move_pointer_after_next_match(self, target: str) -> None:
         """Move pointer after the specific target."""
-        while (
-            next_chars := self.read(len(target), reset_pointer=True)
-        ) is not Scanner.EOF:
+        while True:
+            next_chars = self._read(len(target), reset_pointer=True)
+            if next_chars is Scanner.EOF:
+                break
             if next_chars == target:
-                self.move_pointer_relative(len(target))
+                self._move_pointer_relative(len(target))
                 return
-            self.move_pointer_relative(1)
+            self._move_pointer_relative(1)
 
-    def get_next_non_whitespace_character(self, reset_pointer=False) -> str:
+    def _get_next_non_whitespace_character(self, reset_pointer=False) -> str:
         """Return the next non-whitespace character in file."""
-        return self.get_next_character(
+        return self._get_next_character(
             predicate=lambda c: not c.isspace(), reset_pointer=reset_pointer
         )
 
-    def move_pointer_skip_whitespace_characters(self) -> None:
+    def _move_pointer_skip_whitespace_characters(self) -> None:
         """Move pointer onto the next character that is not a whitespace."""
-        self.move_pointer_onto_next_character(
+        self._move_pointer_onto_next_character(
             predicate=lambda c: not c.isspace()
         )
 
-    def get_next_chunk(
+    def _get_next_chunk(
         self,
         start_predicate: Callable[[str], bool],
         end_predicate: Callable[[str], bool],
@@ -496,33 +478,33 @@ class Scanner:
 
         @self._reset_pointer_wrapper(reset_pointer=reset_pointer)
         def inner():
-            self.move_pointer_onto_next_character(predicate=start_predicate)
+            self._move_pointer_onto_next_character(predicate=start_predicate)
             chunk_start = self._pointer_pos
-            self.move_pointer_onto_next_character(predicate=end_predicate)
+            self._move_pointer_onto_next_character(predicate=end_predicate)
             chunk_end = self._pointer_pos
 
-            return self.read(chunk_end - chunk_start, start=chunk_start)
+            return self._read(chunk_end - chunk_start, start=chunk_start)
 
         return inner()
 
-    def get_next_number(self, reset_pointer=False) -> str:
+    def _get_next_number(self, reset_pointer=False) -> str:
         """Return the next number in file.
 
         Number strings can start with "0"s.
         """
-        return self.get_next_chunk(
+        return self._get_next_chunk(
             start_predicate=methodcaller("isdigit"),
             end_predicate=lambda c: not c.isdigit(),
             reset_pointer=reset_pointer,
         )
 
-    def get_next_name(self, reset_pointer=False) -> str:
+    def _get_next_name(self, reset_pointer=False) -> str:
         """Return the next name string in file.
 
         A name is defined as a sequence of characters that starts with a letter
         and is followed by a mixture of letters and numbers.
         """
-        return self.get_next_chunk(
+        return self._get_next_chunk(
             start_predicate=lambda c: c.isalpha() or c == "_",
             end_predicate=lambda c: not (c.isalnum() or c == "_"),
             reset_pointer=reset_pointer,
@@ -534,47 +516,47 @@ class Scanner:
         If the end of file is reached, None will be returned instead of a
         Symbol instance.
         """
-        self.move_pointer_skip_whitespace_characters()
-        current_character = self.get_next_character(reset_pointer=True)
+        self._move_pointer_skip_whitespace_characters()
+        current_character = self._get_next_character(reset_pointer=True)
         if current_character is Scanner.EOF:  # EOF
             return None
 
         # line comment
         if current_character == Scanner.LINE_COMMENT_IDENTIFIER[0]:
             if (
-                self.read(
+                self._read(
                     len(Scanner.LINE_COMMENT_IDENTIFIER), reset_pointer=True
                 )
                 == Scanner.LINE_COMMENT_IDENTIFIER
             ):
-                self.move_pointer_onto_next_character(
+                self._move_pointer_onto_next_character(
                     predicate=lambda c: c == "\n"
                 )
                 return self.get_symbol()
         # block comment
         if current_character == Scanner.BLOCK_COMMENT_IDENTIFIERS[0][0]:
             if (
-                self.read(
+                self._read(
                     len(Scanner.BLOCK_COMMENT_IDENTIFIERS[0]),
                     reset_pointer=True,
                 )
                 == Scanner.BLOCK_COMMENT_IDENTIFIERS[0]
             ):
-                self.move_pointer_after_next_match(
+                self._move_pointer_after_next_match(
                     target=Scanner.BLOCK_COMMENT_IDENTIFIERS[1]
                 )
                 return self.get_symbol()
 
         if current_character.isalpha() or current_character == "_":  # name
-            symbol_string = self.get_next_name()
+            symbol_string = self._get_next_name()
 
         elif current_character.isdigit():  # number
-            symbol_string = self.get_next_number()
+            symbol_string = self._get_next_number()
 
         elif (
             current_character in Scanner._reserved_symbol_values_set
         ):  # operator
-            symbol_string = self.get_next_character()
+            symbol_string = self._get_next_character()
 
         else:  # not a valid character
             # throw error
@@ -602,10 +584,10 @@ class Scanner:
                 Scanner.LINE_COMMENT_IDENTIFIER[0],
                 Scanner.BLOCK_COMMENT_IDENTIFIERS[0][0],
             ):
-                self.move_pointer_relative(1)
+                self._move_pointer_relative(1)
             else:
                 # use set to speed up predicate test
-                self.move_pointer_onto_next_character(
+                self._move_pointer_onto_next_character(
                     predicate=lambda c: c.isalnum()
                     or c in Scanner._valid_char_not_comment_set
                 )

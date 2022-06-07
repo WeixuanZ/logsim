@@ -1,4 +1,28 @@
-"""Test the names module."""
+"""Test the names module.
+
+SPHINX-IGNORE
+Mocks
+-----
+MockTypeContext
+ReservedSymbolType
+
+Tests
+-----
+test_unique_error_codes_raises_exceptions
+test_unique_error_codes
+test_query_raises_exceptions
+test_query_reserved_symbols
+test_lookup_query
+test_lookup_raises_exceptions
+test_lookup
+test_get_name_string_raises_exceptions
+test_get_name_string_reserved_symbols
+test_get_name_string
+test_get_name_type_raises_exceptions
+test_get_name_type_reserved_symbols
+test_get_name_type
+SPHINX-IGNORE
+"""
 import pytest
 
 from symbol_types import (

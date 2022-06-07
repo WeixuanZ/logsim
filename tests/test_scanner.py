@@ -1,4 +1,36 @@
-"""Test the scanner module."""
+"""Test the scanner module.
+
+SPHINX-IGNORE
+Mocks
+-----
+StubErrors
+MockKeywordTypeContext
+MockOperatorTypeContext
+ReservedSymbolType
+
+Tests
+-----
+test_symbol_equal
+test_get_lineno_colno_raises_exceptions
+test_get_lineno_colno
+test_get_line_raises_exceptions
+test_get_line_by_lineno
+test_get_line_by_pos
+test_move_pointer_raises_exceptions
+test_move_pointer
+test_read_raises_exceptions
+test_read
+test_get_next_character
+test_move_pointer_onto_next_character
+test_move_pointer_after_next_match
+test_get_next_non_whitespace_character
+test_move_pointer_skip_whitespace_characters
+test_get_next_chunk
+test_get_next_number
+test_get_next_name
+test_get_symbol
+SPHINX-IGNORE
+"""
 import builtins
 
 import pytest
@@ -161,11 +193,11 @@ def test_get_line_by_pos(scanner, pos, line):
 def test_move_pointer_raises_exceptions(scanner):
     """Test if move pointer functions raise expected exceptions."""
     with pytest.raises(TypeError):
-        scanner.move_pointer_absolute(1.1)
+        scanner._move_pointer_absolute(1.1)
     with pytest.raises(ValueError):
-        scanner.move_pointer_absolute(-1)
+        scanner._move_pointer_absolute(-1)
     with pytest.raises(ValueError):
-        scanner.move_pointer_absolute(1000)
+        scanner._move_pointer_absolute(1000)
 
 
 def test_move_pointer(scanner):
@@ -174,157 +206,163 @@ def test_move_pointer(scanner):
     assert scanner.pointer_pos == 0
     assert scanner.pointer_lineno == 0
     assert scanner.pointer_colno == 0
-    scanner.move_pointer_absolute(3)
+    scanner._move_pointer_absolute(3)
     assert scanner.pointer == (3, 0, 3)
     assert scanner.pointer_pos == 3
     assert scanner.pointer_lineno == 0
     assert scanner.pointer_colno == 3
-    scanner.move_pointer_relative(1)
+    scanner._move_pointer_relative(1)
     assert scanner.pointer == (4, 0, 4)
     assert scanner.pointer_pos == 4
     assert scanner.pointer_lineno == 0
     assert scanner.pointer_colno == 4
-    scanner.move_pointer_relative(-2)
+    scanner._move_pointer_relative(-2)
     assert scanner.pointer == (2, 0, 2)
     assert scanner.pointer_pos == 2
     assert scanner.pointer_lineno == 0
     assert scanner.pointer_colno == 2
 
     # pointer at EOF
-    scanner.move_pointer_absolute(149)
+    scanner._move_pointer_absolute(149)
     assert scanner.pointer_pos is Scanner.EOF
 
 
 def test_read_raises_exceptions(scanner):
     """Test if read raise expected exceptions."""
     with pytest.raises(TypeError):
-        scanner.read(1.1)
+        scanner._read(1.1)
     with pytest.raises(ValueError):
-        scanner.read(-1)
+        scanner._read(-1)
 
 
 def test_read(scanner, file_content):
     """Test if read behaves as expected."""
-    assert scanner.read(0) == ""
-    assert scanner.read(2) == "He"
-    assert scanner.read(2) == "ll"
+    assert scanner._read(0) == ""
+    assert scanner._read(2) == "He"
+    assert scanner._read(2) == "ll"
 
-    assert scanner.read(5, start=0) == "Hello"
-    assert scanner.read(1, reset_pointer=True) == " "
-    assert scanner.read(1) == " "
+    assert scanner._read(5, start=0) == "Hello"
+    assert scanner._read(1, reset_pointer=True) == " "
+    assert scanner._read(1) == " "
 
-    assert scanner.read(1000, start=0) == file_content
-    assert scanner.read(1) is scanner.EOF
-    assert scanner.read(1) is scanner.EOF
+    assert scanner._read(1000, start=0) == file_content
+    assert scanner._read(1) is scanner.EOF
+    assert scanner._read(1) is scanner.EOF
 
-    assert scanner.read(1, start=148) == "\n"
-    assert scanner.read(1, start=149) == scanner.EOF
+    assert scanner._read(1, start=148) == "\n"
+    assert scanner._read(1, start=149) == scanner.EOF
 
 
 def test_get_next_character(scanner, file_content):
     """Test if get_next_character behaves as expected."""
-    assert scanner.get_next_character() == "H"
+    assert scanner._get_next_character() == "H"
     assert scanner.pointer_pos == 1
-    assert scanner.get_next_character() == "e"
+    assert scanner._get_next_character() == "e"
     assert scanner.pointer_pos == 2
     # test reset_pointer
-    assert scanner.get_next_character(reset_pointer=True) == "l"
+    assert scanner._get_next_character(reset_pointer=True) == "l"
     assert scanner.pointer_pos == 2
     # test predicate
-    assert scanner.get_next_character(predicate=lambda c: c.isdigit()) == "1"
+    assert scanner._get_next_character(predicate=lambda c: c.isdigit()) == "1"
     assert scanner.pointer_pos == 28
 
     # check every character in the file
-    scanner.move_pointer_absolute(0)
+    scanner._move_pointer_absolute(0)
     file_content = iter(file_content)
-    while (c := scanner.get_next_character()) is not Scanner.EOF:
+    while True:
+        c = scanner._get_next_character()
+        if c is Scanner.EOF:
+            break
         assert c == next(file_content)
 
 
 def test_move_pointer_onto_next_character(scanner):
     """Test if move_pointer_onto_next_character behaves as expected."""
-    scanner.move_pointer_onto_next_character()
+    scanner._move_pointer_onto_next_character()
     assert scanner.pointer_pos == 0
-    scanner.move_pointer_onto_next_character()
+    scanner._move_pointer_onto_next_character()
     assert scanner.pointer_pos == 0
 
     # test predicate
-    scanner.move_pointer_onto_next_character(predicate=lambda c: c == "!")
+    scanner._move_pointer_onto_next_character(predicate=lambda c: c == "!")
     assert scanner.pointer_pos == 11
     # check the pointer is on the desired character
-    assert scanner.read(1, reset_pointer=True) == "!"
-    scanner.move_pointer_onto_next_character(predicate=lambda c: c.isdigit())
+    assert scanner._read(1, reset_pointer=True) == "!"
+    scanner._move_pointer_onto_next_character(predicate=lambda c: c.isdigit())
     assert scanner.pointer_pos == 27
-    assert scanner.read(1, reset_pointer=True) == "1"
+    assert scanner._read(1, reset_pointer=True) == "1"
 
-    scanner.move_pointer_absolute(148)
-    scanner.move_pointer_onto_next_character()
+    scanner._move_pointer_absolute(148)
+    scanner._move_pointer_onto_next_character()
     assert scanner.pointer_pos == 148
-    scanner.move_pointer_absolute(149)
-    scanner.move_pointer_onto_next_character()
+    scanner._move_pointer_absolute(149)
+    scanner._move_pointer_onto_next_character()
     assert scanner.pointer_pos is Scanner.EOF
-    assert scanner.read(1) is Scanner.EOF
+    assert scanner._read(1) is Scanner.EOF
 
 
 def test_move_pointer_after_next_match(scanner):
     """Test if move_pointer_after_next_match behaves as expected."""
-    scanner.move_pointer_after_next_match("23")
+    scanner._move_pointer_after_next_match("23")
     assert scanner.pointer_pos == 32
-    scanner.move_pointer_after_next_match("23")
+    scanner._move_pointer_after_next_match("23")
     assert scanner.pointer_pos == Scanner.EOF
 
-    scanner.move_pointer_absolute(0)
-    scanner.move_pointer_after_next_match("456")
+    scanner._move_pointer_absolute(0)
+    scanner._move_pointer_after_next_match("456")
     assert scanner.pointer_pos == 37
 
-    scanner.move_pointer_absolute(0)
-    scanner.move_pointer_after_next_match("am")
+    scanner._move_pointer_absolute(0)
+    scanner._move_pointer_after_next_match("am")
     assert scanner.pointer_pos == 62
-    scanner.move_pointer_after_next_match("am")
+    scanner._move_pointer_after_next_match("am")
     assert scanner.pointer_pos == 112
-    scanner.move_pointer_after_next_match("am")
+    scanner._move_pointer_after_next_match("am")
     assert scanner.pointer_pos == 147
-    scanner.move_pointer_after_next_match("am")
+    scanner._move_pointer_after_next_match("am")
     assert scanner.pointer_pos == Scanner.EOF
 
 
 def test_get_next_non_whitespace_character(scanner, file_content):
     """Test if get_next_non_whitespace_chcaracter behaves as expected."""
-    assert scanner.get_next_non_whitespace_character() == "H"
+    assert scanner._get_next_non_whitespace_character() == "H"
     # test reset_pointer
-    assert scanner.get_next_non_whitespace_character(reset_pointer=True) == "e"
+    assert (
+        scanner._get_next_non_whitespace_character(reset_pointer=True) == "e"
+    )
     assert scanner.pointer_pos == 1
-    assert scanner.get_next_non_whitespace_character() == "e"
+    assert scanner._get_next_non_whitespace_character() == "e"
 
     # check every non-whitespace character in file
-    scanner.move_pointer_absolute(0)
+    scanner._move_pointer_absolute(0)
     file_content_no_whitespace = filter(
         lambda c: not c.isspace(), file_content
     )
-    while (
-        c := scanner.get_next_non_whitespace_character()
-    ) is not Scanner.EOF:
+    while True:
+        c = scanner._get_next_non_whitespace_character()
+        if c is Scanner.EOF:
+            break
         assert c == next(file_content_no_whitespace)
 
 
 def test_move_pointer_skip_whitespace_characters(scanner):
     """Test if move_pointer_skip_whitespace_characters behaves as expected."""
-    scanner.move_pointer_skip_whitespace_characters()
+    scanner._move_pointer_skip_whitespace_characters()
     assert scanner.pointer_pos == 0
-    scanner.move_pointer_skip_whitespace_characters()
+    scanner._move_pointer_skip_whitespace_characters()
     assert scanner.pointer_pos == 0
-    scanner.move_pointer_absolute(12)
-    scanner.move_pointer_skip_whitespace_characters()
+    scanner._move_pointer_absolute(12)
+    scanner._move_pointer_skip_whitespace_characters()
     assert scanner.pointer_pos == 13
-    scanner.move_pointer_absolute(17)
-    scanner.move_pointer_skip_whitespace_characters()
+    scanner._move_pointer_absolute(17)
+    scanner._move_pointer_skip_whitespace_characters()
     assert scanner.pointer_pos == 18
 
 
 def test_get_next_chunk(scanner):
     """Test if get_next_chunk behaves as expected."""
     assert (
-        scanner.get_next_chunk(
+        scanner._get_next_chunk(
             start_predicate=lambda c: c == "H",
             end_predicate=lambda c: c == " ",
         )
@@ -332,9 +370,9 @@ def test_get_next_chunk(scanner):
     )
     assert scanner.pointer_pos == 5
 
-    scanner.move_pointer_absolute(0)
+    scanner._move_pointer_absolute(0)
     assert (
-        scanner.get_next_chunk(
+        scanner._get_next_chunk(
             start_predicate=lambda c: c == "H",
             end_predicate=lambda c: c.isspace(),
         )
@@ -345,21 +383,21 @@ def test_get_next_chunk(scanner):
 
 def test_get_next_number(scanner):
     """Test if get_next_number behaves as expected."""
-    assert scanner.get_next_number() == "1"
+    assert scanner._get_next_number() == "1"
     assert scanner.pointer_pos == 28
-    assert scanner.get_next_number() == "23"
+    assert scanner._get_next_number() == "23"
     assert scanner.pointer_pos == 32
-    assert scanner.get_next_number() == "456"
+    assert scanner._get_next_number() == "456"
     assert scanner.pointer_pos == 37
 
 
 def test_get_next_name(scanner):
     """Test if get_next_name behaves as expected."""
-    assert scanner.get_next_name() == "Hello"
-    assert scanner.get_next_name() == "World"
-    assert scanner.get_next_name() == "Some"
-    assert scanner.get_next_name() == "numbers"
-    assert scanner.get_next_name() == "Lorem"
+    assert scanner._get_next_name() == "Hello"
+    assert scanner._get_next_name() == "World"
+    assert scanner._get_next_name() == "Some"
+    assert scanner._get_next_name() == "numbers"
+    assert scanner._get_next_name() == "Lorem"
 
 
 # -----------------------------------------------------------------------------
@@ -601,5 +639,8 @@ def test_get_symbol(tmp_path, monkeypatch, content, expected_symbols):
     scanner = Scanner(p, Names(), StubErrors())  # noqa
 
     expected_symbols = iter(expected_symbols)
-    while (symbol := scanner.get_symbol()) is not None:
+    while True:
+        symbol = scanner.get_symbol()
+        if symbol is None:
+            break
         assert symbol == next(expected_symbols)

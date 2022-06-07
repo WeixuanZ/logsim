@@ -1,4 +1,17 @@
-"""Test the custom_types module."""
+"""Test the custom_types module.
+
+SPHINX-IGNORE
+Mocks
+-----
+MockKeywordTypeContext
+MockOperatorTypeContext
+MockReservedSymbolType
+
+Tests
+-----
+test_extended_enum
+test_reserved_symbol_type
+"""
 
 from symbol_types import ExtendedEnum, ReservedSymbolTypeMeta
 

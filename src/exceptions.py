@@ -31,7 +31,8 @@ class ParseBaseExceptionMeta(type):
 
     def __init__(cls, classname, bases, dictionary):
         """Initialize the class object."""
-        if msg := dictionary.get("__doc__"):
+        msg = dictionary.get("__doc__")
+        if msg:
             cls.message = msg.partition("\n")[0][:-1]
         super().__init__(classname, bases, dictionary)
 
