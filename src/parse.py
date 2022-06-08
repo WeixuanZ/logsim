@@ -855,7 +855,11 @@ class Parser:
                     )
 
     def parse_network(self):
-        """Parse the circuit definition file."""
+        """Parse the circuit definition file.
+
+        Returns: True if parsing was successful and simulation should run,
+        False if there were errors.
+        """
         success = self._parse_device_block()
         if success is None:
             # there was end of file
