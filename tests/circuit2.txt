@@ -6,7 +6,6 @@ DEVICES:
 	clock_ = CLOCK<05> ;
 	input1, input2, set_swi, reset_swi = SWITCH<0> ;
 	input3 = SWITCH<1> ;
-	not1 = NOT ;
 
 CONNECTIONS:
 	input1 - A.I1 ;
@@ -14,8 +13,7 @@ CONNECTIONS:
 	input2 - A.I2 ;
 	input2 - C.I2 ;
 	input2 - B.I2 ;
-	input3 - not1.I1 ;
-	not1 - B.I3 ;
+	input3 - B.I3 ;
 	A - C.I1 ;
 	B - C.I3 ;
 	C - flopflip.DATA ;

@@ -2,9 +2,9 @@ DEVICES:
 	A = AND<2> ;  // this is a comment
 	B = XOR ;
 	C = NAND<3> ;
+	knot = NOT ;
 	SW1 = SWITCH<0> ;
 	SW2 = SWITCH<1> ;
-
 CONNECTIONS:
 	SW1 - A.I1 ;
 	SW1 - B.I1 ;
@@ -13,6 +13,6 @@ CONNECTIONS:
 	SW2 - B.I2 ;
 	A - C.I1 ;
 	B - C.I3 ;
-
+	C - knot.I1 ;
 MONITORS:
-	A, C ;
+	A, C, knot ;

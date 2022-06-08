@@ -62,7 +62,7 @@ def test_throw_error(
 
     parser = make_parser(statement)
     assert parser.errors.error_counter == 0
-    parser.throw_error(error_type, description)
+    parser._throw_error(error_type, description)
     assert parser.errors.error_counter == 1
     assert parser.errors.error_list[0].message == error_type.message
     if description is not None:
@@ -82,10 +82,10 @@ def test_get_next(example_statement):
         assert example_statement[i] == parser.names.get_name_string(
             parser.current_symbol.id
         )
-        success = parser.get_next()
+        success = parser._get_next()
 
     if len(example_statement) == 0:
-        success = parser.get_next()
+        success = parser._get_next()
     assert success is False
     assert parser.current_symbol is None
 
@@ -99,12 +99,12 @@ def test_skip_to_end_of_line(example_newline, num_of_semicolons):
     parser = make_parser(example_newline)
 
     for i in range(num_of_semicolons):
-        out = parser.skip_to_end_of_line()
+        out = parser._skip_to_end_of_line()
         assert out is True
         assert parser.current_symbol.type == OperatorType.SEMICOLON
 
-    parser.get_next()
-    out = parser.skip_to_end_of_line()
+    parser._get_next()
+    out = parser._skip_to_end_of_line()
     assert out is False
     assert parser.current_symbol is None
 
@@ -125,7 +125,7 @@ def test_skip_to_end_of_line(example_newline, num_of_semicolons):
 def test_skip_to_block(statement, keyword, success):
     """Test module skip_to_block."""
     parser = make_parser(statement)
-    out = parser.skip_to_block(
+    out = parser._skip_to_block(
         parser.names.get_name_type(parser.names.query(keyword))
     )
     assert out == success
@@ -147,7 +147,7 @@ def test_skip_to_block(statement, keyword, success):
 def test_parse_device_type(statement, type, parameter, success):
     """Test module parse_device_type."""
     parser = make_parser(statement)
-    out, device = parser.parse_device_type()
+    out, device = parser._parse_device_type()
     assert out == success
     if success:
         (dtype, param) = device
@@ -201,7 +201,7 @@ def test_parse_device_type(statement, type, parameter, success):
 def test_parse_device_type_errors(statement, error_type, description, success):
     """Test specific syntax errors arising in parse_device_type."""
     parser = make_parser(statement)
-    out, _ = parser.parse_device_type()
+    out, _ = parser._parse_device_type()
     assert out == success
     assert parser.errors.error_counter == 1
     assert parser.errors.error_list[0].message == error_type.message
@@ -232,7 +232,7 @@ def test_parse_device_type_errors(statement, error_type, description, success):
 def test_parse_devices_statement(statement, success):
     """Test parse_devices_statement."""
     parser = make_parser(statement)
-    out = parser.parse_devices_statement()
+    out = parser._parse_devices_statement()
     assert out == success
 
 
@@ -273,7 +273,7 @@ def test_parse_devices_statement_errors(
 ):
     """Test specific syntax errors arising in parse_devices_statement."""
     parser = make_parser(statement)
-    out = parser.parse_devices_statement()
+    out = parser._parse_devices_statement()
     assert out == success
     assert parser.errors.error_counter == 1
     assert parser.errors.error_list[0].message == error_type.message
@@ -320,7 +320,7 @@ def test_parse_devices_statement_errors(
 def test_parse_device_block(statement, dev_num, success):
     """Test module parse_device_block."""
     parser = make_parser(statement)
-    out = parser.parse_device_block()
+    out = parser._parse_device_block()
     assert out == success
     if parser.devices is not None:
         assert len(parser.devices.devices_list) == dev_num
@@ -362,7 +362,7 @@ def test_parse_device_block(statement, dev_num, success):
 def test_parse_device_block_errors(statement, error_list):
     """Test errors arising in parse_device_block."""
     parser = make_parser(statement)
-    parser.parse_device_block()
+    parser._parse_device_block()
     if len(error_list) > 0:
         assert parser.errors.error_counter == len(error_list)
         for i in range(len(error_list)):
@@ -385,7 +385,7 @@ def test_parse_device_block_errors(statement, error_list):
 def test_parse_pin(statement, out, device_name, pin_name, success):
     """Test module parse_pin."""
     parser = make_parser(statement)
-    outcome, pin = parser.parse_pin(connection_statement=True)
+    outcome, pin = parser._parse_pin(connection_statement=True)
     assert outcome == success
     if success:
         (o, d, p) = pin
@@ -424,7 +424,7 @@ def test_parse_pin(statement, out, device_name, pin_name, success):
 def test_parse_pin_errors(statement, error_type, description, success):
     """Test errors arising in parse_pin."""
     parser = make_parser(statement)
-    out, pin = parser.parse_pin(connection_statement=True)
+    out, pin = parser._parse_pin(connection_statement=True)
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1
@@ -445,7 +445,7 @@ def test_parse_pin_errors(statement, error_type, description, success):
 def test_parse_connection_statement(statement, success):
     """Test module parse_connection_statement"""
     parser = make_parser(statement)
-    outcome = parser.parse_connection_statement()
+    outcome = parser._parse_connection_statement()
     assert outcome == success
 
 
@@ -474,7 +474,7 @@ def test_parse_connection_statement_errors(
 ):
     """Test errors arising in parse_connection_statement."""
     parser = make_parser(statement)
-    outcome = parser.parse_connection_statement()
+    outcome = parser._parse_connection_statement()
     if success is None or not success:
         assert outcome == success
         assert parser.errors.error_counter == 1
@@ -510,7 +510,7 @@ def test_parse_connection_statement_errors(
 def test_parse_connection_block(statement, success):
     """Test module parse_connection_block"""
     parser = make_parser(statement)
-    outcome = parser.parse_connection_block()
+    outcome = parser._parse_connection_block()
     assert outcome == success
 
 
@@ -552,7 +552,7 @@ def test_parse_connection_block(statement, success):
 def test_parse_connection_block_errors(statement, error_list):
     """Test errors arising in parse_block_statement."""
     parser = make_parser(statement)
-    parser.parse_connection_block()
+    parser._parse_connection_block()
     if len(error_list) > 0:
         assert parser.errors.error_counter == len(error_list)
         for i in range(len(error_list)):
@@ -581,7 +581,7 @@ def test_parse_connection_block_errors(statement, error_list):
 def test_parse_monitor_statement(statement, success):
     """Test module parse_monitor_statement."""
     parser = make_parser(statement)
-    outcome = parser.parse_monitor_statement()
+    outcome = parser._parse_monitor_statement()
     assert outcome == success
 
 
@@ -602,7 +602,7 @@ def test_parse_monitor_statement_errors(
 ):
     """Test errors arising in parse_monitor_statement."""
     parser = make_parser(statement)
-    out = parser.parse_monitor_statement()
+    out = parser._parse_monitor_statement()
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1
@@ -623,7 +623,7 @@ def test_parse_monitor_statement_errors(
 )
 def test_parse_monitors_block(statement, success):
     parser = make_parser(statement)
-    outcome = parser.parse_monitors_block()
+    outcome = parser._parse_monitors_block()
     assert outcome == success
 
 
@@ -650,7 +650,7 @@ def test_parse_monitors_block_errors(
 ):
     """Test errors arising in parse_monitors_block."""
     parser = make_parser(statement)
-    out = parser.parse_monitors_block()
+    out = parser._parse_monitors_block()
     if success is None or not success:
         assert out == success
         assert parser.errors.error_counter == 1
