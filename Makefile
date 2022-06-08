@@ -2,7 +2,7 @@ SHELL := /bin/bash
 DISPLAY := :0.0
 DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
-LANGS := zh_CN  # list of supported langugages
+LANGS := zh_CN  # list of supported languages
 LOCALE_DIR := src/locale
 
 

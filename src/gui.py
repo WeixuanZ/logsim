@@ -226,8 +226,12 @@ class Gui(wx.Frame):
         # display the canvas
         self.left_sizer.Show(self.Canvas)
         # clear the canvas
-        self.Canvas.signals = []
-        self.Canvas.render()
+        try:
+            self.Canvas.signals = []
+            self.Canvas.render()
+        except Exception:  # nosec
+            # canvas not initialized in first render, if system is slow
+            pass
         self.Layout()
 
         self.StatusBar.PushStatusText(path)
